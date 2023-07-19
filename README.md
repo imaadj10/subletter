@@ -1,1 +1,1 @@
-Group 11 CPSC 304 Project
+Group 11 - CPSC 304 Project
