@@ -1,4 +1,4 @@
-Group 11 - CPSC 304 Project: Subletor App
+Group 11 - CPSC 304 Project: Subletter App
 
 ### Group Members
 - Yu Cheng Li
