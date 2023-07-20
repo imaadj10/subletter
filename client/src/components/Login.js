@@ -1,38 +1,51 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-const Login = ({ history }) => {
+const Login = () => {
+  const history = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post('/main', { username, password });
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await axios.post('/main', { username, password });
 
-      if (response.data.success) {
-        history.push('/dashboard');
-      } else {
-        alert('Login failed. Please try again');
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      alert('An error occurred during login.');
-    }
-  };
+  //     if (response.data.success) {
+  //       history.push('/dashboard');
+  //     } else {
+  //       alert('Login failed. Please try again');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during login:', error);
+  //     alert('An error occurred during login.');
+  //   }
+  // };
 
   async function submit(e) {
     e.preventDefault();
 
-		try {
-
-			await axios.post("https://localhost:1234/", {
-				username, password
-			});
-
-		} catch(e) {
-			console.log(e);
-		}
+    try {
+      await axios
+        .post('http://localhost:1234/main', {
+          username,
+          password,
+        })
+        .then((res) => {
+          if ((res.data === 'exists')) {
+            history('/home', { state: { id: username } });
+          } else if ((res.data === 'notexists')) {
+            alert('User does not exist');
+          }
+        })
+        .catch((e) => {
+          alert('wrong details error');
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
