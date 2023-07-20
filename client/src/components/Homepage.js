@@ -1,9 +1,14 @@
+import React from "react";
+import { useLocation } from 'react-router-dom';
 
+const Homepage = () => {
+    const location = useLocation();
 
-export default function Homepage() {
     return (
-        <>
-            <h1>Homepage</h1>
-        </>
+        <div>
+            <h1>Hello {location.state.id} welcome to the homepage</h1>
+        </div>
     )
 }
+
+export default Homepage;
