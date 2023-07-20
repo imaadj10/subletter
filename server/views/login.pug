@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	h1 title
+	form(method="POST", action='')
+		label(for='username') Username/Email:
+		input(type='text', id='username', name='username')
+
+		label(for='password') Password: 
+		input(type='text', id='password', name='password')
+
+		button(type='submit') Submit
+
+	p Don't have an account? 
+	form(method="GET", action='/main/reg')
+			button(type='submit') Create Account
