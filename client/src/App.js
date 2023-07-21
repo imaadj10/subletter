@@ -8,7 +8,7 @@ import Navbar from './components/Navbar'
 function App() {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route path='/' element={ <Login /> } exact/>
         <Route path='/signup' element={ <Signup /> } />
