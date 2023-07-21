@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
-const users = require('../tempData/data').userDB;
 const { userDB } = require('../tempData/data');
 
 exports.login_get = asyncHandler(async (req, res, next) => {
