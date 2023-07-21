@@ -4,7 +4,7 @@ const Profile = () => {
 
     return (
         <div>
-            <h1> Welcome to Profile!</h1>
+            <h1> Welcome to Listings!</h1>
 
         </div>
     );
