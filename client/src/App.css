@@ -4,6 +4,90 @@ body {
   margin: 3vw;
 }
 
+button {
+  padding: 7px;
+  border-radius:7px;
+  border-width:1px;
+}
+
+button:hover {
+  background-color:#d3d3d3;
+  cursor:pointer;
+}
+
+input {
+  margin-bottom:10px;
+  padding: 10px;
+}
+
+label {
+  text-align:left;
+}
+
+.delete {
+  color:red;
+}
+
+.delete:hover {
+  cursor:pointer;
+}
+
+.section {
+  background-color:#e2e2e2;
+}
+
+.padding-right {
+  padding-right: 10px;
+}
+
+.form-page {
+  text-align:center;
+  width:fit-content;
+  margin:auto;
+  padding:10px;
+  border-radius:20px;
+  margin-top:10px;
+}
+
+.form-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border-width:1px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align:center;
+}
+
+.notifs {
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  max-width:800px;
+
+}
+
+.notif-item {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  list-style-type:none;
+  text-align:left;
+  border-bottom-style:solid;
+  border-bottom-width:1px;
+  padding-bottom:2px;
+}
+
+.padding-right {
+  padding-right:20px;
+}
+
 .nav-bar {
   font-size:large;
   list-style-type: none;

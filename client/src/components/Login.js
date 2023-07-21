@@ -34,7 +34,7 @@ const Login = () => {
         })
         .then((res) => {
           if ((res.data === 'exists')) {
-            history('/home', { state: { id: username } });
+            history('/home', {});
           } else if ((res.data === 'notexists')) {
             alert('User does not exist');
           }
@@ -49,27 +49,33 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className='section form-page'>
       <h1>Login Page</h1>
-
       <form action="POST">
+        <label htmlFor='username'>Username</label>
         <input
-          type="text"
-          placeholders="Username"
+          className='form-text'
+          type='text'
+          name='username'
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <label htmlFor='password'>Password</label>
         <input
-          type="password"
-          placeholders="Password"
+          className='form-text'
+          type='text'
+          name='password'
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input type="submit" onClick={submit} />
+        <button onClick={submit}>Submit</button>
       </form>
-      {/* <button onClick={handleLogin}>Login</button> */}
-
-      <Link to="/signup">Signup Page</Link>
+      <div>
+        <span className='padding-right'>Don't have an account?</span>
+        <Link to="/signup">Sign Up!</Link>   
+      </div>  
     </div>
   );
 };

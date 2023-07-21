@@ -7,15 +7,16 @@ const Signup = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
 
   async function submit(e) {
     e.preventDefault();
 
     try {
-
         await axios.post("http://localhost:1234/main/signup", {
-            username, password
+            username,
+            password
         })
         .then((res) => {
 						console.log(res.data);
@@ -36,27 +37,38 @@ const Signup = () => {
   }
 
   return (
-    <div>
-      <h1>Signup Page</h1>
-
+    <div className='section form-page'>
+      <h1>Sign Up!</h1>
       <form action="POST">
+        <label for='username'>Username</label>
         <input
-          type="text"
-          placeholders="Username"
+          name='username'
+          className='form-text'
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <label for='email'>Email Address</label>
         <input
-          type="password"
-          placeholders="Password"
+          name='email'
+          className='form-text'
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label for='password'>Password</label>
+        <input
+          className='form-text'
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input type="submit" onClick={submit} />
+        <button onClick={submit}>Submit</button>
       </form>
-      {/* <button onClick={handleLogin}>Login</button> */}
-
-      <Link to="/">Login Page</Link>
+      <div>
+        <span className='padding-right'>Already have an account?</span>
+        <Link to="/">Login Page</Link>
+      </div>
     </div>
   );
 };
