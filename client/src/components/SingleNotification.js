@@ -1,19 +1,28 @@
+export default function SingleNotification(props) {
+  const { id, title, content, setNotifications } = props;
 
+  // function deleteNotificationDB() {
+  //     axios stuff
+  // }
 
-export default function SingleNotification() {
+  function deleteNotification() {
+    // deleteNotificationDB()
+    setNotifications((prevNotifs) => {
+      prevNotifs.filter((notif) => {
+        return notif.id !== id;
+      });
+    });
+  }
 
-
-    const faketitle = "TItle"
-    const fakecontent = "asdflkjasdfklasdjflaksdjfalskdjfalskd jfalskd fjalskdfj alskd fjaslkdf ajsldkf ajsdl;kf ajsdflkas jdlksd jfalsdk fjas;ldkf jaslkdf jakls;df  asd f asdflk asdjf aslkdfj"
-
-    return (
-        <li className='notif-item'>
-            <div className='padding-right'>
-                <h4>{faketitle}</h4>
-                <p>{fakecontent}</p>
-            </div>
-            <span className='delete'><u>Delete</u></span>
-        </li>
-    )
-
+  return (
+    <li className="notif-item">
+      <div className="padding-right">
+        <h4>{title}</h4>
+        <p>{content}</p>
+      </div>
+      <span className="delete">
+        <u onClick={deleteNotification}>Delete</u>
+      </span>
+    </li>
+  );
 }

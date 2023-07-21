@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React from 'react';
-import { useState } from 'react'
-import SingleNotification from './SingleNotification'
+import { useState } from 'react';
+import SingleNotification from './SingleNotification';
 
 const Notifications = () => {
-
     // async function getAllNotifications() {
     //     try {
     //         await axios
@@ -18,17 +17,21 @@ const Notifications = () => {
     // }
 
     // a long string of json
-    const [notifications, setNotifications] = useState([])
+    const [notifications, setNotifications] = useState([]);
 
     return (
-        <div className='notifs'>
+        <div className="notifs">
             <h1>Notifications</h1>
             <ul>
-                <SingleNotification />
                 {notifications.map((notif) => {
                     return (
-                        <SingleNotification />
-                    )
+                        <SingleNotification
+                            id={notif.id}
+                            title={notif.title}
+                            content={notif.content}
+                            setNotifications={setNotifications}
+                        />
+                    );
                 })}
             </ul>
         </div>
