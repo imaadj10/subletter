@@ -6,7 +6,7 @@ const Homepage = () => {
 
     return (
         <div>
-            <h1>Hello {location.state.id} welcome to the homepage</h1>
+            <h1>Hello welcome to the homepage</h1>
         </div>
     )
 }
