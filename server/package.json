@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www",
+    "start": "node ./app.js",
+    "devstart": "nodemon ./app.js",
     "serverstart": "SET DEBUG=express-locallibrary-tutorial:* & npm run devstart"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "express-async-handler": "^1.2.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "mysql2": "^3.5.2",
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
