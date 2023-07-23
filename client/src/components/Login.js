@@ -28,14 +28,14 @@ const Login = () => {
 
     try {
       await axios
-        .post('http://localhost:1234/main', {
+        .post('http://localhost:1234/login', {
           username,
           password,
         })
         .then((res) => {
-          if ((res.data === 'exists')) {
+          if ((res.data)) {
             history('/home', {});
-          } else if ((res.data === 'notexists')) {
+          } else {
             alert('User does not exist');
           }
         })
@@ -64,7 +64,7 @@ const Login = () => {
         <label htmlFor='password'>Password</label>
         <input
           className='form-text'
-          type='text'
+          type='password'
           name='password'
           placeholder="Password"
           value={password}
