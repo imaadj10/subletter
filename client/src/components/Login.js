@@ -53,19 +53,19 @@ const Login = () => {
   }
 
   return (
-    <div className='section form-page'>
+    <div className="section form-page">
       <h1>Login Page</h1>
       <form action="POST">
-        <label htmlFor='username'>Username</label>
+        <label htmlFor="username">Username</label>
         <input
-          className='form-text'
-          type='text'
-          name='username'
+          className="form-text"
+          type="text"
+          name="username"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <label htmlFor='password'>Password</label>
+        <label htmlFor="password">Password</label>
         <input
           className='form-text'
           type='password'
@@ -74,12 +74,14 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit} className="auth-button">
+          Submit
+        </button>
       </form>
       <div>
-        <span className='padding-right'>Don't have an account?</span>
-        <Link to="/signup">Sign Up!</Link>   
-      </div>  
+        <span className="padding-right">Don't have an account?</span>
+        <Link to="/signup">Sign Up!</Link>
+      </div>
     </div>
   );
 };

@@ -1,18 +1,20 @@
+:root {
+  --light-grey:#e2e2e2;
+  --dark-grey:#d3d3d3;
+  --turquoise:rgb(69, 151, 123);;
+  --bkg-colour:#f6f5fa;
+  --bkg-complement:#e7e1da;
+}
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
-  margin: 3vw;
+  margin: 30px;
+  background-color:var(--bkg-colour);
 }
 
-button {
-  padding: 7px;
-  border-radius:7px;
-  border-width:1px;
-}
-
-button:hover {
-  background-color:#d3d3d3;
-  cursor:pointer;
+h1 {
+  margin:5px 0;
 }
 
 input {
@@ -22,6 +24,10 @@ input {
 
 label {
   text-align:left;
+}
+
+.right {
+  float: right;
 }
 
 .delete {
@@ -35,7 +41,7 @@ label {
 }
 
 .section {
-  background-color:#e2e2e2;
+  background-color:var(--bkg-complement);
 }
 
 .padding-right {
@@ -96,7 +102,7 @@ form {
   padding: 0;
   overflow: hidden;
   border-bottom-style: solid;
-  border-bottom-color: #d3d3d3;
+  border-bottom-color: var(--light-grey);
   border-bottom-width: 2px;
 }
 
@@ -110,8 +116,87 @@ form {
 }
 
 .nav-item:hover {
-  background-color: #e2e2e2;
+  background-color: var(--light-grey);
   border-bottom: black;
   border-bottom-width: 1px;
   border-bottom-style:solid;
 }
+
+.section.form-page {
+  animation: opacityAnimation 1s;
+}
+
+.home-container {
+  text-align:center;
+}
+
+.home-h1 {
+  display:grid;
+  align-content:center;
+}
+
+section.hidden {
+  height: 60vh;
+}
+
+.auth-button {
+  padding:15px;
+  margin:0 25px;
+  background-color:black;
+  border-radius:20px;
+  text-decoration:none;
+  color:white;
+  cursor:pointer;
+  opacity:0.8;
+  transition:all 0.3s;
+}
+
+.auth-button:hover {
+  opacity:1;
+  background-color:var(--turquoise);
+  font-size:1.1em;
+  text-decoration: underline solid 2px;
+}
+
+
+section > h1 {
+  font-size:2.7em;
+  letter-spacing:0.02em;
+}
+
+.auth-links {
+  margin:50px auto;
+  background-color:var(--bkg-complement);
+  padding:30px 50px;
+  border-radius:20px;
+  width:fit-content;
+}
+
+section > h3 {
+  font-weight:400;
+}
+
+.hidden {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateX(-100px);
+  transition: all 1.2s;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0)
+}
+
+/* Animations */
+@keyframes opacityAnimation {
+  from {
+    filter: opacity(0)
+  }
+
+  to {
+    filter: opacity(1)
+  }
+}
+
