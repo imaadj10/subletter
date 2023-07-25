@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
-const { listingDB } = require('../tempData/listingData');
+const { idListingsDB } = require('../tempData/listingData');
 
-exports.update_get = (req, res) => {
-    
-};
+exports.update_get = asyncHandler(async (req, res) => {
+  res.json(idListingsDB);
+});

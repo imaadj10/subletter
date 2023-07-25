@@ -33,9 +33,9 @@ const Login = () => {
           password,
         })
         .then((res) => {
-          if ((res.data === 'exists')) {
+          if (res.data === 'exists') {
             history('/home', { state: { id: username } });
-          } else if ((res.data === 'notexists')) {
+          } else if (res.data === 'notexists') {
             alert('User does not exist');
           }
         })
