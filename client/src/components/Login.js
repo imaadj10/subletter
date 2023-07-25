@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
-
+  const cookies = new Cookies();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -34,6 +35,9 @@ const Login = () => {
         })
         .then((res) => {
           if ((res.data)) {
+            cookies.set("TOKEN", res.data.token, {
+              path: '/',
+            });
             history('/home', {});
           } else {
             alert('User does not exist');
