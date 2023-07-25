@@ -9,6 +9,7 @@ import Listings from './components/Listings';
 import Profile from './components/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
+import Users from './components/Users';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messageboard" element={<MessageBoard />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </>
   );
