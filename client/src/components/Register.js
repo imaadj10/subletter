@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-const Signup = () => {
+const Register = () => {
   const history = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -14,7 +14,7 @@ const Signup = () => {
 
     try {
       await axios
-        .post('http://localhost:1234/main/signup', {
+        .post('http://localhost:1234/register', {
           username,
           password,
         })
@@ -75,4 +75,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;

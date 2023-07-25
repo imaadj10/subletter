@@ -5,12 +5,12 @@ exports.process_login = (req, res) => {
     const { username, password } = req.body;
 
     // Find the user with the given username and password in the users array (replace this with a database query)
-    const user = auth_middleware.verifyUser(username, password);
+    const validLogin = auth_middleware.verifyUser(username, password);
     
-    if (user) {
+    if (validLogin) {
       const token = jwt.sign(
         {
-            username: user.username
+            username: username
         },
         "RANDOM-TOKEN",
         { expiresIn: "24h" }
@@ -19,7 +19,7 @@ exports.process_login = (req, res) => {
       //   return success response
       res.status(200).send({
         message: "Login Successful",
-        username: user.username,
+        username: username,
         token,
       });
     } else {
@@ -29,8 +29,6 @@ exports.process_login = (req, res) => {
 };
 
 exports.isAuthenticated = async (req, res, next) => {
-    console.log(req.headers.authorization);
-
     try {
       //   get the token from the authorization header
       const token = await req.headers.authorization.split(" ")[1];

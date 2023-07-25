@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
-import Signup from './components/Signup';
+import Register from './components/Register';
 import Navbar from './components/Navbar';
 import Notifications from './components/Notifications';
 import Listings from './components/Listings';
@@ -17,7 +17,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} exact />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Homepage />} />
         <Route path="/housinginfo" element={<HousingInfo />} />
         <Route path="/listings" element={<Listings />} />
