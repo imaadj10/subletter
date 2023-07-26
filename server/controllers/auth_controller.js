@@ -17,7 +17,6 @@ exports.process_login = async (req, res, next, from_register=false) => {
 
       //   return success response
       const message = from_register? "Registration Successful" : "Login Successful";
-      console.log(from_register);
       res.status(200).send({
         message: message,
         username: username,
