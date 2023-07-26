@@ -4,6 +4,9 @@ const listingDB = [
     { name: 'Marine Drive Building 4', residence: 'Marine Drive', location: 'UBC campus', price: '$800 month'},
     { name: 'Ponderosa Building 3', residence: 'Ponderosa', location: 'UBC campus', price: '$1200 month'},
     { name: 'Brock Building 1', residence: 'Brock', location: 'UBC campus', price: '$300 month'},
+    { name: 'Brock Building 1', residence: 'Brock', location: 'UBC campus', price: '$300 month'},
+    { name: 'Brock Building 1', residence: 'Brock', location: 'UBC campus', price: '$300 month'},
+    { name: 'Brock Building 1', residence: 'Brock', location: 'UBC campus', price: '$300 month'},
 ];
 
 // React requires unique for every list elements

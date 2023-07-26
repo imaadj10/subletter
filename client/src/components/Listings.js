@@ -12,7 +12,7 @@ const Listings = () => {
         setListings(res.data);
       })
       .catch((e) => {
-        console.log("Error fetching listings data");
+        console.log('Error fetching listings data');
       });
   }, []);
 
@@ -20,27 +20,19 @@ const Listings = () => {
     <div>
       <h1> Welcome to Listings!</h1>
       <h1>Listings: </h1>
-      <ul>
+      <div className="listings">
         {listings.map((listing) => {
           return (
-            <div key={listing.id}>
-              <li>
-                {listing.name}
-              </li>
-              <li>
-                {listing.residence}
-              </li>
-              <li>
-                {listing.location}
-              </li>
-              <li>
-                {listing.price}
-              </li>
+            <div className="listing" key={listing.id}>
+              <p className="listing-name">{listing.name}</p>
+              <p className="listing-residence">{listing.residence}</p>
+              <p className="listing-location">{listing.location}</p>
+              <p className="listing-price">{listing.price}</p>
             </div>
           );
           // return  <li key={listing.id}>{listing.name}</li>;
         })}
-      </ul>
+      </div>
     </div>
   );
 };
