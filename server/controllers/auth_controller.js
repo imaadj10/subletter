@@ -1,25 +1,26 @@
 const jwt = require("jsonwebtoken");
 const auth_middleware = require ('../middleware/auth_middleware')
 
-exports.process_login = (req, res) => {
+exports.process_login = async (req, res, next, from_register=false) => {
     const { username, password } = req.body;
 
     // Find the user with the given username and password in the users array (replace this with a database query)
-    const user = auth_middleware.verifyUser(username, password);
-    
-    if (user) {
+    const validLogin = await auth_middleware.verifyUser(username, password);
+    if (validLogin) {
       const token = jwt.sign(
         {
-            username: user.username
+            username: username
         },
         "RANDOM-TOKEN",
         { expiresIn: "24h" }
       );
 
       //   return success response
+      const message = from_register? "Registration Successful" : "Login Successful";
+      console.log(from_register);
       res.status(200).send({
-        message: "Login Successful",
-        username: user.username,
+        message: message,
+        username: username,
         token,
       });
     } else {
@@ -29,12 +30,9 @@ exports.process_login = (req, res) => {
 };
 
 exports.isAuthenticated = async (req, res, next) => {
-    console.log(req.headers.authorization);
-
     try {
       //   get the token from the authorization header
       const token = await req.headers.authorization.split(" ")[1];
-      console.log(req.headers);
   
       //check if the token matches the supposed origin
       const decodedToken = await jwt.verify(token, "RANDOM-TOKEN");
