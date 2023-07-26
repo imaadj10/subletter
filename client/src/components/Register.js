@@ -47,14 +47,14 @@ const Register = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <label for="email">Email Address</label>
+        {/* <label for="email">Email Address</label>
         <input
           name="email"
           className="form-text"
           placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        />
+        /> */}
         <label for="password">Password</label>
         <input
           type="password"
