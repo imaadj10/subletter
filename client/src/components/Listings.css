@@ -13,7 +13,7 @@
     border-width: 5px;
     border-radius: 10px;
     border: 2px solid black;
-    box-shadow: 0px 10px 5px black; 
+    box-shadow: 0px 10px 5px grey; 
     text-align: left;
     /* max-width: 25%; */
     padding-bottom: 1em;
@@ -26,13 +26,12 @@
 }
 
 .listing-image {
-    max-height: 70%;
+    height: 70%;
     overflow: hidden;
 }
 
 
 .listing-image img {
-    /* float: left; */
     width: 100%;
     height: 100%;
     object-fit: cover;
