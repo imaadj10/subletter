@@ -1,3 +1,46 @@
+.Profile {
+    margin-top: 1rem;
+}
+
+.Profile-Upper-Section {
+    display: flex;
+    gap: 1rem;
+}
+
+.Profile-left {
+    /* border: 2px solid green; */
+}
+
+.Profile-image img {
+    max-width: 100%;
+    border: 2px solid black;
+}
+
+.Profile-detail {
+    /* border: 2px solid green; */
+    margin-top: 1rem;
+}
+
+
+.Profile-right {
+    /* border: 2px solid red; */
+    padding-left: 1rem;
+}
+
+.Profile-name {
+    font-size: 3em;
+}
+
+
 .logout-button {
+    margin-top: 2rem;
+    border-radius: 10px;
+    width: 6rem;
+    height: 2rem;
+    font-weight: bold;
     background-color: red;
+}
+
+.logout-button:hover {
+    background-color: lightcoral;
 }
