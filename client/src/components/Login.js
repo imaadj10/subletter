@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,23 +6,16 @@ import { useNavigate, Link } from 'react-router-dom';
 const Login = () => {
   const history = useNavigate();
   const cookies = new Cookies();
+  const token = cookies.get('TOKEN');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('/main', { username, password });
+  useEffect(() => {
+    if (token) {
+      history('/home');
+    }
+  }, [history, token]);
 
-  //     if (response.data.success) {
-  //       history.push('/dashboard');
-  //     } else {
-  //       alert('Login failed. Please try again');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login:', error);
-  //     alert('An error occurred during login.');
-  //   }
-  // };
 
   async function submit(e) {
     e.preventDefault();
@@ -34,10 +27,11 @@ const Login = () => {
           password,
         })
         .then((res) => {
-          if ((res.data)) {
-            cookies.set("TOKEN", res.data.token, {
+          if (res.data) {
+            cookies.set('TOKEN', res.data.token, {
               path: '/',
             });
+            // history.push('/home');
             history('/home', {});
           } else {
             alert('Please enter login details');
@@ -67,9 +61,9 @@ const Login = () => {
         />
         <label htmlFor="password">Password</label>
         <input
-          className='form-text'
-          type='password'
-          name='password'
+          className="form-text"
+          type="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
