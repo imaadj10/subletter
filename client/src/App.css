@@ -9,7 +9,8 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
-  margin: 30px;
+  margin: 30px auto;
+  width: clamp(400px, 60vw, 80vw);
   background-color:var(--bkg-colour);
 }
 
@@ -137,6 +138,8 @@ form {
 
 section.hidden {
   height: 60vh;
+  box-shadow:var(--light-grey) 0px 5px 15px 0px;
+  padding:10px;
 }
 
 .auth-button {
