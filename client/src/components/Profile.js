@@ -22,6 +22,8 @@ const Profile = () => {
           </div>
           <div className="Profile-detail">
             <div className="Profile-university">University of British Columbia</div>
+            <div className="Profile-major">Anthropology</div>
+            <div className="Profile-year">3rd Year</div>
           </div>
         </div>
         <div className="Profile-right">

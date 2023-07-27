@@ -18,7 +18,12 @@
 
 .Profile-detail {
     /* border: 2px solid green; */
+    text-align: center;
     margin-top: 1rem;
+}
+
+.Profile-detail div {
+    gap: 1rem;
 }
 
 
