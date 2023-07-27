@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
-
+  const cookies = new Cookies();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -28,14 +29,17 @@ const Login = () => {
 
     try {
       await axios
-        .post('http://localhost:1234/main', {
+        .post('http://localhost:1234/login', {
           username,
           password,
         })
         .then((res) => {
-          if (res.data === 'exists') {
-            history('/home', { state: { id: username } });
-          } else if (res.data === 'notexists') {
+          if ((res.data)) {
+            cookies.set("TOKEN", res.data.token, {
+              path: '/',
+            });
+            history('/home', {});
+          } else {
             alert('User does not exist');
           }
         })
@@ -49,27 +53,35 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="section form-page">
       <h1>Login Page</h1>
-
       <form action="POST">
+        <label htmlFor="username">Username</label>
         <input
+          className="form-text"
           type="text"
-          placeholders="Username"
+          name="username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <label htmlFor="password">Password</label>
         <input
-          type="password"
-          placeholders="Password"
+          className='form-text'
+          type='password'
+          name='password'
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input type="submit" onClick={submit} />
+        <button onClick={submit} className="auth-button">
+          Submit
+        </button>
       </form>
-      {/* <button onClick={handleLogin}>Login</button> */}
-
-      <Link to="/signup">Signup Page</Link>
+      <div>
+        <span className="padding-right">Don't have an account?</span>
+        <Link to="/register">Register!</Link>
+      </div>
     </div>
   );
 };
