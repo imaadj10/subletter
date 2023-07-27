@@ -8,7 +8,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:1234/main/listings')
+      .get('http://localhost:1234/listings')
       .then((res) => {
         setListings(res.data);
       })

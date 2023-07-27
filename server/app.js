@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
 const registerRouter = require('./routes/register');
+const listingsRouter = require('./routes/listings');
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
+app.use('/listings', listingsRouter);
+
 
 const port = 1234;
 app.listen(port, () => {
