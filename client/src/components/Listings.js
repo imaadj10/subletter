@@ -1,7 +1,7 @@
 import './Listings.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import image from '../assets/Orchard-Commons.jpg';
+// import image from '../assets/Orchard-Commons.jpg';
 
 const Listings = () => {
   const [listings, setListings] = useState([]);
@@ -24,7 +24,7 @@ const Listings = () => {
           return (
             <div className="listing" key={listing.id}>
               <div className="listing-image">
-                <img src={image} alt="Tallwood"/>
+                <img src={`http://localhost:1234/images/${listing.image}.jpg`} alt="Tallwood"/>
               </div>
               <div className="listing-name">{listing.name}</div>
               <div className="listing-residence">{listing.residence}</div>
