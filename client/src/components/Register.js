@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,9 +6,15 @@ import { useNavigate, Link } from 'react-router-dom';
 const Register = () => {
   const history = useNavigate();
   const cookies = new Cookies();
+  const token = cookies.get('TOKEN');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (token) {
+      history('/home');
+    }
+  }, [history, token]);
 
   async function submit(e) {
     e.preventDefault();
