@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
   const history = useNavigate();
-
+  const cookies = new Cookies();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -20,14 +21,13 @@ const Register = () => {
         })
         .then((res) => {
           console.log(res.data);
-          if (res.data === 'exists') {
-            alert('User already exists');
-          } else if (res.data === 'notexists') {
-            history('/home', { state: { id: username } });
-          }
+          cookies.set("TOKEN", res.data.token, {
+            path: '/',
+          });
+          history('/home', {});
         })
         .catch((e) => {
-          alert('wrong details');
+          alert('Please Try Again');
           console.log(e);
         });
     } catch (e) {
@@ -55,7 +55,7 @@ const Register = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         /> */}
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           className="form-text"

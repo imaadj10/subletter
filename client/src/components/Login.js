@@ -40,11 +40,11 @@ const Login = () => {
             });
             history('/home', {});
           } else {
-            alert('User does not exist');
+            alert('Please enter login details');
           }
         })
         .catch((e) => {
-          alert('wrong details error');
+          alert('Incorrect Username or Password');
           console.log(e);
         });
     } catch (e) {
