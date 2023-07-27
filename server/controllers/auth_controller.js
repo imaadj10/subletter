@@ -3,7 +3,7 @@ const auth_middleware = require ('../middleware/auth_middleware')
 
 exports.process_login = async (req, res, next, from_register=false) => {
     const { username, password } = req.body;
-
+    
     // Find the user with the given username and password in the users array (replace this with a database query)
     const validLogin = await auth_middleware.verifyUser(username, password);
     if (validLogin) {
