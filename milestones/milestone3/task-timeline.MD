@@ -1,3 +1,5 @@
+## Timeline and Task Breakdown
+
 ### Frontend
     - Create housing interface (Andy - Goal: July 31st)
     - Create individual listing page (YuCheng - Goal: August 1st)
