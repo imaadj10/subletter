@@ -13,4 +13,5 @@ Backend:
     - Define specific queries that will return desired information for application functionality (Imaad, Andy, YuCheng - Goal: August 2th)
     - Enable users to post listings (Imaad Goal: August 4th)
     - Develop backend messaging and notification interface (Imaad, YuCheng - Goal: August 8th)
-    - ALlow users to upload photos to listings (YuCheng - Goal: August 8th)
+    - Allow users to upload photos to listings (YuCheng - Goal: August 8th)
+    - Enable only receiving information based on what school a user is located at (Imaad - Goal: August 7th)
