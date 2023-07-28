@@ -99,7 +99,7 @@ CREATE TABLE Comments (
   FOREIGN KEY (lid) REFERENCES Listings(lid)
   	ON UPDATE CASCADE
   	ON DELETE CASCADE
- );
+  );
 
 CREATE TABLE Written_Reviews (
   rid VARCHAR(36) DEFAULT (UUID()) PRIMARY KEY,

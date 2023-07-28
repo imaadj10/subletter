@@ -52,44 +52,44 @@ VALUES
 INSERT INTO Addresses_Main(street_address, postal_code)
 VALUES
 	('2205 Lower Mall', 'V6T 1Z4'),
-  ('2075 West Mall', 'V6T 1Z2'),
-  ('5960 Student Union Blvd', 'V6T 1Z1'),
-  ('6363 Agronomy Rd', 'V6T 1Z4'),
-  ('6088 Walter Gage Rd', 'V6T 0B4'),
-  ('1935 Lower Mall', 'V6T 1X1');
+    ('2075 West Mall', 'V6T 1Z2'),
+    ('5960 Student Union Blvd', 'V6T 1Z1'),
+    ('6363 Agronomy Rd', 'V6T 1Z4'),
+    ('6088 Walter Gage Rd', 'V6T 0B4'),
+    ('1935 Lower Mall', 'V6T 1X1');
 
 INSERT INTO Addresses_1(postal_code, city)
 VALUES
 	('V6T 1Z4', 'Vancouver'),
  	('V6T 1Z2', 'Vancouver'),
  	('V6T 1Z1', 'Vancouver'),
-  ('V6T 0B4', 'Vancouver'),
-  ('V6T 1X1', 'Vancouver');
+    ('V6T 0B4', 'Vancouver'),
+    ('V6T 1X1', 'Vancouver');
  
 INSERT INTO Addresses_2(postal_code, country)
 VALUES
 	('V6T 1Z4', 'Canada'),
  	('V6T 1Z2', 'Canada'),
  	('V6T 1Z1', 'Canada'),
-  ('V6T 0B4', 'Canada'),
-  ('V6T 1X1', 'Canada');
+    ('V6T 0B4', 'Canada'),
+    ('V6T 1X1', 'Canada');
  
 INSERT INTO Addresses_3(postal_code, province)
 VALUES
 	('V6T 1Z4', 'British Columbia'),
  	('V6T 1Z2', 'British Columbia'),
  	('V6T 1Z1', 'British Columbia'),
-  ('V6T 0B4', 'British Columbia'),
-  ('V6T 1X1', 'British Columbia');
+    ('V6T 0B4', 'British Columbia'),
+    ('V6T 1X1', 'British Columbia');
 
 INSERT INTO Residences(res_name, school_name, street_address, postal_code)
 VALUES
 	('Marine Drive Residence', 'University of British Columbia', '2205 Lower Mall', 'V6T 1Z4'),
-  ('Ponderosa Commons', 'University of British Columbia', '2075 West Mall', 'V6T 1Z2'),
-  ('Exchange Student Residence', 'University of British Columbia', '5960 Student Union Blvd', 'V6T 1Z1'),
-  ('Orchard Commons', 'University of British Columbia', '6363 Agronomy Rd', 'V6T 1Z4'),
-  ('Brock Commons', 'University of British Columbia', '6088 Walter Gage Rd', 'V6T 0B4'),
-  ('Place Vanier', 'University of British Columbia', '1935 Lower Mall', 'V6T 1X1');
+    ('Ponderosa Commons', 'University of British Columbia', '2075 West Mall', 'V6T 1Z2'),
+    ('Exchange Student Residence', 'University of British Columbia', '5960 Student Union Blvd', 'V6T 1Z1'),
+    ('Orchard Commons', 'University of British Columbia', '6363 Agronomy Rd', 'V6T 1Z4'),
+    ('Brock Commons', 'University of British Columbia', '6088 Walter Gage Rd', 'V6T 0B4'),
+    ('Place Vanier', 'University of British Columbia', '1935 Lower Mall', 'V6T 1X1');
 
 INSERT INTO Contains(res_name, school_name, type, price) 
 VALUES
@@ -154,15 +154,15 @@ VALUES
 INSERT INTO Notification_Types(content, type)
 VALUES
 	('You have a new message!', 'Message'),
-  ('Welcome to the app!', 'System'),
-  ('You have a new comment!', 'Listing'),
-  ('There was a login attempt to your account', 'System'),
-  ('New sublet available!', 'Listing');
+    ('Welcome to the app!', 'System'),
+    ('You have a new comment!', 'Listing'),
+    ('There was a login attempt to your account', 'System'),
+    ('New sublet available!', 'Listing');
 
 INSERT INTO Notifications(username, content)
 VALUES
 	('Imaad', 'You have a new message!'),
-  ('Andy', 'Welcome to the app!'),
-  ('Yu Cheng', 'You have a new comment!'),
-  ('Karen', 'There was a login attempt to your account'),
-  ('Ronald', 'New sublet available!');
+    ('Andy', 'Welcome to the app!'),
+    ('Yu Cheng', 'You have a new comment!'),
+    ('Karen', 'There was a login attempt to your account'),
+    ('Ronald', 'New sublet available!');
