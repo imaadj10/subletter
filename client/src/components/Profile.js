@@ -1,10 +1,12 @@
 import './Profile.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import profile_Image from '../assets/temp-avatar.jpg';
+import UserContext from '../UserContext';
 
 const Profile = () => {
+  const { globalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
 
@@ -27,7 +29,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="Profile-right">
-          <h1 className="Profile-name">John Doe</h1>
+          <h1 className="Profile-name">{globalUsername}</h1>
           <div className="Profile-description">
             <p>
               Hey there! I'm Alex, a spirited university student with an

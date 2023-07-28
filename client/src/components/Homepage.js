@@ -1,13 +1,14 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import UserContext from '../UserContext';
 import Cookies from 'universal-cookie';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
+  const { globalUsername } = useContext(UserContext);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
 
-  console.log(token);
+  console.log(globalUsername);
 
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Homepage = () => {
           </section>
         </div>
       ) : (
-        <h1> You are logged in</h1>
+        <h1> You are logged in {globalUsername}!</h1>
       )}
     </div>
   );

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../UserContext';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
+  const { setGlobalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
@@ -31,7 +33,8 @@ const Login = () => {
             cookies.set('TOKEN', res.data.token, {
               path: '/',
             });
-            // history.push('/home');
+            console.log(res.data.username);
+            setGlobalUsername(res.data.username);
             history('/home', {});
           } else {
             alert('Please enter login details');
