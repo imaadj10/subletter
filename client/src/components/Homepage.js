@@ -12,7 +12,6 @@ const Homepage = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      console.log(entries);
       entries.forEach((entry) => {
         entry.target.classList.toggle('show', entry.isIntersecting);
       });
