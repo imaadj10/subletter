@@ -98,6 +98,7 @@ input[type='number'] {
         gap:10px;
         align-items:center;
         flex-direction:column;
+        position:static;
     }
     label {
         text-align:center;

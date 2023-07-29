@@ -37,15 +37,43 @@
 }
 
 
-.logout-button {
-    margin-top: 2rem;
+.logout-button, .edit, .submit {
+    margin-inline:0.5rem;
     border-radius: 10px;
     width: 6rem;
     height: 2rem;
     font-weight: bold;
-    background-color: red;
 }
 
 .logout-button:hover {
     background-color: lightcoral;
+    cursor:pointer;
+}
+
+.logout-button {
+    background-color: red;
+}
+
+.modal {
+    padding:100px;
+    background-color:var(--bkg-complement);
+    position:absolute;
+    top:30%;
+    left:50%;
+    transform: translate(-50%, -30%);
+    border-radius:20px;
+}
+
+.submit {
+    display:block;
+}
+
+.edit:hover, .submit:hover {
+    background-color:var(--bkg-colour);
+    cursor:pointer;
+}
+
+input {
+    border: 1px solid black;
+    border-radius:5px;
 }
