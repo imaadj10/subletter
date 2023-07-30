@@ -27,7 +27,7 @@ const Register = () => {
         })
         .then((res) => {
           console.log(res.data);
-          cookies.set("TOKEN", res.data.token, {
+          cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
           history('/home', {});
@@ -44,7 +44,7 @@ const Register = () => {
   return (
     <div className="section form-page">
       <h1>Sign Up!</h1>
-      <form action="POST">
+      <form action="POST" className="auth-form">
         <label for="username">Username</label>
         <input
           name="username"
@@ -53,14 +53,6 @@ const Register = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        {/* <label for="email">Email Address</label>
-        <input
-          name="email"
-          className="form-text"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        /> */}
         <label htmlFor="password">Password</label>
         <input
           type="password"

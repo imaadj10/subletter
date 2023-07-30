@@ -10,8 +10,6 @@ const Profile = () => {
   const cookies = new Cookies();
   const [username, setUsername] = useState('John Doe');
   const [password, setPassword] = useState('abc');
-  const [modalStatus, setModalStatus] = useState(false);
-  const wholeRef = useRef(null);
 
   const logout = () => {
     cookies.remove('TOKEN', { path: '/' });
@@ -19,13 +17,12 @@ const Profile = () => {
   };
 
   const Edit = () => {
-    setModalStatus(true);
-    wholeRef.current.style.opacity = 0.2;
+    document.getElementById('edit-details-modal').showModal();
   };
 
   return (
     <>
-      <div ref={wholeRef} className="Profile">
+      <div className="Profile">
         <div className="Profile-Upper-Section">
           <div className="Profile-left">
             <div className="Profile-image">
@@ -86,27 +83,26 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <button className="edit" onClick={Edit}>
-          Edit Details
-        </button>
-        <button className="logout-button" onClick={logout}>
-          Logout
-        </button>
+        <div className="buttons-container">
+          <button className="edit" onClick={Edit}>
+            Edit Details
+          </button>
+          <button className="logout-button" onClick={logout}>
+            Logout
+          </button>
+        </div>
       </div>
 
-      {modalStatus && (
+      <dialog data-modal id="edit-details-modal">
         <EditProfile
           props={{
             username,
             password,
-            modalStatus,
-            wholeRef,
             setUsername,
             setPassword,
-            setModalStatus,
           }}
         />
-      )}
+      </dialog>
     </>
   );
 };
