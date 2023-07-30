@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
@@ -35,14 +34,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
 app.use('/listings', listingsRouter);
 app.use('/images', express.static('./public/images'));
-
 
 const port = 1234;
 app.listen(port, () => {

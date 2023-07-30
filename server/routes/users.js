@@ -5,8 +5,8 @@ const auth_controller = require('../controllers/auth_controller');
 
 /* GET users listing. */
 router.get('/', auth_controller.isAuthenticated, function(req, res, next) {
-  const name = req.query.name; // Access the "name" query parameter
-  let query = name? `SELECT * FROM names WHERE name = '${name}'` : 'SELECT * FROM names'; // Use the value of "name" in the query
+  let name = 'Imaad';
+  let query = `SELECT IF('${name}' IN (SELECT username FROM users), true, false) AS result`;
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);

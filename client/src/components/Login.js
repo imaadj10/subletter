@@ -23,7 +23,7 @@ const Login = () => {
     try {
       await axios
         .post('http://localhost:1234/login', {
-          username,
+          username: username.toLowerCase(),
           password,
         })
         .then((res) => {
