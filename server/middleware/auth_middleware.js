@@ -1,18 +1,24 @@
 const db = require('../mysql/mysql');
 const bcrypt = require('bcrypt');
 
-exports.users = [
-    // { username: 'user1', password: '123' },
-    // { username: 'user2', password: '567' },
-    // { username: 'user3', password: '12457' },
-];
-
 exports.verifyUser = async (username, password) => {
-    const user = this.users.find(u => u.username === username)
-    if (user) {
-        if (await bcrypt.compare(password, user.password)) {
-            return Promise.resolve(true);
+    try {
+        const userQuery = 'SELECT EXISTS (SELECT 1 FROM users WHERE username = ?) AS userExists';
+        const [userRes] = await db.query(userQuery, [username]);
+        const userExists = userRes[0].userExists === 1;
+
+        if (userExists) {
+            const passQuery = 'SELECT password FROM users WHERE username = ?';
+            const [passRes] = await db.query(passQuery, [username]);
+            const truePassword = passRes[0].password.toString('utf8');
+
+            if (await bcrypt.compare(password, truePassword)) {
+                return true;
+            }
         }
+        return false;
+    } catch (error) {
+        console.error('Error occurred:', error);
+        return false;
     }
-    return Promise.resolve(false);
 };

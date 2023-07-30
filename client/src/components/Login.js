@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../UserContext';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
+  const { setGlobalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
@@ -22,22 +24,19 @@ const Login = () => {
     try {
       await axios
         .post('http://localhost:1234/login', {
-          username,
+          username: username.toLowerCase(),
           password,
         })
         .then((res) => {
-          if (res.data) {
-            cookies.set('TOKEN', res.data.token, {
-              path: '/',
-            });
-            // history.push('/home');
-            history('/home', {});
-          } else {
-            alert('Please enter login details');
-          }
+          cookies.set('TOKEN', res.data.token, {
+            path: '/',
+          });
+          console.log(res.data.username);
+          setGlobalUsername(res.data.username);
+          history('/home', {});
         })
         .catch((e) => {
-          alert('Incorrect Username or Password');
+          alert(e.response.data.message);
           console.log(e);
         });
     } catch (e) {
