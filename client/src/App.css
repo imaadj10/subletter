@@ -1,3 +1,8 @@
+* {
+  box-sizing:border-box;
+  list-style-type:none;
+}
+
 :root {
   --light-grey:#e2e2e2;
   --dark-grey:#d3d3d3;
@@ -9,7 +14,8 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
-  margin: 30px;
+  margin: 30px auto;
+  width: clamp(400px, 80vw, 1400px);
   background-color:var(--bkg-colour);
 }
 
@@ -137,6 +143,8 @@ form {
 
 section.hidden {
   height: 60vh;
+  box-shadow:var(--light-grey) 0px 5px 15px 0px;
+  padding:10px;
 }
 
 .auth-button {
@@ -189,6 +197,80 @@ section > h3 {
   transform: translateX(0)
 }
 
+.chat-message-container {
+  display:flex;
+  gap:2rem;
+}
+
+.users {
+  overflow-y:auto;
+  height:calc(100vh - 150px);
+  flex-grow:0.5;
+}
+
+.chat-h1 {
+  border-radius:20px;
+  transform: translateY(-20px);
+  padding:10px 5px;
+  margin-right:10px;
+  margin-bottom: 1rem;
+  position: sticky;
+  top: 20px;
+  background-color: var(--light-grey);
+}
+
+.user {
+  line-height:2.5em;
+  font-size:20px;
+  height:3em;
+  padding-inline:1rem;
+  border-radius:20px;
+}
+
+.messages-container {
+  flex:10;
+  position:relative;
+}
+
+.name-header {
+  transform: translateY(-20px);
+  height:3rem;
+  width:100%;
+  text-align:center;
+  background-color:var(--light-grey);
+  border-radius:20px;
+}
+
+.chat-box {
+  height: calc(100vh - 250px);
+  width:100%;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.text-input-area {
+  padding:0;
+  width:98%;
+  margin-left:-5px;
+}
+
+.message-right, .message-left {
+  width: fit-content;
+  margin:1em 1em;
+  border-radius:1em;
+  padding:1em;
+  max-width:200px;
+  background-color:var(--dark-grey);
+  height:fit-content;
+}
+
+.message-right {
+  align-self:flex-end;
+  background-color:var(--bkg-complement);
+}
 /* Animations */
 @keyframes opacityAnimation {
   from {

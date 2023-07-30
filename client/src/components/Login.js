@@ -25,23 +25,19 @@ const Login = () => {
     try {
       await axios
         .post('http://localhost:1234/login', {
-          username,
+          username: username.toLowerCase(),
           password,
         })
         .then((res) => {
-          if (res.data) {
-            cookies.set('TOKEN', res.data.token, {
-              path: '/',
-            });
-            console.log(res.data.username);
-            setGlobalUsername(res.data.username);
-            history('/home', {});
-          } else {
-            alert('Please enter login details');
-          }
+          cookies.set('TOKEN', res.data.token, {
+            path: '/',
+          });
+          console.log(res.data.username);
+          setGlobalUsername(res.data.username);
+          history('/home', {});
         })
         .catch((e) => {
-          alert('Incorrect Username or Password');
+          alert(e.response.data.message);
           console.log(e);
         });
     } catch (e) {

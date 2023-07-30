@@ -7,7 +7,7 @@ import Register from './components/Register';
 import Navbar from './components/Navbar';
 import Notifications from './components/Notifications';
 import Listings from './components/Listings';
-import Profile from './components/Profile';
+import Profile from './components/Profile/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
