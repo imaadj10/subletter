@@ -255,7 +255,8 @@ section > h3 {
 }
 
 .text-input-area {
-  padding:0;
+  height:2rem;
+  padding:1rem;
   width:98%;
   margin-left:-5px;
 }
@@ -273,6 +274,21 @@ section > h3 {
 .message-right {
   align-self:flex-end;
   background-color:var(--bkg-complement);
+}
+
+.send-icon {
+  width:20px;
+  height:20px;
+}
+
+.send-button {
+  height:2rem;
+}
+
+.text-bar {
+  display:flex;
+  justify-content:space-between;
+  gap:0.5rem;
 }
 
 /* Animations */

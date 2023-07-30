@@ -1,4 +1,5 @@
 import { useState } from 'react';
+const sendIcon = require('../images/send.png');
 
 const MessageBoard = () => {
   const [users, setUsers] = useState([
@@ -39,12 +40,15 @@ const MessageBoard = () => {
               return <div className="message-right">{user}</div>;
             })}
           </div>
-          <form className="text-input-area">
+          <form className="text-bar">
             <input
               type="text"
               placeholder="Type Message Here..."
-              className="input-area"
+              className="text-input-area"
             ></input>
+            <button type="submit" className="send-button">
+              <img src={sendIcon} alt="send" className="send-icon"></img>
+            </button>
           </form>
         </div>
       </div>

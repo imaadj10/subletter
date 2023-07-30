@@ -48,8 +48,8 @@ const Register = () => {
   return (
     <div className="section form-page">
       <h1>Sign Up!</h1>
-      <form action="POST">
-      <label for="name">Name</label>
+      <form action="POST" className="auth-form">
+        <label for="name">Name</label>
         <input
           name="name"
           className="form-text"
