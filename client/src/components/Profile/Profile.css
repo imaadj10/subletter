@@ -4,16 +4,16 @@
 
 .Profile-Upper-Section {
     display: flex;
-    gap: 1rem;
-}
-
-.Profile-left {
-    /* border: 2px solid green; */
+    gap: 2rem;
 }
 
 .Profile-image img {
     max-width: 100%;
     border: 2px solid black;
+}
+
+.Profile-left {
+    /* border: 2px solid red; */
 }
 
 .Profile-detail {
@@ -76,4 +76,10 @@
 input {
     border: 1px solid black;
     border-radius:5px;
+}
+
+.buttons-container {
+    display:flex;
+    justify-content:center;
+    gap:1rem;
 }

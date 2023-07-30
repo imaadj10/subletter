@@ -31,7 +31,7 @@ const Register = () => {
         })
         .then((res) => {
           console.log(res.data);
-          cookies.set("TOKEN", res.data.token, {
+          cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
           history('/home', {});
