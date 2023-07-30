@@ -9,6 +9,8 @@ const Register = () => {
   const token = cookies.get('TOKEN');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [school, setSchool] = useState('');
 
   useEffect(() => {
     if (token) {
@@ -22,8 +24,10 @@ const Register = () => {
     try {
       await axios
         .post('http://localhost:1234/register', {
-          username,
+          username: username.toLowerCase(),
           password,
+          name,
+          school,
         })
         .then((res) => {
           console.log(res.data);
@@ -33,7 +37,7 @@ const Register = () => {
           history('/home', {});
         })
         .catch((e) => {
-          alert('Please Try Again');
+          alert(e.response.data.message);
           console.log(e);
         });
     } catch (e) {
@@ -45,22 +49,30 @@ const Register = () => {
     <div className="section form-page">
       <h1>Sign Up!</h1>
       <form action="POST">
+      <label for="name">Name</label>
+        <input
+          name="name"
+          className="form-text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <label for="school">School</label>
+        <input
+          name="school"
+          className="form-text"
+          placeholder="School"
+          value={school}
+          onChange={(e) => setSchool(e.target.value)}
+        />
         <label for="username">Username</label>
         <input
           name="username"
           className="form-text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value.toLowerCase())}
         />
-        {/* <label for="email">Email Address</label>
-        <input
-          name="email"
-          className="form-text"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        /> */}
         <label htmlFor="password">Password</label>
         <input
           type="password"

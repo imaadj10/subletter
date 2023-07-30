@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const auth_middleware = require ('../middleware/auth_middleware')
 
-exports.process_login = async (req, res, next, from_register=false) => {
+exports.process_login = async (req, res) => {
     const { username, password } = req.body;
     
     // Find the user with the given username and password in the users array (replace this with a database query)
@@ -15,16 +15,13 @@ exports.process_login = async (req, res, next, from_register=false) => {
         { expiresIn: "24h" }
       );
 
-      //   return success response
-      const message = from_register? "Registration Successful" : "Login Successful";
       res.status(200).send({
-        message: message,
         username: username,
         token,
       });
     } else {
       // If the user is not found, return an error
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Invalid Username or Password' });
     }
 };
 
