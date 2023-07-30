@@ -11,7 +11,7 @@ exports.handle_registration = async (req, res, next) => {
             const salt = await bcrypt.genSalt();
             const hashedPassword = await bcrypt.hash(password, salt);
             await registration_middleware.addNewUser(username, hashedPassword, name, school);
-            auth_controller.process_login(req, res, next, true);
+            auth_controller.process_login(req, res);
         } catch {
             res.status(401).json({ message: 'Error Registering' });
         }
