@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
@@ -10,10 +11,14 @@ import Profile from './components/Profile/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
+import UserProvider from './UserContext';
+
 
 function App() {
+  const [ globalUsername, setGlobalUsername ] = useState([]);
+
   return (
-    <>
+    <UserProvider.Provider value={{ globalUsername, setGlobalUsername }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} exact />
@@ -26,7 +31,7 @@ function App() {
         <Route path="/messageboard" element={<MessageBoard />} />
         <Route path="/users" element={<Users />} />
       </Routes>
-    </>
+    </UserProvider.Provider>
   );
 }
 
