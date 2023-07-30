@@ -9,6 +9,10 @@
   --turquoise:rgb(69, 151, 123);;
   --bkg-colour:#f6f5fa;
   --bkg-complement:#e7e1da;
+  --g1: rgb(98, 0, 234);
+  --g2: rgb(236, 64, 122);
+  --g3: rgb(253, 216, 53);
+  --blue-border: rgb(3, 169, 244);
 }
 
 body {
@@ -70,7 +74,7 @@ label {
   border-width:1px;
 }
 
-form {
+.auth-form {
   display: flex;
   flex-direction: column;
   width: 500px;
@@ -142,8 +146,7 @@ form {
 }
 
 section.hidden {
-  height: 60vh;
-  box-shadow:var(--light-grey) 0px 5px 15px 0px;
+  height: clamp(500px, 60vh, 1000px);
   padding:10px;
 }
 
@@ -271,6 +274,7 @@ section > h3 {
   align-self:flex-end;
   background-color:var(--bkg-complement);
 }
+
 /* Animations */
 @keyframes opacityAnimation {
   from {

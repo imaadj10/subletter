@@ -48,14 +48,54 @@
 
 .navigator {
     display:flex;
-    justify-content:space-around;
-    flex-wrap:wrap;
+    justify-content:space-between;
     border-radius:20px;
     background-color: var(--bkg-complement);
     position: -webkit-sticky;
     position: sticky;
-    top:20px;
+    top:0;
+}
 
+.options {
+    display:flex;
+    flex-grow:1;
+    justify-content:space-around;
+    flex-wrap:wrap;
+}
+
+.plus {
+    width:5rem;
+    height:5rem;
+    border:0.3vmin solid black;
+    position:relative;
+}
+
+.plus:before {
+    font-size:4rem;
+    line-height:5rem;
+    content:"+";
+    background:linear-gradient(
+        130deg,
+        white 0% 33%,
+        var(--g1) 66%,
+        var(--g2) 83.5%,
+        var(--g3) 100%
+        );
+    height:100%;
+    width:100%;
+    background-size:300% 300%;
+    background-position:0% 0%;
+    position:absolute;
+    top:0;
+    left:0;
+    transition: all 500ms;
+}
+
+.plus:hover:before {
+    color:white;
+    background-position:100% 100%;
+    cursor:pointer;
+    transform:scale(1.1);
 }
 
 .search {
@@ -93,13 +133,64 @@ input[type='number'] {
     margin-top:-10px;
 }
 
+img[id='output'] {
+    display:block;
+}
+
+.big-text-field {
+    width:100%;
+}
+
+textarea {
+    min-width:50vw;
+    min-height:10rem;
+    border-radius:0.5rem;
+    padding:1rem;
+    resize:vertical;
+}
+
+input[type='number'] {
+    width:100px;
+}
+
+.new-listing-buttons {
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    margin-top:1rem;
+}
+
+.submit:hover {
+    background-color:var(--dark-grey);
+    transform:scale(1.02);
+    cursor:pointer;
+}
+
+dialog[open] {
+    animation: show 800ms ease-out;
+}
+
+dialog {
+    animation:show;
+}
+
+@keyframes show {
+    from {
+        transform: translateY(-110%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
 @media (max-width:800px) {
-    .navigator {
+    .navigator, .options {
         gap:10px;
         align-items:center;
         flex-direction:column;
         position:static;
     }
+
     label {
         text-align:center;
     }

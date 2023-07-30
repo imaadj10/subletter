@@ -18,7 +18,6 @@ const Login = () => {
     }
   }, [history, token]);
 
-
   async function submit(e) {
     e.preventDefault();
 
@@ -48,7 +47,7 @@ const Login = () => {
   return (
     <div className="section form-page">
       <h1>Login Page</h1>
-      <form action="POST">
+      <form action="POST" className="auth-form">
         <label htmlFor="username">Username</label>
         <input
           className="form-text"
