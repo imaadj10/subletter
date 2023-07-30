@@ -37,7 +37,7 @@ const Register = () => {
           history('/home', {});
         })
         .catch((e) => {
-          alert('Please Try Again');
+          alert(e.response.data.message);
           console.log(e);
         });
     } catch (e) {

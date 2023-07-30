@@ -24,7 +24,7 @@ exports.process_login = async (req, res, next, from_register=false) => {
       });
     } else {
       // If the user is not found, return an error
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Invalid Username or Password' });
     }
 };
 

@@ -27,18 +27,13 @@ const Login = () => {
           password,
         })
         .then((res) => {
-          if (res.data) {
-            cookies.set('TOKEN', res.data.token, {
-              path: '/',
-            });
-            // history.push('/home');
-            history('/home', {});
-          } else {
-            alert('Please enter login details');
-          }
+          cookies.set('TOKEN', res.data.token, {
+            path: '/',
+          });
+          history('/home', {});
         })
         .catch((e) => {
-          alert('Incorrect Username or Password');
+          alert(e.response.data.message);
           console.log(e);
         });
     } catch (e) {
