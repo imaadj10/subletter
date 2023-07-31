@@ -12,11 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [school, setSchool] = useState('');
-  const [availableSchools, setAvailableSchools] = useState([
-    { school_name: 'abc' },
-    { school_name: 'abc' },
-    { school_name: 'abc' },
-  ]);
+  const [availableSchools, setAvailableSchools] = useState([]);
 
   useEffect(() => {
     if (token) {
