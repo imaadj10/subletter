@@ -1,12 +1,15 @@
 import '../css/Listings.css';
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
 import UserContext from '../UserContext';
-// import image from '../assets/Orchard-Commons.jpg';
 
 const Listings = () => {
   const { globalUsername } = useContext(UserContext);
+  const cookies = new Cookies();
+  const token = cookies.get('TOKEN');
+
   const types = {
     items: 'Items',
     sublets: 'Sublets',
@@ -20,7 +23,9 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/listings/?username=${globalUsername}`)
+      .get(`http://localhost:1234/listings/?username=${globalUsername}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         setListings(res.data);
       })
