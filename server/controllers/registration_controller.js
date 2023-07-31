@@ -13,9 +13,9 @@ exports.handle_registration = async (req, res, next) => {
             await registration_middleware.addNewUser(username, hashedPassword, name, school);
             auth_controller.process_login(req, res);
         } catch {
-            res.status(401).json({ message: 'Error Registering' });
+            res.status(400).json({ message: 'Error Registering' });
         }
     } else {
-        res.status(401).json({ message: 'Username Taken' });
+        res.status(400).json({ message: 'Username Taken' });
     }
 }
