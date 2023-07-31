@@ -32,7 +32,6 @@ const Login = () => {
           cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
-          console.log(res.data.username);
           setGlobalUsername(res.data.username);
           history('/home', {});
         })

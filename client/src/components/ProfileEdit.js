@@ -9,7 +9,7 @@ export default function EditProfile({ props }) {
     if (!usernameRef.current.value || !passwordRef.current.value) {
       closeModal(e);
     } else {
-      props.setUsername(usernameRef.current.value);
+      props.setGlobalUsername(usernameRef.current.value);
       props.setPassword(passwordRef.current.value);
       closeModal(e);
     }
@@ -29,7 +29,7 @@ export default function EditProfile({ props }) {
           ref={usernameRef}
           type="text"
           name="username"
-          defaultValue={props.username}
+          defaultValue={props.globalUsername}
         />
 
         <label htmlFor="password">Password</label>
