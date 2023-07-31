@@ -4,16 +4,7 @@ const db = require('../mysql/mysql');
 const auth_controller = require('../controllers/auth_controller');
 
 /* GET users listing. */
-router.get('/', auth_controller.isAuthenticated, function(req, res, next) {
-  let name = 'Imaad';
-  let query = `SELECT IF('${name}' IN (SELECT username FROM users), true, false) AS result`;
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(results); // Send the fetched data as a JSON response
-  });
-});
+router.get('/', auth_controller.isAuthenticated)
+
 
 module.exports = router;

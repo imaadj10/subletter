@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
