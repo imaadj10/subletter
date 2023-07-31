@@ -1,3 +1,5 @@
+import '../css/Listings.css';
+
 export default function NewListing() {
   const uploadImage = (e) => {
     let reader = new FileReader();
@@ -73,12 +75,10 @@ export default function NewListing() {
         <img id="output" alt="user-uploaded" />
 
         <div className="new-listing-buttons">
-          <button className="submit cancel" onClick={closeModal}>
+          <button className="red" onClick={closeModal}>
             Cancel
           </button>
-          <button type="submit" className="submit">
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </div>
       </form>
     </>

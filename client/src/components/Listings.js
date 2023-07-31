@@ -1,4 +1,4 @@
-import './Listings.css';
+import '../css/Listings.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NewListing from './NewListing';
