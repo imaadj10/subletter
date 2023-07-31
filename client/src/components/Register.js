@@ -12,6 +12,11 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [school, setSchool] = useState('');
+  const [availableSchools, setAvailableSchools] = useState([
+    { school_name: 'abc' },
+    { school_name: 'abc' },
+    { school_name: 'abc' },
+  ]);
 
   useEffect(() => {
     if (token) {
@@ -46,6 +51,25 @@ const Register = () => {
     }
   }
 
+  async function getSchoolsList() {
+    try {
+      await axios
+        .get('http://localhost:1234/schools', {
+          params: {
+            text: school,
+          },
+        })
+        .then((res) => setAvailableSchools(res.data));
+      console.log(availableSchools);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    getSchoolsList();
+  }, [school]);
+
   return (
     <div className="section form-page">
       <h1>Sign Up!</h1>
@@ -58,14 +82,21 @@ const Register = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <label for="school">School</label>
+        <label htmlFor="available-schools">School</label>
         <input
-          name="school"
-          className="form-text"
-          placeholder="School"
           value={school}
           onChange={(e) => setSchool(e.target.value)}
+          list="available-schools"
+          name="available-schools"
+          className="form-text"
         />
+        <datalist id="available-schools">
+          {availableSchools.map((school) => {
+            console.log(school.school_name);
+            return <option value={school.school_name} />;
+          })}
+        </datalist>
+
         <label for="username">Username</label>
         <input
           name="username"
