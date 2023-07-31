@@ -4,18 +4,17 @@ import { Routes, Route } from 'react-router-dom';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
 import Register from './components/Register';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar.js';
 import Notifications from './components/Notifications';
 import Listings from './components/Listings';
-import Profile from './components/Profile/Profile';
+import Profile from './components/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
 import UserProvider from './UserContext';
 
-
 function App() {
-  const [ globalUsername, setGlobalUsername ] = useState([]);
+  const [globalUsername, setGlobalUsername] = useState([]);
 
   return (
     <UserProvider.Provider value={{ globalUsername, setGlobalUsername }}>

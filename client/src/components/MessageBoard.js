@@ -1,5 +1,6 @@
+import '../css/Messages.css';
 import { useState } from 'react';
-const sendIcon = require('../images/send.png');
+const sendIcon = require('../assets/send.png');
 
 const MessageBoard = () => {
   const [users, setUsers] = useState([

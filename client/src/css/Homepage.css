@@ -1,0 +1,53 @@
+.hidden {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateX(-100px);
+    transition: all 1.2s;
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0)
+}
+
+.home-container {
+    text-align: center;
+}
+
+section > h1 {
+    font-size: 2.7em;
+    letter-spacing: 0.02em;
+}
+
+section > h3 {
+    font-weight: 400;
+}
+
+.auth-links {
+    background-color: var(--bkg-complement);
+    border-radius: 20px;
+    padding-block:3rem;
+    display:flex;
+    justify-content:center;
+    gap:5rem;
+}
+
+.auth-links > button {
+    padding:1rem;
+    font-size:16px;
+}
+
+.auth-links > button:hover {
+    transform: scale(1.2);
+}
+
+section.hidden {
+    height: clamp(500px, 60vh, 1000px);
+    padding: 10px;
+}
+
+.home-h1 {
+    display: grid;
+    align-content: center;
+}

@@ -1,15 +1,14 @@
+import '../css/Homepage.css';
 import React, { useEffect, useContext } from 'react';
 import UserContext from '../UserContext';
 import Cookies from 'universal-cookie';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
   const { globalUsername } = useContext(UserContext);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
-
-  console.log(globalUsername);
-
+  let navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -27,6 +26,14 @@ const Homepage = () => {
     );
   }, []);
 
+  const redirectRegister = () => {
+    navigate('/register', {});
+  };
+
+  const redirectLogin = () => {
+    navigate('/', {});
+  };
+
   return (
     <div className="home-container">
       {!token ? (
@@ -40,12 +47,8 @@ const Homepage = () => {
               The cheapest, most affordable sublets that every student uses
             </h3>
             <div className="auth-links">
-              <Link to="/signup" className="auth-button">
-                Get Started
-              </Link>
-              <Link to="/" className="auth-button">
-                Login
-              </Link>
+              <button onClick={redirectRegister}>Get Started</button>
+              <button onClick={redirectLogin}>Login</button>
             </div>
           </section>
 
