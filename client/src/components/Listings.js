@@ -18,7 +18,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:1234/listings')
+      .get('http://localhost:1234/listings/?username=Ronald')
       .then((res) => {
         setListings(res.data);
       })
@@ -113,7 +113,7 @@ const Listings = () => {
               <div className="listing" key={listing.id}>
                 <div className="listing-image">
                   <img
-                    src={`http://localhost:1234/images/${listing.image}.jpg`}
+                    src={`http://localhost:1234/images/${listing.image}`}
                     alt="Tallwood"
                   />
                 </div>
