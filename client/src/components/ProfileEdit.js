@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import '../css/Profile.css';
+import axios from 'axios';
+
 
 export default function EditProfile({ props }) {
   const usernameRef = useRef(null);
@@ -9,6 +11,15 @@ export default function EditProfile({ props }) {
     if (!usernameRef.current.value || !passwordRef.current.value) {
       closeModal(e);
     } else {
+      try {
+        await axios
+          .post('http://localhost:1234/users', {
+            new_username:
+          })
+      } catch (e) {
+
+      }
+    
       props.setGlobalUsername(usernameRef.current.value);
       props.setPassword(passwordRef.current.value);
       closeModal(e);
