@@ -1,6 +1,7 @@
-import './Listings.css';
+import '../css/Listings.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NewListing from './NewListing';
 // import image from '../assets/Orchard-Commons.jpg';
 
 const Listings = () => {
@@ -41,79 +42,94 @@ const Listings = () => {
     }
   };
 
+  const createNewListing = () => {
+    document.getElementById('create-new-listing-modal').showModal();
+  };
+
   return (
-    <div className="listing-container">
-      <div className="navigator">
-        <div className="option">
-          <label for="search">Filter For a Listing</label>
-          <input
-            name="search"
-            type="text"
-            className="search"
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <div className="option">
-          <label htmlFor="selector">Listing Type</label>
-          <select
-            className="selector"
-            defaultValue={types.all}
-            value={type}
-            onChange={handleTypeChange}
-          >
-            <option value={types.all}>All</option>
-            <option value={types.items}>Items</option>
-            <option value={types.sublets}>Sublets</option>
-          </select>
-        </div>
-        <div className="option" style={{ display: 'flex', marginTop: '10px' }}>
-          <label htmlFor="price">Price:</label>
-          <div>
-            <input
-              type="number"
-              name="price"
-              min="0"
-              max="5000"
-              value={min}
-              step="100"
-              onChange={changeMin}
-            />
-            <label className="lab">Min</label>
-          </div>
-          <div>
-            <input
-              type="number"
-              min="0"
-              max="5000"
-              value={max}
-              step="100"
-              onChange={changeMax}
-            />
-            <label className="lab">Max</label>
-          </div>
-        </div>
-      </div>
-      <div className="listings">
-        {listings.map((listing) => {
-          return (
-            <div className="listing" key={listing.id}>
-              <div className="listing-image">
-                <img
-                  src={`http://localhost:1234/images/${listing.image}.jpg`}
-                  alt="Tallwood"
-                />
-              </div>
-              <div className="listing-name">{listing.name}</div>
-              <div className="listing-residence">{listing.residence}</div>
-              <div className="listing-location">{listing.location}</div>
-              <div className="listing-price">{listing.price}</div>
+    <>
+      <div className="listing-container">
+        <div className="navigator">
+          <button className="plus" onClick={createNewListing} />
+          <div className="options">
+            <div className="option">
+              <label for="search">Filter For a Listing</label>
+              <input
+                name="search"
+                type="text"
+                className="search"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
-          );
-        })}
+            <div className="option">
+              <label htmlFor="selector">Listing Type</label>
+              <select
+                className="selector"
+                defaultValue={types.all}
+                value={type}
+                onChange={handleTypeChange}
+              >
+                <option value={types.all}>All</option>
+                <option value={types.items}>Items</option>
+                <option value={types.sublets}>Sublets</option>
+              </select>
+            </div>
+            <div
+              className="option"
+              style={{ display: 'flex', marginTop: '10px' }}
+            >
+              <label htmlFor="price">Price:</label>
+              <div>
+                <input
+                  type="number"
+                  name="price"
+                  min="0"
+                  max="5000"
+                  value={min}
+                  step="100"
+                  onChange={changeMin}
+                />
+                <label className="lab">Min</label>
+              </div>
+              <div>
+                <input
+                  type="number"
+                  min="0"
+                  max="5000"
+                  value={max}
+                  step="100"
+                  onChange={changeMax}
+                />
+                <label className="lab">Max</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="listings">
+          {listings.map((listing) => {
+            return (
+              <div className="listing" key={listing.id}>
+                <div className="listing-image">
+                  <img
+                    src={`http://localhost:1234/images/${listing.image}.jpg`}
+                    alt="Tallwood"
+                  />
+                </div>
+                <div className="listing-name">{listing.name}</div>
+                <div className="listing-residence">{listing.residence}</div>
+                <div className="listing-location">{listing.location}</div>
+                <div className="listing-price">{listing.price}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+      <dialog data-modal id="create-new-listing-modal">
+        <NewListing />
+      </dialog>
+    </>
   );
 };
 

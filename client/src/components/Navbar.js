@@ -1,5 +1,6 @@
+import '../css/Navbar.css';
 import { Link } from 'react-router-dom';
-const icon = require('../images/icon.png');
+const icon = require('../assets/icon.png');
 
 export default function Navbar() {
   return (

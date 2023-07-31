@@ -1,3 +1,4 @@
+import '../css/Authorization.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -31,7 +32,7 @@ const Register = () => {
         })
         .then((res) => {
           console.log(res.data);
-          cookies.set("TOKEN", res.data.token, {
+          cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
           history('/home', {});
@@ -48,8 +49,8 @@ const Register = () => {
   return (
     <div className="section form-page">
       <h1>Sign Up!</h1>
-      <form action="POST">
-      <label for="name">Name</label>
+      <form action="POST" className="auth-form">
+        <label for="name">Name</label>
         <input
           name="name"
           className="form-text"

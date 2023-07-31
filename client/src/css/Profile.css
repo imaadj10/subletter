@@ -1,0 +1,53 @@
+.Profile {
+    margin-top: 1rem;
+}
+
+.Profile-Upper-Section {
+    display: flex;
+    gap: 2rem;
+}
+
+.Profile-image img {
+    max-width: 100%;
+    border: 2px solid black;
+}
+
+.Profile-left {
+    /* border: 2px solid red; */
+}
+
+.Profile-detail {
+    /* border: 2px solid green; */
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.Profile-detail div {
+    gap: 1rem;
+}
+
+
+.Profile-right {
+    /* border: 2px solid red; */
+    padding-left: 1rem;
+}
+
+.Profile-name {
+    font-size: 3em;
+}
+
+.submit {
+    display:block;
+}
+
+input {
+    border: 1px solid black;
+    border-radius:5px;
+}
+
+.buttons-container {
+    display:flex;
+    justify-content:center;
+    gap:0.5rem;
+    margin-top:1rem;
+}

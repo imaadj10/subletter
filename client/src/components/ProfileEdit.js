@@ -1,30 +1,35 @@
 import { useRef } from 'react';
+import '../css/Profile.css';
 
 export default function EditProfile({ props }) {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const submit = () => {
+  const submit = (e) => {
     if (!usernameRef.current.value || !passwordRef.current.value) {
-      return;
+      closeModal(e);
+    } else {
+      props.setUsername(usernameRef.current.value);
+      props.setPassword(passwordRef.current.value);
+      closeModal(e);
     }
-    console.log(usernameRef.current.value);
-    props.setGlobalUsername(usernameRef.current.value);
-    props.setPassword(passwordRef.current.value);
-    props.setModalStatus(false);
-    props.wholeRef.current.style.opacity = 1;
+  };
+
+  const closeModal = (e) => {
+    e.preventDefault();
+    document.getElementById('edit-details-modal').close();
   };
 
   return (
     <>
-      <div className="modal">
+      <form onSubmit={submit}>
         <h1>Account Details</h1>
         <label htmlFor="username">Username</label>
         <input
           ref={usernameRef}
           type="text"
           name="username"
-          defaultValue={props.globalUsername}
+          defaultValue={props.username}
         />
 
         <label htmlFor="password">Password</label>
@@ -35,10 +40,13 @@ export default function EditProfile({ props }) {
           defaultValue={props.password}
         />
 
-        <button className="submit" onClick={submit}>
-          Submit
-        </button>
-      </div>
+        <div className="buttons-container">
+          <button onClick={closeModal} className="red">
+            Cancel
+          </button>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </>
   );
 }
