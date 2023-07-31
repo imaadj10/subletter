@@ -21,7 +21,6 @@ attachImages = (res) => {
 }
 
 getImage = (listing_id) => {
-    console.log(listing_id);
     const imagePath = path.join(__dirname, '../images', `${listing_id}.jpg`);
     return fs.existsSync(imagePath) ? `${listing_id}.jpg` : 'default.jpg';
 }

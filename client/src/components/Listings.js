@@ -1,10 +1,12 @@
 import '../css/Listings.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import NewListing from './NewListing';
+import UserContext from '../UserContext';
 // import image from '../assets/Orchard-Commons.jpg';
 
 const Listings = () => {
+  const { globalUsername } = useContext(UserContext);
   const types = {
     items: 'Items',
     sublets: 'Sublets',
@@ -18,7 +20,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:1234/listings/?username=Ronald')
+      .get(`http://localhost:1234/listings/?username=${globalUsername}`)
       .then((res) => {
         setListings(res.data);
       })
@@ -110,17 +112,16 @@ const Listings = () => {
         <div className="listings">
           {listings.map((listing) => {
             return (
-              <div className="listing" key={listing.id}>
+              <div className="listing" key={listing.lid}>
                 <div className="listing-image">
                   <img
                     src={`http://localhost:1234/images/${listing.image}`}
                     alt="Tallwood"
                   />
                 </div>
-                <div className="listing-name">{listing.name}</div>
-                <div className="listing-residence">{listing.residence}</div>
-                <div className="listing-location">{listing.location}</div>
-                <div className="listing-price">{listing.price}</div>
+                <div className="listing-name">{listing.description}</div>
+                <div className="listing-residence">Posted by {listing.username}</div>
+                <div className="listing-price">${listing.price}</div>
               </div>
             );
           })}
