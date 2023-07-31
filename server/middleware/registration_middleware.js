@@ -5,7 +5,6 @@ exports.isValidUsername = async (username) => {
     const userQuery = 'SELECT EXISTS (SELECT 1 FROM users WHERE username = ?) AS userExists';
     const [userRes] = await db.query(userQuery, [username]);
     const isAvaliableUser = userRes[0].userExists === 0;
-
     return isAvaliableUser;
 }
 
