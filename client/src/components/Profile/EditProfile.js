@@ -9,7 +9,7 @@ export default function EditProfile({ props }) {
       return;
     }
     console.log(usernameRef.current.value);
-    props.setUsername(usernameRef.current.value);
+    props.setGlobalUsername(usernameRef.current.value);
     props.setPassword(passwordRef.current.value);
     props.setModalStatus(false);
     props.wholeRef.current.style.opacity = 1;
@@ -24,7 +24,7 @@ export default function EditProfile({ props }) {
           ref={usernameRef}
           type="text"
           name="username"
-          defaultValue={props.username}
+          defaultValue={props.globalUsername}
         />
 
         <label htmlFor="password">Password</label>

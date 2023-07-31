@@ -1,14 +1,17 @@
 import './Profile.css';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import EditProfile from './EditProfile';
 import profile_Image from '../../assets/temp-avatar.jpg';
+import UserContext from '../../UserContext';
+
 
 const Profile = () => {
+  const { globalUsername, setGlobalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
-  const [username, setUsername] = useState('John Doe');
+  // const [username, setUsername] = useState('John Doe');
   const [password, setPassword] = useState('abc');
   const [modalStatus, setModalStatus] = useState(false);
   const wholeRef = useRef(null);
@@ -40,7 +43,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="Profile-right">
-            <h1 className="Profile-name">{username}</h1>
+            <h1 className="Profile-name">{globalUsername}</h1>
             <div className="Profile-description">
               <p>
                 Hey there! I'm Alex, a spirited university student with an
@@ -97,11 +100,11 @@ const Profile = () => {
       {modalStatus && (
         <EditProfile
           props={{
-            username,
+            globalUsername,
             password,
             modalStatus,
             wholeRef,
-            setUsername,
+            setGlobalUsername,
             setPassword,
             setModalStatus,
           }}
