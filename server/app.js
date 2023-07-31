@@ -39,7 +39,7 @@ app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
 app.use('/listings', listingsRouter);
-app.use('/images', express.static('./public/images'));
+app.use('/images', express.static('./images'));
 
 const port = 1234;
 app.listen(port, () => {
