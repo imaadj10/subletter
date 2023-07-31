@@ -1,6 +1,0 @@
-GET http://localhost:1234/schools
-Content-Type:application/json
-
-{
-    "text":""
-}
