@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import '../css/Profile.css';
 
 export default function EditProfile({ props }) {
   const usernameRef = useRef(null);
@@ -40,12 +41,10 @@ export default function EditProfile({ props }) {
         />
 
         <div className="buttons-container">
-          <button className="submit" onClick={closeModal}>
+          <button onClick={closeModal} className="red">
             Cancel
           </button>
-          <button type="submit" className="submit">
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </div>
       </form>
     </>

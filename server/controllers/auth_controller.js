@@ -15,13 +15,13 @@ exports.process_login = async (req, res) => {
         { expiresIn: "24h" }
       );
 
-      res.status(200).send({
+      res.status(201).send({
         username: username,
         token,
       });
     } else {
       // If the user is not found, return an error
-      res.status(401).json({ message: 'Invalid Username or Password' });
+      res.status(400).json({ message: 'Invalid Username or Password' });
     }
 };
 

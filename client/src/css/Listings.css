@@ -64,14 +64,15 @@
 }
 
 .plus {
+    border-radius:0;
     width:5rem;
     height:5rem;
-    border:0.3vmin solid black;
     position:relative;
 }
 
 .plus:before {
     font-size:4rem;
+    color:black;
     line-height:5rem;
     content:"+";
     background:linear-gradient(
@@ -95,7 +96,6 @@
     color:white;
     background-position:100% 100%;
     cursor:pointer;
-    transform:scale(1.1);
 }
 
 .search {
