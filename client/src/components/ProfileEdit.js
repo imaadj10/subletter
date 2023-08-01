@@ -4,8 +4,6 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 
-
-
 export default function EditProfile({ props }) {
   const cookies = new Cookies();
   const history = useNavigate();
@@ -16,27 +14,55 @@ export default function EditProfile({ props }) {
   async function submit(e) {
     e.preventDefault();
 
-    if (!usernameRef.current.value && !passwordRef.current.value) {
+    // Get the new_username and new_password from the input fields using refs
+    const new_username = usernameRef.current.value;
+    const new_password = passwordRef.current.value;
+    const new_description = descriptionRef.current.value;
+
+    if (
+      !new_username &&
+      !new_password &&
+      !new_description
+    ) {
       closeModal(e);
     } else {
       try {
-        // Get the new_username and new_password from the input fields using refs
-        const new_username = usernameRef.current.value;
-        const new_password = passwordRef.current.value;
+        // Values that are going to be send to the backend
+        let input_username = undefined;
+        let input_description = undefined;
+
+        // Check if inputted username is the same as the current username
+        if (new_username !== props.username) {
+          input_username = new_username;
+        }
+
+        // Check if inputted description is the same as the current description
+        if (new_description !== props.description) {
+          input_description = descriptionRef.current.value;
+        }
 
         await axios
           .patch('http://localhost:1234/users/update', {
             old_username: props.username,
-            new_username: new_username,
-            new_password: new_password, 
+            new_username: input_username,
+            new_password: new_password,
+            new_description: input_description,
           })
           .then((res) => {
             cookies.set('TOKEN', res.data.token, {
               path: '/',
             });
-            cookies.set('USERNAME', res.data.username, {
-              path: '/',
-            });
+
+            // Reset the USERNAME cookie if new username is not undefined
+            if (new_username) {
+              cookies.set('USERNAME', res.data.username, {
+                path: '/',
+              });
+            }
+
+            if (input_description) {
+              props.setDescription(input_description);
+            }
             closeModal(e);
             history('/profile', {});
           })
@@ -62,19 +88,14 @@ export default function EditProfile({ props }) {
       <form onSubmit={submit}>
         <h1>Account Details</h1>
         <label htmlFor="username">Username</label>
-        <input
-          ref={usernameRef}
-          type="text"
-          name="username"
-          defaultValue=''
-        />
+        <input ref={usernameRef} type="text" name="username" defaultValue="" />
 
         <label htmlFor="password">Password</label>
         <input
           ref={passwordRef}
           type="password"
           name="password"
-          defaultValue=''
+          defaultValue=""
         />
 
         <label htmlFor="description">Description</label>
@@ -82,7 +103,7 @@ export default function EditProfile({ props }) {
           ref={descriptionRef}
           type="text"
           name="description"
-          defaultValue=''
+          defaultValue=""
         />
 
         <div className="buttons-container">

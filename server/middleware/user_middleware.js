@@ -7,13 +7,14 @@ const registration_middleware = require('../middleware/registration_middleware')
 exports.get_user_description = async (username) => {
   console.log("arrived");
   const result = await db.query(
-    `SELECT description FROM users WHERE username='${username}'`
-  );
+    'SELECT description FROM users WHERE username = ?', [
+      username
+  ]);
 
   return result[0][0].description;
 };
 
-exports.update_user_info = async (old_username, new_username, new_password) => {
+exports.update_user_info = async (old_username, new_username, new_password, new_description) => {
   const isValidUsername = await registration_middleware.isValidUsername(
     new_username
   );
@@ -26,6 +27,13 @@ exports.update_user_info = async (old_username, new_username, new_password) => {
       await db.query('UPDATE users SET password = ? WHERE username = ?', [
         hashedPassword,
         old_username,
+      ]);
+    }
+
+    if (new_description) {
+      await db.query('UPDATE users SET description = ? WHERE username = ?', [
+        new_description,
+        old_username
       ]);
     }
 
@@ -44,5 +52,5 @@ exports.update_user_info = async (old_username, new_username, new_password) => {
     console.log(e);
   }
 
-  return new_username != '' ? new_username : old_username;
+  return new_username !== '' && new_username !== undefined ? new_username : old_username;
 };

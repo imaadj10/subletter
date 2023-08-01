@@ -78,6 +78,8 @@ const Profile = () => {
         <EditProfile
           props={{
             username,
+            description,
+            setDescription
           }}
         />
       </dialog>

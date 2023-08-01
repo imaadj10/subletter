@@ -11,13 +11,14 @@ exports.fetch_user_description = async (req, res) => {
 };
 
 exports.update_user_info = async (req, res) => {
-  const { old_username, new_username, new_password } = req.body;
+  const { old_username, new_username, new_password, new_description } = req.body;
 
   try {
     const username = await user_middleware.update_user_info(
       old_username,
       new_username,
-      new_password
+      new_password,
+      new_description
     );
 
     const token = jwt.sign(
