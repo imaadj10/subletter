@@ -7,9 +7,6 @@ const auth_controller = require('../controllers/auth_controller');
 
 router.get('/', auth_controller.isAuthenticated, listings_controller.retrieve_school_listings);
 
-router.post('/', upload.single('image'), (req, res) => {
-    console.log(req.body);
-    res.send('bruh');
-});
+router.post('/', upload.single('image'), listings_controller.add_listing);
 
 module.exports = router;

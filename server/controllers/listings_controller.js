@@ -9,6 +9,12 @@ exports.retrieve_school_listings = async (req, res) => {
   }
 };
 
-exports.add_listing = (req, res) => {
-  
+exports.add_listing = async (req, res) => {
+  try {
+    await listings_middleware.add_new_listing(req);
+    res.status(201).send("Added listing!")
+  } catch(e) {
+    console.log(e);
+    res.status(400).json({message: "Unable to add listing"});
+  }
 };

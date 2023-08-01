@@ -12,15 +12,8 @@ exports.retrieve_school_listings = async (username) => {
     return res;
 };
 
-// attachImages = (res) => {
-//     res = res.map( (listing) => ({
-//             ...listing,
-//             image: getImage(listing.lid)
-//         }));
-//     return res;
-// }
-
-// getImage = (listing_id) => {
-//     const imagePath = path.join(__dirname, '../images', `${listing_id}.jpg`);
-//     return '58c50de7c83000232565e8ea1dd79dd5';//fs.existsSync(imagePath) ? `${listing_id}.jpg` : 'default.jpg';
-// }
+exports.add_new_listing = async (req) => {
+    const query = `INSERT INTO listings (name, username, price, description, image)
+                    VALUES('${req.body.name}', '${req.body.username}', ${req.body.price}, '${req.body.description}', '${req.file.filename}')`;
+    await db.query(query);
+}
