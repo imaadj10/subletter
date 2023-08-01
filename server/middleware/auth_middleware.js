@@ -25,7 +25,7 @@ const verifyUser = async (username, password) => {
   }
 };
 
-const authenticateUser = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   try {
     //   get the token from the authorization header
     const token = await req.headers.authorization.split(' ')[1];
@@ -61,5 +61,5 @@ const getUserName = async (username) => {
 
 module.exports = {
   verifyUser,
-  authenticateUser,
+  isAuthenticated,
 };

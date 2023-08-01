@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../mysql/mysql');
-const { authenticateUser } = require('../middleware/auth_middleware');
+const { isAuthenticated } = require('../middleware/auth_middleware');
 
 /* GET users listing. */
-router.get('/', authenticateUser, function (req, res, next) {
+router.get('/', isAuthenticated, function (req, res, next) {
   let name = 'Imaad';
   let query = `SELECT IF('${name}' IN (SELECT username FROM users), true, false) AS result`;
   db.query(query, (err, results) => {
