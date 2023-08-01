@@ -1,12 +1,10 @@
 import '../css/Authorization.css';
-import React, { useState, useEffect, useContext } from 'react';
-import UserContext from '../UserContext';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-  const { setGlobalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
@@ -32,7 +30,9 @@ const Login = () => {
           cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
-          setGlobalUsername(res.data.username);
+          cookies.set('USERNAME', res.data.username, {
+            path: '/',
+          });
           history('/home', {});
         })
         .catch((e) => {
