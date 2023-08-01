@@ -1,16 +1,14 @@
 import { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import '../css/Profile.css';
 import axios from 'axios';
 
 export default function EditProfile({ props }) {
-  const history = useNavigate();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
   async function submit(e) {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (!usernameRef.current.value || !passwordRef.current.value) {
       closeModal(e);
     } else {
@@ -32,10 +30,8 @@ export default function EditProfile({ props }) {
           })
           .then((res) => {
             props.setGlobalUsername(new_username);
-            props.setPassword(new_password);
+            // props.setPassword(new_password);
             closeModal(e);
-            console.log(props.globalUsername);
-            history('/profile', {});
           })
           .catch((e) => {
             alert('Res then failed');
@@ -63,7 +59,7 @@ export default function EditProfile({ props }) {
           ref={usernameRef}
           type="text"
           name="username"
-          defaultValue={props.globalUsername}
+          defaultValue=''
         />
 
         <label htmlFor="password">Password</label>
@@ -71,7 +67,7 @@ export default function EditProfile({ props }) {
           ref={passwordRef}
           type="password"
           name="password"
-          defaultValue={props.password}
+          defaultValue=''
         />
 
         <div className="buttons-container">

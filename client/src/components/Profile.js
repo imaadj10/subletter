@@ -11,7 +11,7 @@ const Profile = () => {
   const history = useNavigate();
   const cookies = new Cookies();
   // const [username, setUsername] = useState('John Doe');
-  const [password, setPassword] = useState('abc');
+  // const [password, setPassword] = useState('abc');
 
   const logout = () => {
     setGlobalUsername(undefined);
@@ -98,9 +98,7 @@ const Profile = () => {
         <EditProfile
           props={{
             globalUsername,
-            password,
             setGlobalUsername,
-            setPassword,
           }}
         />
       </dialog>
