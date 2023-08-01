@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const listings_controller = require('../controllers/listings_controller');
 const { authenticateUser } = require('../middleware/auth_middleware');
+const { getUserHousing } = require('../controllers/housing_controller');
 
-router.get('/', authenticateUser, listings_controller.retrieve_school_listings);
+router.route('/').get(authenticateUser, getUserHousing);
 
 module.exports = router;

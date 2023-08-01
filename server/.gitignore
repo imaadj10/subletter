@@ -32,3 +32,6 @@ coverage/
 
 # Ignore populatedb script output files
 populatedb_output.json
+
+
+routes.rest
