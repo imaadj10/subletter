@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../mysql/mysql');
 const bcrypt = require('bcrypt');
 
-const verifyUser = async (username, password) => {
+exports.verifyUser = async (username, password) => {
   try {
     const userQuery =
       'SELECT EXISTS (SELECT 1 FROM users WHERE username = ?) AS userExists';
@@ -25,18 +25,13 @@ const verifyUser = async (username, password) => {
   }
 };
 
-const isAuthenticated = async (req, res, next) => {
+exports.isAuthenticated = async (req, res, next) => {
   try {
     //   get the token from the authorization header
     const token = await req.headers.authorization.split(' ')[1];
 
     //check if the token matches the supposed origin
     const user = await jwt.verify(token, 'RANDOM-TOKEN');
-
-    // pass the user down to the endpoints here
-    const school = await getUserSchool(user.username);
-    const name = await getUserName(user.username);
-    req.user = { username: user.username, school, name };
 
     // pass down functionality to the endpoint
     next();
@@ -45,21 +40,4 @@ const isAuthenticated = async (req, res, next) => {
       error: new Error('Invalid request!'),
     });
   }
-};
-
-const getUserSchool = async (username) => {
-  const query = `SELECT school_name FROM users WHERE username="${username}"`;
-  const schoolResult = await db.query(query);
-  return schoolResult[0][0].school_name;
-};
-
-const getUserName = async (username) => {
-  const query = `SELECT name FROM users WHERE username="${username}"`;
-  const queryResult = await db.query(query);
-  return queryResult[0][0].name;
-};
-
-module.exports = {
-  verifyUser,
-  isAuthenticated,
 };

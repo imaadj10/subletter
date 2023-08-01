@@ -9,7 +9,6 @@ const Profile = () => {
   const history = useNavigate();
   const cookies = new Cookies();
   const username = cookies.get('USERNAME')
-  const [password, setPassword] = useState('abc');
 
   const logout = () => {
     cookies.remove('TOKEN', { path: '/' });
@@ -95,9 +94,7 @@ const Profile = () => {
       <dialog data-modal id="edit-details-modal">
         <EditProfile
           props={{
-            username,
-            password,
-            setPassword,
+            username
           }}
         />
       </dialog>
