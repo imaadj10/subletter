@@ -36,6 +36,9 @@ const Register = () => {
           cookies.set('TOKEN', res.data.token, {
             path: '/',
           });
+          cookies.set('USERNAME', res.data.username, {
+            path: '/',
+          });
           history('/home', {});
         })
         .catch((e) => {

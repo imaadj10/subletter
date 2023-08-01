@@ -25,7 +25,7 @@ export default function NewListing({ props }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("username", props.globalUsername);
+    formData.append("username", props.username);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("description", description);

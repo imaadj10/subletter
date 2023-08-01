@@ -7,6 +7,7 @@ const HousingInfo = () => {
   const [residences, setResidences] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
+  const username = cookies.get('USERNAME');
 
   async function getHousingInfo() {
     try {
