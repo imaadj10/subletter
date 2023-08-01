@@ -8,6 +8,8 @@ export default function NewListing({ props }) {
   const [description, setDescription] = useState();
   const [type, setType] = useState('sublet');
   const [quantity, setQuantity] = useState();
+  const [unitType, setUnitType] = useState();
+  const [residence, setResidence] = useState();
   const [file, setFile] = useState();
 
   // const uploadImage = (e) => {
@@ -31,6 +33,9 @@ export default function NewListing({ props }) {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("type", type);
+    formData.append("quantity", quantity);
+    formData.append("unitType", unitType);
+    formData.append("residence", residence);
     formData.append("image", file);
 
     axios.post('http://localhost:1234/listings', formData, { headers: {'Content-Type': 'multipart/form-data'}});
@@ -63,7 +68,22 @@ export default function NewListing({ props }) {
     inputSection = (
       /* JSX for the input section when type is "Sublets" */
       <div>
-        <p>Bruh</p>
+        <label htmlFor="unitType">Unit Type</label>
+        <input
+          className="big-text-field"
+          name="unitType"
+          type="text"
+          placeholder="Unit Type"
+          onChange={e => setUnitType(e.target.value)} 
+        ></input>
+        <label htmlFor="residence">Residence Name</label>
+        <input
+          className="big-text-field"
+          name="residence"
+          type="text"
+          placeholder="Residence Name"
+          onChange={e => setResidence(e.target.value)} 
+        ></input>
       </div>
     );
   }
