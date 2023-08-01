@@ -1,14 +1,16 @@
 import '../css/Profile.css';
-import { useState, useRef } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from '../UserContext';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import EditProfile from './ProfileEdit';
 import profile_Image from '../assets/temp-avatar.jpg';
 
 const Profile = () => {
+  const { globalUsername, setGlobalUsername } = useContext(UserContext);
   const history = useNavigate();
   const cookies = new Cookies();
-  const [username, setUsername] = useState('John Doe');
+  // const [username, setUsername] = useState('John Doe');
   const [password, setPassword] = useState('abc');
 
   const logout = () => {
@@ -37,7 +39,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="Profile-right">
-            <h1 className="Profile-name">{username}</h1>
+            <h1 className="Profile-name">{globalUsername}</h1>
             <div className="Profile-description">
               <p>
                 Hey there! I'm Alex, a spirited university student with an
@@ -94,9 +96,9 @@ const Profile = () => {
       <dialog data-modal id="edit-details-modal">
         <EditProfile
           props={{
-            username,
+            globalUsername,
             password,
-            setUsername,
+            setGlobalUsername,
             setPassword,
           }}
         />

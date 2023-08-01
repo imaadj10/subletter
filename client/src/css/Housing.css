@@ -1,0 +1,32 @@
+.residences {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-column-gap: 1rem;
+    grid-row-gap: 1.5rem;
+}
+
+.residence {
+    background-color: white;
+    padding: 1em;
+    border-width: 5px;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 0px 10px 5px grey;
+    text-align: left;
+    padding-bottom: 1em;
+    cursor: pointer;
+    transition: all 250ms;
+}
+
+.residence:hover {
+    transform: scale(1.02);
+}
+
+.address-container {
+    display:flex;
+    justify-content:center;
+    gap:2rem;
+    background-color:var(--bkg-complement);
+    border-radius:1rem;
+}
