@@ -1,5 +1,4 @@
 import '../css/Profile.css';
-import { useState } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import EditProfile from './ProfileEdit';
@@ -21,7 +20,7 @@ const Profile = () => {
   };
 
   return (
-    <>
+    <div>
       <div className="Profile">
         <div className="Profile-Upper-Section">
           <div className="Profile-left">
@@ -98,7 +97,7 @@ const Profile = () => {
           }}
         />
       </dialog>
-    </>
+    </div>
   );
 };
 
