@@ -7,6 +7,11 @@ const { isAuthenticated } = require('../middleware/auth_middleware');
 
 router.get('/', isAuthenticated, listings_controller.retrieve_school_listings);
 
-router.post('/', upload.single('image'), listings_controller.add_listing);
+router.post('/', isAuthenticated, upload.single('image'), listings_controller.add_listing);
+
+// router.post('/', isAuthenticated, upload.single('image'), (req, res) => {
+//     console.log(req.body);
+//     res.status(201).send('bruh');
+// });
 
 module.exports = router;
