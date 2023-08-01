@@ -5,6 +5,8 @@ const db = require('../mysql/mysql');
 const { isAuthenticated } = require('../middleware/auth_middleware');
 
 /* GET users listing. */
+router.get('/', user_controller.fetch_user_description);
+
 router.patch('/', user_controller.update_user_info);
 
 
