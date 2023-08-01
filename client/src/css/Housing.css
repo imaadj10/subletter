@@ -16,6 +16,11 @@
     text-align: left;
     padding-bottom: 1em;
     cursor: pointer;
+    transition: all 250ms;
+}
+
+.residence:hover {
+    transform: scale(1.02);
 }
 
 .address-container {
