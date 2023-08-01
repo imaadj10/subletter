@@ -10,6 +10,7 @@ const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
 const registerRouter = require('./routes/register');
 const listingsRouter = require('./routes/listings');
+const schoolsRouter = require('./routes/schools');
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
 app.use('/listings', listingsRouter);
+app.use('/images', express.static('./public/images'));
+app.use('/schools', schoolsRouter);
 app.use('/images', express.static('./images'));
 
 const port = 1234;
