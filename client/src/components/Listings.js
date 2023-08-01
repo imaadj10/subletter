@@ -1,14 +1,13 @@
 import '../css/Listings.css';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
-import UserContext from '../UserContext';
 
 const Listings = () => {
-  const { globalUsername } = useContext(UserContext);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
+  const username = cookies.get('USERNAME');
 
   const types = {
     items: 'Items',
@@ -23,7 +22,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/listings/?username=${globalUsername}`, {
+      .get(`http://localhost:1234/listings/?username=${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -60,7 +59,7 @@ const Listings = () => {
           <button className="plus" onClick={createNewListing} />
           <div className="options">
             <div className="option">
-              <label for="search">Filter For a Listing</label>
+              <label htmlFor="search">Filter For a Listing</label>
               <input
                 name="search"
                 type="text"
@@ -124,8 +123,8 @@ const Listings = () => {
                     alt="Tallwood"
                   />
                 </div>
-                <div className="listing-name">{listing.description}</div>
-                <div className="listing-residence">Posted by {listing.username}</div>
+                <div className="listing-name">{listing.name}</div>
+                <div className="listing-username">Posted by {listing.username}</div>
                 <div className="listing-price">${listing.price}</div>
               </div>
             );
@@ -133,7 +132,10 @@ const Listings = () => {
         </div>
       </div>
       <dialog data-modal id="create-new-listing-modal">
-        <NewListing />
+        <NewListing 
+        props={{
+          username,
+        }}/>
       </dialog>
     </>
   );

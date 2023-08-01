@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../mysql/mysql');
-const auth_controller = require('../controllers/auth_controller');
+const { isAuthenticated } = require('../middleware/auth_middleware');
 
 /* GET users listing. */
-router.get('/', auth_controller.isAuthenticated, function(req, res, next) {
+router.get('/', isAuthenticated, function (req, res) {
   const name = req.query.name; // Access the "name" query parameter
-  let query = name? `SELECT * FROM names WHERE name = '${name}'` : 'SELECT * FROM names'; // Use the value of "name" in the query
+  let query = name
+    ? `SELECT * FROM names WHERE name = '${name}'`
+    : 'SELECT * FROM names'; // Use the value of "name" in the query
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
