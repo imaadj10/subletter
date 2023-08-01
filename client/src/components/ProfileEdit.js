@@ -1,12 +1,16 @@
 import { useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '../css/Profile.css';
 import axios from 'axios';
 
 export default function EditProfile({ props }) {
+  const history = useNavigate();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
   async function submit(e) {
+    e.preventDefault()
+    
     if (!usernameRef.current.value || !passwordRef.current.value) {
       closeModal(e);
     } else {
@@ -16,18 +20,27 @@ export default function EditProfile({ props }) {
         const new_password = passwordRef.current.value;
 
         // Make a POST request to the server with the new_username and new_password in the request body
-        await axios.patch('http://localhost:1234/users', {
-          old_username: props.globalUsername,
-          new_username: new_username,
-          new_password, // Shorthand notation since the variable name matches the property name
-        });
+        console.log(props.globalUsername);
+        console.log(new_username);
+        console.log(new_password);
 
-        // Update global state or prop values using the provided functions
-        props.setGlobalUsername(new_username);
-        props.setPassword(new_password);
-
-        // Close the modal
-        closeModal(e);
+        await axios
+          .patch('http://localhost:1234/users', {
+            old_username: props.globalUsername,
+            new_username: new_username,
+            new_password: new_password, // Shorthand notation since the variable name matches the property name
+          })
+          .then((res) => {
+            props.setGlobalUsername(new_username);
+            props.setPassword(new_password);
+            closeModal(e);
+            console.log(props.globalUsername);
+            history('/profile', {});
+          })
+          .catch((e) => {
+            alert('Res then failed');
+            console.log(e);
+          });
       } catch (e) {
         // If an error occurs, show an alert and log the error
         alert('Failed to change info');
