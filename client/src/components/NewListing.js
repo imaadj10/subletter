@@ -7,6 +7,9 @@ export default function NewListing({ props }) {
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
   const [type, setType] = useState('sublet');
+  const [quantity, setQuantity] = useState();
+  const [unitType, setUnitType] = useState();
+  const [residence, setResidence] = useState();
   const [file, setFile] = useState();
 
   // const uploadImage = (e) => {
@@ -25,11 +28,14 @@ export default function NewListing({ props }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("username", props.globalUsername);
+    formData.append("username", props.username);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("type", type);
+    formData.append("quantity", quantity);
+    formData.append("unitType", unitType);
+    formData.append("residence", residence);
     formData.append("image", file);
 
     axios.post('http://localhost:1234/listings', formData, { headers: {'Content-Type': 'multipart/form-data'}});
@@ -40,6 +46,47 @@ export default function NewListing({ props }) {
     e.preventDefault();
     document.getElementById('create-new-listing-modal').close();
   };
+  
+  let inputSection;
+  if (type === 'item') {
+    inputSection = (
+      /* JSX for the input section when type is "Items" */
+      <div>
+        <label htmlFor="quantity">Quantity</label>
+        <input
+          className="big-text-field"
+          name="quantity"
+          min="0"
+          step="1"
+          type="number"
+          placeholder="Quantity"
+          onChange={e => setQuantity(e.target.value)} 
+        ></input>
+      </div>
+    );
+  } else if (type === 'sublet') {
+    inputSection = (
+      /* JSX for the input section when type is "Sublets" */
+      <div>
+        <label htmlFor="unitType">Unit Type</label>
+        <input
+          className="big-text-field"
+          name="unitType"
+          type="text"
+          placeholder="Unit Type"
+          onChange={e => setUnitType(e.target.value)} 
+        ></input>
+        <label htmlFor="residence">Residence Name</label>
+        <input
+          className="big-text-field"
+          name="residence"
+          type="text"
+          placeholder="Residence Name"
+          onChange={e => setResidence(e.target.value)} 
+        ></input>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -84,7 +131,7 @@ export default function NewListing({ props }) {
           <option value="sublet">Sublet</option>
           <option value="item">Item</option>
         </select>
-
+        {inputSection}
         <label for="image">Image</label>
         <input
           id = "input"

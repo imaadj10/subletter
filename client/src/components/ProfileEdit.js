@@ -1,19 +1,55 @@
 import { useRef } from 'react';
 import '../css/Profile.css';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function EditProfile({ props }) {
+  const cookies = new Cookies();
+  const history = useNavigate();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const submit = (e) => {
-    if (!usernameRef.current.value || !passwordRef.current.value) {
+  async function submit(e) {
+    e.preventDefault();
+
+    if (!usernameRef.current.value && !passwordRef.current.value) {
       closeModal(e);
     } else {
-      props.setGlobalUsername(usernameRef.current.value);
-      props.setPassword(passwordRef.current.value);
-      closeModal(e);
+      try {
+        // Get the new_username and new_password from the input fields using refs
+        const new_username = usernameRef.current.value;
+        const new_password = passwordRef.current.value;
+
+        await axios
+          .patch('http://localhost:1234/users', {
+            old_username: props.username,
+            new_username: new_username,
+            new_password: new_password, 
+          })
+          .then((res) => {
+            cookies.set('TOKEN', res.data.token, {
+              path: '/',
+            });
+            cookies.set('USERNAME', res.data.username, {
+              path: '/',
+            });
+            closeModal(e);
+            history('/profile', {});
+          })
+          .catch((e) => {
+            alert('Res then failed');
+            console.log(e);
+          });
+      } catch (e) {
+        // If an error occurs, show an alert and log the error
+        alert('Failed to change info');
+        console.log(e);
+      }
     }
-  };
+  }
 
   const closeModal = (e) => {
     e.preventDefault();
@@ -21,7 +57,7 @@ export default function EditProfile({ props }) {
   };
 
   return (
-    <>
+    <div>
       <form onSubmit={submit}>
         <h1>Account Details</h1>
         <label htmlFor="username">Username</label>
@@ -29,7 +65,7 @@ export default function EditProfile({ props }) {
           ref={usernameRef}
           type="text"
           name="username"
-          defaultValue={props.globalUsername}
+          defaultValue=''
         />
 
         <label htmlFor="password">Password</label>
@@ -37,7 +73,7 @@ export default function EditProfile({ props }) {
           ref={passwordRef}
           type="password"
           name="password"
-          defaultValue={props.password}
+          defaultValue=''
         />
 
         <div className="buttons-container">
@@ -47,6 +83,6 @@ export default function EditProfile({ props }) {
           <button type="submit">Submit</button>
         </div>
       </form>
-    </>
+    </div>
   );
 }

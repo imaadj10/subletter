@@ -1,5 +1,5 @@
 import '../css/Listings.css';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
@@ -7,10 +7,10 @@ import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Listings = () => {
-  const { globalUsername } = useContext(UserContext);
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
+  const username = cookies.get('USERNAME');
 
   const types = {
     items: 'Items',
@@ -25,7 +25,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/listings/?username=${globalUsername}`, {
+      .get(`http://localhost:1234/listings/?username=${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -143,7 +143,7 @@ const Listings = () => {
       <dialog data-modal id="create-new-listing-modal">
         <NewListing
           props={{
-            globalUsername,
+            username,
           }}
         />
       </dialog>

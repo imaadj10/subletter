@@ -1,19 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const user_controller = require('../controllers/user_controller');
 const db = require('../mysql/mysql');
 const { isAuthenticated } = require('../middleware/auth_middleware');
 
 /* GET users listing. */
-router.get('/', isAuthenticated, function (req, res, next) {
-  let name = 'Imaad';
-  let query = `SELECT IF('${name}' IN (SELECT username FROM users), true, false) AS result`;
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      return res.status(500).json({ error: 'Error executing query' });
-    }
-    res.json(results); // Send the fetched data as a JSON response
-  });
-});
+router.patch('/', user_controller.update_user_info);
+
 
 module.exports = router;

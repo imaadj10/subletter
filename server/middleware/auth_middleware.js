@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../mysql/mysql');
 const bcrypt = require('bcrypt');
 
-const verifyUser = async (username, password) => {
+exports.verifyUser = async (username, password) => {
   try {
     const userQuery =
       'SELECT EXISTS (SELECT 1 FROM users WHERE username = ?) AS userExists';
@@ -25,7 +25,7 @@ const verifyUser = async (username, password) => {
   }
 };
 
-const isAuthenticated = async (req, res, next) => {
+exports.isAuthenticated = async (req, res, next) => {
   try {
     //   get the token from the authorization header
     const token = await req.headers.authorization.split(' ')[1];
@@ -57,9 +57,4 @@ const getUserName = async (username) => {
   const query = `SELECT name FROM users WHERE username="${username}"`;
   const queryResult = await db.query(query);
   return queryResult[0][0].name;
-};
-
-module.exports = {
-  verifyUser,
-  isAuthenticated,
 };
