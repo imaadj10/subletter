@@ -2,10 +2,14 @@ const bcrypt = require('bcrypt');
 const db = require('../mysql/mysql');
 const registration_middleware = require('../middleware/registration_middleware');
 
+
+// Needs to be tested
 exports.get_user_description = async (username) => {
   const result = await db.query(
-    
+    `SELECT description FROM users WHERE username = ${username}`
   );
+  const description = result[0][0].description;
+  return description;
 };
 
 exports.update_user_info = async (old_username, new_username, new_password) => {
