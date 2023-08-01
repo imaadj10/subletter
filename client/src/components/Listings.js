@@ -60,7 +60,7 @@ const Listings = () => {
           <button className="plus" onClick={createNewListing} />
           <div className="options">
             <div className="option">
-              <label for="search">Filter For a Listing</label>
+              <label htmlFor="search">Filter For a Listing</label>
               <input
                 name="search"
                 type="text"
@@ -125,7 +125,9 @@ const Listings = () => {
                   />
                 </div>
                 <div className="listing-name">{listing.description}</div>
-                <div className="listing-residence">Posted by {listing.username}</div>
+                <div className="listing-residence">
+                  Posted by {listing.username}
+                </div>
                 <div className="listing-price">${listing.price}</div>
               </div>
             );

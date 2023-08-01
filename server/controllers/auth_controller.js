@@ -1,52 +1,26 @@
-const jwt = require("jsonwebtoken");
-const auth_middleware = require ('../middleware/auth_middleware')
+const jwt = require('jsonwebtoken');
+const { verifyUser } = require('../middleware/auth_middleware');
 
 exports.process_login = async (req, res) => {
-    const { username, password } = req.body;
-    
-    // Find the user with the given username and password in the users array (replace this with a database query)
-    const validLogin = await auth_middleware.verifyUser(username, password);
-    if (validLogin) {
-      const token = jwt.sign(
-        {
-            username: username
-        },
-        "RANDOM-TOKEN",
-        { expiresIn: "24h" }
-      );
+  const { username, password } = req.body;
 
-      res.status(201).send({
+  // Find the user with the given username and password in the users array (replace this with a database query)
+  const validLogin = await verifyUser(username, password);
+  if (validLogin) {
+    const token = jwt.sign(
+      {
         username: username,
-        token,
-      });
-    } else {
-      // If the user is not found, return an error
-      res.status(400).json({ message: 'Invalid Username or Password' });
-    }
-};
+      },
+      'RANDOM-TOKEN',
+      { expiresIn: '24h' }
+    );
 
-exports.isAuthenticated = async (req, res, next) => {
-    try {
-      //   get the token from the authorization header
-      const token = await req.headers.authorization.split(" ")[1];
-  
-      //check if the token matches the supposed origin
-      const decodedToken = await jwt.verify(token, "RANDOM-TOKEN");
-  
-      // retrieve the user details of the logged in user
-      const user = await decodedToken;
-  
-      // pass the user down to the endpoints here
-      req.user = user;
-  
-      // pass down functionality to the endpoint
-      next();
-      
-    } catch (error) {
-      res.status(401).json({
-        error: new Error("Invalid request!"),
-      });
-    }
-  };
-  
-  
+    res.status(201).send({
+      username: username,
+      token,
+    });
+  } else {
+    // If the user is not found, return an error
+    res.status(400).json({ message: 'Invalid Username or Password' });
+  }
+};

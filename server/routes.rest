@@ -1,6 +1,2 @@
-GET http://localhost:1234/schools
-Content-Type:application/json
-
-{
-    "text":""
-}
+GET http://localhost:1234/housinginfo
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjkwODQ3MjQ2LCJleHAiOjE2OTA5MzM2NDZ9.oZCDSBQXsYrtbtKOIrnHiO0rJRQRT4EcoyDKMJgrZ-4
