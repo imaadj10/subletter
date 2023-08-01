@@ -42,7 +42,7 @@ export default function EditProfile({ props }) {
         }
 
         await axios
-          .patch('http://localhost:1234/users/update', {
+          .patch('http://localhost:1234/users', {
             old_username: props.username,
             new_username: input_username,
             new_password: new_password,

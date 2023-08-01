@@ -7,7 +7,7 @@ const { isAuthenticated } = require('../middleware/auth_middleware');
 /* GET users listing. */
 router.get('/', user_controller.fetch_user_description);
 
-router.patch('/update', user_controller.update_user_info);
+router.patch('/', user_controller.update_user_info);
 
 
 module.exports = router;
