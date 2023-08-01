@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const user_controller = require('../controllers/user_controller');
 const db = require('../mysql/mysql');
 const { isAuthenticated } = require('../middleware/auth_middleware');
 
