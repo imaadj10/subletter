@@ -11,6 +11,7 @@ export default function EditProfile({ props }) {
   const history = useNavigate();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   async function submit(e) {
     e.preventDefault();
@@ -72,6 +73,14 @@ export default function EditProfile({ props }) {
           ref={passwordRef}
           type="password"
           name="password"
+          defaultValue=''
+        />
+
+        <label htmlFor="description">Description</label>
+        <textarea
+          ref={descriptionRef}
+          type="text"
+          name="description"
           defaultValue=''
         />
 
