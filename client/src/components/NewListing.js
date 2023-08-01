@@ -7,6 +7,7 @@ export default function NewListing({ props }) {
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
   const [type, setType] = useState('sublet');
+  const [quantity, setQuantity] = useState();
   const [file, setFile] = useState();
 
   // const uploadImage = (e) => {
@@ -40,6 +41,32 @@ export default function NewListing({ props }) {
     e.preventDefault();
     document.getElementById('create-new-listing-modal').close();
   };
+  
+  let inputSection;
+  if (type === 'item') {
+    inputSection = (
+      /* JSX for the input section when type is "Items" */
+      <div>
+        <label htmlFor="quantity">Quantity</label>
+        <input
+          className="big-text-field"
+          name="quantity"
+          min="0"
+          step="1"
+          type="number"
+          placeholder="Quantity"
+          onChange={e => setQuantity(e.target.value)} 
+        ></input>
+      </div>
+    );
+  } else if (type === 'sublet') {
+    inputSection = (
+      /* JSX for the input section when type is "Sublets" */
+      <div>
+        <p>Bruh</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -84,7 +111,7 @@ export default function NewListing({ props }) {
           <option value="sublet">Sublet</option>
           <option value="item">Item</option>
         </select>
-
+        {inputSection}
         <label for="image">Image</label>
         <input
           id = "input"
