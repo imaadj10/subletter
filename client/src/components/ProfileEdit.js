@@ -31,11 +31,12 @@ export default function EditProfile({ props }) {
             new_password: new_password, 
           })
           .then((res) => {
-            if (new_username) {
-              cookies.set('USERNAME', new_username, {
-                path: '/',
-              });
-            }
+            cookies.set('TOKEN', res.data.token, {
+              path: '/',
+            });
+            cookies.set('USERNAME', res.data.username, {
+              path: '/',
+            });
             closeModal(e);
             history('/profile', {});
           })

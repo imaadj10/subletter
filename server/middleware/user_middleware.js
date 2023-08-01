@@ -18,11 +18,6 @@ exports.update_user_info = async (old_username, new_username, new_password) => {
       ]);
     }
 
-    // await db.query('UPDATE users SET username = ? WHERE username = ?', [
-    //   new_username,
-    //   old_username,
-    // ]);
-
     if (isValidUsername && new_username && new_username.length > 0 && new_username != old_username) {
       await db.query('UPDATE users SET username = ? WHERE username = ?', [
         new_username,
@@ -33,4 +28,6 @@ exports.update_user_info = async (old_username, new_username, new_password) => {
   } catch (e) {
     console.log(e);
   }
+
+  return new_username != '' ? new_username : old_username;
 };
