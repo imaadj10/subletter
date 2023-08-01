@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 const db = require('../mysql/mysql');
 const registration_middleware = require('../middleware/registration_middleware');
 
+exports.get_user_description = async (username) => {
+
+};
+
 
 exports.update_user_info = async (old_username, new_username, new_password) => {
   const isValidUsername = await registration_middleware.isValidUsername(new_username);

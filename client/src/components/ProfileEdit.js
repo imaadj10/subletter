@@ -25,7 +25,7 @@ export default function EditProfile({ props }) {
         const new_password = passwordRef.current.value;
 
         await axios
-          .patch('http://localhost:1234/users', {
+          .patch('http://localhost:1234/users/update', {
             old_username: props.username,
             new_username: new_username,
             new_password: new_password, 
