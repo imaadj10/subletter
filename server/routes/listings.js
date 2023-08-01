@@ -5,8 +5,11 @@ const router = express.Router();
 const listings_controller = require('../controllers/listings_controller');
 const { isAuthenticated } = require('../middleware/auth_middleware');
 
-router.get('/', isAuthenticated, listings_controller.retrieve_school_listings);
+router
+  .route('/')
+  .get(isAuthenticated, listings_controller.retrieve_school_listings)
+  .post(upload.single('image'), listings_controller.add_listing);
 
-router.post('/', upload.single('image'), listings_controller.add_listing);
+router.route('/:id').get(isAuthenticated, listings_controller.getSingleListing);
 
 module.exports = router;

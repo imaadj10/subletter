@@ -4,9 +4,11 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
 import UserContext from '../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Listings = () => {
   const { globalUsername } = useContext(UserContext);
+  const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
 
@@ -51,6 +53,10 @@ const Listings = () => {
 
   const createNewListing = () => {
     document.getElementById('create-new-listing-modal').showModal();
+  };
+
+  const openListing = (e) => {
+    navigate(window.location.href + e.target.lid);
   };
 
   return (
@@ -117,7 +123,7 @@ const Listings = () => {
         <div className="listings">
           {listings.map((listing) => {
             return (
-              <div className="listing" key={listing.lid}>
+              <div className="listing" key={listing.lid} onClick={openListing}>
                 <div className="listing-image">
                   <img
                     src={`http://localhost:1234/images/${listing.image}`}
@@ -125,7 +131,9 @@ const Listings = () => {
                   />
                 </div>
                 <div className="listing-name">{listing.name}</div>
-                <div className="listing-username">Posted by {listing.username}</div>
+                <div className="listing-username">
+                  Posted by {listing.username}
+                </div>
                 <div className="listing-price">${listing.price}</div>
               </div>
             );
@@ -133,10 +141,11 @@ const Listings = () => {
         </div>
       </div>
       <dialog data-modal id="create-new-listing-modal">
-        <NewListing 
-        props={{
-          globalUsername,
-        }}/>
+        <NewListing
+          props={{
+            globalUsername,
+          }}
+        />
       </dialog>
     </>
   );

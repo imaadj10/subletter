@@ -35,6 +35,10 @@ link {
   background-color:white;
 }
 
+nav {
+  z-index:1000;
+}
+
 button {
   padding:0.8rem;
   background-color: black;

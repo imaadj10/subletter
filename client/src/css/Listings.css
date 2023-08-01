@@ -16,11 +16,10 @@
     text-align: left;
     padding-bottom: 1em;
     cursor: pointer;
-    transition: all 250ms;
 }
 
 .listing:hover {
-    transform: scale(1.04);
+    border:3px solid var(--g1);
 }
 
 .listing-name {
