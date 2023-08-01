@@ -61,17 +61,7 @@ const Profile = () => {
             <h1 className="Profile-name">{username}</h1>
             <div className="Profile-description">
               <p>
-                Hey there! I'm Alex, a spirited university student with an
-                insatiable wanderlust and an unyielding love for music. Majoring
-                in Anthropology, I'm constantly fascinated by the diverse
-                cultures that shape our world. When I'm not buried in books,
-                you'll find me exploring the great outdoors, camera in hand,
-                capturing the breathtaking landscapes and candid moments that
-                inspire my soul. As a budding musician, I spend my free time
-                strumming melodies on my acoustic guitar or losing myself in the
-                lyrics of classic rock bands. I'm always up for spontaneous
-                adventures, whether it's hiking to a hidden waterfall or jamming
-                with fellow music enthusiasts.
+                {description}
               </p>
             </div>
           </div>
