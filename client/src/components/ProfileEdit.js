@@ -16,7 +16,8 @@ export default function EditProfile({ props }) {
         const new_password = passwordRef.current.value;
 
         // Make a POST request to the server with the new_username and new_password in the request body
-        await axios.post('http://localhost:1234/users', {
+        await axios.patch('http://localhost:1234/users', {
+          old_username: props.globalUsername,
           new_username: new_username,
           new_password, // Shorthand notation since the variable name matches the property name
         });

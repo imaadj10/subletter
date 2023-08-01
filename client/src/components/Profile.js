@@ -14,6 +14,7 @@ const Profile = () => {
   const [password, setPassword] = useState('abc');
 
   const logout = () => {
+    setGlobalUsername(undefined);
     cookies.remove('TOKEN', { path: '/' });
     history('/home', {});
   };
