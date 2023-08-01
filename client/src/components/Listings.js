@@ -124,7 +124,7 @@ const Listings = () => {
                     alt="Tallwood"
                   />
                 </div>
-                <div className="listing-name">{listing.description}</div>
+                <div className="listing-name">{listing.name}</div>
                 <div className="listing-residence">Posted by {listing.username}</div>
                 <div className="listing-price">${listing.price}</div>
               </div>
@@ -133,7 +133,10 @@ const Listings = () => {
         </div>
       </div>
       <dialog data-modal id="create-new-listing-modal">
-        <NewListing />
+        <NewListing 
+        props={{
+          globalUsername,
+        }}/>
       </dialog>
     </>
   );

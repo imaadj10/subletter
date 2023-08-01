@@ -8,3 +8,7 @@ exports.retrieve_school_listings = async (req, res) => {
     res.status(401).json({ message: 'Error Fetching Listings' });
   }
 };
+
+exports.add_listing = (req, res) => {
+  
+};
