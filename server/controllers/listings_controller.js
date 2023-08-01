@@ -24,11 +24,12 @@ exports.add_listing = async (req, res) => {
 
 exports.getSingleListing = async (req, res) => {
   try {
-    const lid = req.params.id;
+    const lid = parseInt(req.params.id);
+    console.log(lid);
     const query = `SELECT * FROM listings WHERE lid=${lid}`;
-    const queryResult = db.query(query);
-    console.log(queryResult[0][0]);
-    res.status(200).json(queryResult[0][0]);
+    const queryResult = await db.query(query);
+    const listing = queryResult[0][0];
+    res.status(200).json(listing);
   } catch (e) {
     res.status(404).json({ message: e });
   }

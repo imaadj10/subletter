@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import axios from 'axios';
 import '../css/Listings.css';
 
@@ -28,17 +28,19 @@ export default function NewListing({ props }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("username", props.username);
-    formData.append("name", name);
-    formData.append("price", price);
-    formData.append("description", description);
-    formData.append("type", type);
-    formData.append("quantity", quantity);
-    formData.append("unitType", unitType);
-    formData.append("residence", residence);
-    formData.append("image", file);
+    formData.append('username', props.username);
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('type', type);
+    formData.append('quantity', quantity);
+    formData.append('unitType', unitType);
+    formData.append('residence', residence);
+    formData.append('image', file);
 
-    axios.post('http://localhost:1234/listings', formData, { headers: {'Content-Type': 'multipart/form-data'}});
+    axios.post('http://localhost:1234/listings', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     closeModal(e);
   };
 
@@ -46,7 +48,7 @@ export default function NewListing({ props }) {
     e.preventDefault();
     document.getElementById('create-new-listing-modal').close();
   };
-  
+
   let inputSection;
   if (type === 'item') {
     inputSection = (
@@ -60,7 +62,7 @@ export default function NewListing({ props }) {
           step="1"
           type="number"
           placeholder="Quantity"
-          onChange={e => setQuantity(e.target.value)} 
+          onChange={(e) => setQuantity(e.target.value)}
         ></input>
       </div>
     );
@@ -74,7 +76,7 @@ export default function NewListing({ props }) {
           name="unitType"
           type="text"
           placeholder="Unit Type"
-          onChange={e => setUnitType(e.target.value)} 
+          onChange={(e) => setUnitType(e.target.value)}
         ></input>
         <label htmlFor="residence">Residence Name</label>
         <input
@@ -82,7 +84,7 @@ export default function NewListing({ props }) {
           name="residence"
           type="text"
           placeholder="Residence Name"
-          onChange={e => setResidence(e.target.value)} 
+          onChange={(e) => setResidence(e.target.value)}
         ></input>
       </div>
     );
@@ -97,7 +99,7 @@ export default function NewListing({ props }) {
           name="name"
           type="text"
           placeholder="Name"
-          onChange={e => setName(e.target.value)} 
+          onChange={(e) => setName(e.target.value)}
         ></input>
 
         <label htmlFor="price">Price</label>
@@ -107,26 +109,26 @@ export default function NewListing({ props }) {
           type="number"
           min="0"
           placeholder="0"
-          onChange={e => setPrice(e.target.value)} 
+          onChange={(e) => setPrice(e.target.value)}
           step="50"
         ></input>
 
-        <label for="name">Description</label>
+        <label htmlFor="name">Description</label>
         <textarea
           className="big-text-field"
           name="description"
           type="text"
           rows="10"
-          onChange={e => setDescription(e.target.value)} 
+          onChange={(e) => setDescription(e.target.value)}
           placeholder="Write a detailed description of your listing..."
         ></textarea>
 
-        <label for="type">Type</label>
+        <label htmlFor="type">Type</label>
         <select
           className="selector"
           name="type"
           type="text"
-          onChange={e => setType(e.target.value)} 
+          onChange={(e) => setType(e.target.value)}
         >
           <option value="sublet">Sublet</option>
           <option value="item">Item</option>
@@ -134,10 +136,10 @@ export default function NewListing({ props }) {
         {inputSection}
         <label for="image">Image</label>
         <input
-          id = "input"
-          filename={file} 
-          onChange={e => setFile(e.target.files[0])} 
-          type="file" 
+          id="input"
+          filename={file}
+          onChange={(e) => setFile(e.target.files[0])}
+          type="file"
           accept="image/*"
         ></input>
         <img id="output" alt="user-uploaded" />

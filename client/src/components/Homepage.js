@@ -1,5 +1,5 @@
 import '../css/Homepage.css';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 

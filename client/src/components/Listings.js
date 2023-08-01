@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
-import UserContext from '../UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Listings = () => {
@@ -53,10 +52,6 @@ const Listings = () => {
 
   const createNewListing = () => {
     document.getElementById('create-new-listing-modal').showModal();
-  };
-
-  const openListing = (e) => {
-    navigate(window.location.href + e.target.lid);
   };
 
   return (
@@ -123,19 +118,14 @@ const Listings = () => {
         <div className="listings">
           {listings.map((listing) => {
             return (
-              <div className="listing" key={listing.lid} onClick={openListing}>
-                <div className="listing-image">
-                  <img
-                    src={`http://localhost:1234/images/${listing.image}`}
-                    alt="Tallwood"
-                  />
-                </div>
-                <div className="listing-name">{listing.name}</div>
-                <div className="listing-username">
-                  Posted by {listing.username}
-                </div>
-                <div className="listing-price">${listing.price}</div>
-              </div>
+              <Listing
+                key={listing.lid}
+                lid={listing.lid}
+                name={listing.name}
+                username={listing.username}
+                price={listing.price}
+                image={listing.image}
+              />
             );
           })}
         </div>
@@ -147,6 +137,27 @@ const Listings = () => {
           }}
         />
       </dialog>
+    </>
+  );
+};
+
+const Listing = ({ lid, name, username, price, image }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    navigate(e.currentTarget.id);
+  };
+
+  return (
+    <>
+      <div className="listing" id={lid} onClick={handleClick}>
+        <div className="listing-image">
+          <img src={`http://localhost:1234/images/${image}`} alt="Tallwood" />
+        </div>
+        <div className="listing-name">{name}</div>
+        <div className="listing-username">Posted by {username}</div>
+        <div className="listing-price">${price}</div>
+      </div>
     </>
   );
 };
