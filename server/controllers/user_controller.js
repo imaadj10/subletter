@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const user_middleware = require('../middleware/user_middleware');
 
-exports.fetch_user_description = async (req, res) => {
+exports.fetch_user_info= async (req, res) => {
   try {
-    const result = await user_middleware.get_user_description(req.query.username);
+    const result = await user_middleware.get_user_info(req.query.username);
     res.status(200).send(result);
   } catch (e) {
     res.status(401).json({ message: 'Error Fetching Description '});
