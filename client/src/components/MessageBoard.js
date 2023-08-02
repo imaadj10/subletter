@@ -33,14 +33,27 @@ const MessageBoard = () => {
   }, [messages]);
 
   const submit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      axios.post(`http://localhost:1234/messages/${conversation_partner}`, 
-                { message : sentMessage }, 
-                { headers: { Authorization: `Bearer ${token}`}})
-      .then(() => setSentMessage(''));
+      await axios.post(
+        `http://localhost:1234/messages/${conversation_partner}`,
+        { message: sentMessage },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      // Fetch the updated messages after sending the new message
+      const response = await axios.get(
+        `http://localhost:1234/messages/${conversation_partner}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      // Update the messages state with the new messages
+      setMessages(response.data);
+  
+      // Clear the input after successful message send
+      setSentMessage('');
     } catch (error) {
-      console.log(e);
+      console.log(error);
     }
   };
 
