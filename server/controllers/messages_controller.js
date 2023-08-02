@@ -29,9 +29,13 @@ exports.get_conversations = async (req, res) => {
 
 exports.get_conversation_messages = async (req, res) => {
   try {
-    const query = `SELECT * FROM messages
+    const query = req.user.username !== req.params.conversation ?
+                  `SELECT * FROM messages
                     WHERE (sid = '${req.user.username}' OR rid = '${req.user.username}') AND (sid = '${req.params.conversation}' OR rid = '${req.params.conversation}')
-                    ORDER BY time_sent ASC;`;
+                    ORDER BY time_sent ASC;` :
+                  `SELECT * FROM messages
+                    WHERE sid = '${req.user.username}' AND rid = '${req.user.username}'
+                    ORDER BY time_sent ASC;`
     const result = await db.query(query);
     res.status(200).send(result[0]);
   } catch (error) {
