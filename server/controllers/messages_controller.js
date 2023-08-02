@@ -1,5 +1,5 @@
-const messages_middleware = require("../middleware/messages_middleware");
 const db = require("../mysql/mysql");
+const io = require('../app');
 
 exports.get_conversations = async (req, res) => {
   try {
@@ -44,6 +44,13 @@ exports.send_new_message = async (req, res) => {
         const query = `INSERT INTO messages(sid, rid, content)
                         VALUES ('${req.user.username}', '${req.params.conversation}', '${req.body.message}')`;
         await db.query(query);
+        // Emit the 'new_message' event to relevant clients
+        const message = {
+            sid: req.user.username,
+            rid: req.params.conversation,
+            content: req.body.message
+          };
+        io.emit('new_message', message);
         res.status(201).send('Message sent.')
     } catch (error) {
         res.status(401).json({ message: 'Error Sending Messages' });
