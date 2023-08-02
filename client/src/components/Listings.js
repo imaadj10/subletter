@@ -134,6 +134,7 @@ const Listings = () => {
         <NewListing
           props={{
             username,
+            token,
           }}
         />
       </dialog>

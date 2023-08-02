@@ -23,6 +23,7 @@ export default function SingleListing() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log({ ...res.data });
         setListing({ ...res.data });
       })
       .catch((e) => console.log(e));

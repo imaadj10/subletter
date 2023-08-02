@@ -3,8 +3,10 @@
 }
 
 .Profile-Upper-Section {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
     gap: 2rem;
+    /* border: 2px solid purple; */
 }
 
 .Profile-image img {
@@ -28,11 +30,12 @@
 
 
 .Profile-right {
-    /* border: 2px solid red; */
+    /* border: 2px solid blue; */
     padding-left: 1rem;
 }
 
 .Profile-name {
+    margin-top: 0;
     font-size: 3em;
 }
 

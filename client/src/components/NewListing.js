@@ -28,7 +28,7 @@ export default function NewListing({ props }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('username', props.username);
+    //formData.append('username', props.username);
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
@@ -39,7 +39,10 @@ export default function NewListing({ props }) {
     formData.append('image', file);
 
     axios.post('http://localhost:1234/listings', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${props.token}`,
+      },
     });
     closeModal(e);
   };
@@ -58,7 +61,7 @@ export default function NewListing({ props }) {
         <input
           className="big-text-field"
           name="quantity"
-          min="0"
+          min="1"
           step="1"
           type="number"
           placeholder="Quantity"

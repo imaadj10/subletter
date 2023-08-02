@@ -25,7 +25,6 @@ exports.add_listing = async (req, res) => {
 exports.getSingleListing = async (req, res) => {
   try {
     const lid = parseInt(req.params.id);
-    console.log(lid);
     const query = `SELECT * FROM listings WHERE lid=${lid}`;
     const queryResult = await db.query(query);
     const listing = queryResult[0][0];

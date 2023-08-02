@@ -35,7 +35,9 @@ exports.isAuthenticated = async (req, res, next) => {
 
     // pass the user down to the endpoints here
     const school = await getUserSchool(user.username);
+
     const name = await getUserName(user.username);
+
     req.user = { username: user.username, school, name };
 
     // pass down functionality to the endpoint
