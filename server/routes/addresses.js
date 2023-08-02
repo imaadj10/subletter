@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getAddress } = require('../controllers/addresses_controller.js');
+const addresses_controller = require('../controllers/addresses_controller.js');
 
-router.route('/').get(getAddress);
+router.get('/', addresses_controller.getAddress);
 
 module.exports = router;
