@@ -1,6 +1,4 @@
 const db = require('../mysql/mysql');
-const fs = require('fs');
-const path = require('path');
 
 exports.retrieve_school_listings = async (username) => {
   const result = await db.query(

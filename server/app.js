@@ -14,6 +14,7 @@ const schoolsRouter = require('./routes/schools');
 const housingRouter = require('./routes/housing');
 const commentsRouter = require('./routes/comments');
 const addressRouter = require('./routes/addresses');
+const messagesRouter = require('./routes/messages');
 
 const app = express();
 
@@ -43,12 +44,12 @@ app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/register', registerRouter);
 app.use('/listings', listingsRouter);
-app.use('/images', express.static('./public/images'));
 app.use('/images', express.static('./images'));
 app.use('/schools', schoolsRouter);
 app.use('/housinginfo', housingRouter);
 app.use('/comments', commentsRouter);
 app.use('/addresses', addressRouter);
+app.use('/messages', messagesRouter);
 
 const port = 1234;
 app.listen(port, () => {
