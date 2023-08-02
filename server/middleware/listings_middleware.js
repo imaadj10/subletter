@@ -13,11 +13,12 @@ exports.retrieve_school_listings = async (username) => {
 };
 
 exports.add_new_listing = async (req) => {
-    const listings_query = `INSERT INTO listings (name, username, price, description, image)
+  const listings_query = `INSERT INTO listings (name, username, price, description, image)
                     VALUES('${req.body.name}', '${req.user.username}', ${req.body.price}, '${req.body.description}', '${req.file.filename}')`;
-    const type_query = req.body.type === 'sublet' ? 
-                            `INSERT INTO sublets(lid, type, res_name, school_name) VALUES(LAST_INSERT_ID(), '${req.body.unitType}', '${req.body.residence}', '${req.user.school}')` :
-                            `INSERT INTO items(lid, quantity) VALUES(LAST_INSERT_ID(), ${req.body.quantity})`;
-    await db.query(listings_query);
-    await db.query(type_query);
-}
+  const type_query =
+    req.body.type === 'sublet'
+      ? `INSERT INTO sublets(lid, type, res_name, school_name) VALUES(LAST_INSERT_ID(), '${req.body.unitType}', '${req.body.residence}', '${req.user.school}')`
+      : `INSERT INTO items(lid, quantity) VALUES(LAST_INSERT_ID(), ${req.body.quantity})`;
+  await db.query(listings_query);
+  await db.query(type_query);
+};

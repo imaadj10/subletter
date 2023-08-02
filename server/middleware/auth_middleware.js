@@ -43,6 +43,7 @@ exports.isAuthenticated = async (req, res, next) => {
     // pass down functionality to the endpoint
     next();
   } catch (error) {
+    console.log('failed to pass auth');
     res.status(401).json({
       error: new Error('Invalid request!'),
     });

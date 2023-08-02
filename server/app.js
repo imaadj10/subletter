@@ -14,6 +14,7 @@ const schoolsRouter = require('./routes/schools');
 const housingRouter = require('./routes/housing');
 const commentsRouter = require('./routes/comments');
 const addressRouter = require('./routes/addresses');
+const notificationRouter = require('./routes/notifications');
 const messagesRouter = require('./routes/messages');
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/schools', schoolsRouter);
 app.use('/housinginfo', housingRouter);
 app.use('/comments', commentsRouter);
 app.use('/addresses', addressRouter);
+app.use('/notifications', notificationRouter);
 app.use('/messages', messagesRouter);
 
 const port = 1234;

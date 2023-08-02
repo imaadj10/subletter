@@ -1,18 +1,14 @@
 export default function SingleNotification(props) {
   const { id, title, content, setNotifications } = props;
 
-  // function deleteNotificationDB() {
-  //     axios stuff
-  // }
-
-  function deleteNotification() {
+  const deleteNotification = () => {
     // deleteNotificationDB()
-    setNotifications((prevNotifs) => {
-      prevNotifs.filter((notif) => {
-        return notif.id !== id;
-      });
-    });
-  }
+    // setNotifications((prevNotifs) => {
+    //   prevNotifs.filter((notif) => {
+    //     return notif.id !== id;
+    //   });
+    // });
+  };
 
   return (
     <li className="notif-item">

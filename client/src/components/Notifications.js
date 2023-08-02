@@ -1,24 +1,43 @@
 import axios from 'axios';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SingleNotification from './SingleNotification';
 import '../css/Notifications.css';
+import Cookies from 'universal-cookie';
 
 const Notifications = () => {
-  // async function getAllNotifications() {
-  //     try {
-  //         await axios
-  //             .get('http://localhost:1234/notifications/:id')
-  //             .then( (res) => {
-
-  //             })
-  //     } catch (e) {
-  //         console.log(e);
-  //     }
-  // }
-
-  // a long string of json
   const [notifications, setNotifications] = useState([]);
+  const [valueNotifications, setValueNotifications] = useState([]);
+  const cookies = new Cookies();
+  const token = cookies.get('TOKEN');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:1234/notifications',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const notificationsData = response.data.map((notif) => ({
+          id: notif.nid,
+          title: notif.content,
+          content: 'blah blah blah new notification blah blah blah',
+        }));
+
+        setNotifications([...notifications,
+          ...notificationsData,
+        ]);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   return (
     <div className="notifs">
