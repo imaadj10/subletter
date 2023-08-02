@@ -1,24 +1,34 @@
 import axios from 'axios';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SingleNotification from './SingleNotification';
 import '../css/Notifications.css';
 
 const Notifications = () => {
-  // async function getAllNotifications() {
-  //     try {
-  //         await axios
-  //             .get('http://localhost:1234/notifications/:id')
-  //             .then( (res) => {
-
-  //             })
-  //     } catch (e) {
-  //         console.log(e);
-  //     }
-  // }
-
-  // a long string of json
   const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios
+          .get('http://localhost:1234/notifications')
+          .then((res) => {
+            const curr_notif = {
+              id: res.data.nid,
+              title: res.data.content,
+              content: 'blah blah blah new notification blah blah blah',
+            };
+
+            setNotifications([...notifications, curr_notif]);
+          })
+          .catch((e) => {});
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="notifs">
