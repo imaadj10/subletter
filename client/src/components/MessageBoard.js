@@ -108,7 +108,9 @@ const MessageBoard = () => {
           <div className="chat-box" ref={chatBoxRef}>
             {messages.map((message) => {
               return message.sid === username ? (
-                <div className="message-right">{message.content}</div>
+                  message.rid === username ? <><div className="message-right">{message.content}</div>
+                                             <div className="message-left">{message.content}</div></> :
+                                             <div className="message-right">{message.content}</div>
               ) : (
                 <div className="message-left">{message.content}</div>
               );
