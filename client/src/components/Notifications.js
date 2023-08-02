@@ -7,7 +7,6 @@ import Cookies from 'universal-cookie';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
-  const [valueNotifications, setValueNotifications] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
 
