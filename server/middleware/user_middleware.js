@@ -7,7 +7,6 @@ exports.get_user_info = async (username) => {
     'SELECT school_name, description FROM users WHERE username = ?', [
       username
   ]);
-  console.log(result[0]);
   return result[0][0];
 };
 
