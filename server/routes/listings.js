@@ -10,6 +10,6 @@ router
   .get(isAuthenticated, listings_controller.retrieve_school_listings)
   .post(upload.single('image'), listings_controller.add_listing);
 
-router.route('/:id').get(listings_controller.getSingleListing);
+router.route('/:id').get(isAuthenticated, listings_controller.getSingleListing);
 
 module.exports = router;
