@@ -5,7 +5,6 @@ const registration_middleware = require('../middleware/registration_middleware')
 
 // Needs to be tested
 exports.get_user_description = async (username) => {
-  console.log("arrived");
   const result = await db.query(
     'SELECT description FROM users WHERE username = ?', [
       username
