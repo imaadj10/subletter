@@ -5,7 +5,6 @@ exports.retrieve_notifications = async (req, res) => {
         const result = await notification_middleware.retrieve_notifications(req);
         res.status(200).send(result);
     } catch(e) {
-        console.log('Failed to pass controller');
         res.status(401).json({ message: 'Error Fetching Notifications' });
     }
 };

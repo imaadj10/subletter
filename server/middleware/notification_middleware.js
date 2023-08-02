@@ -5,7 +5,5 @@ exports.retrieve_notifications = async (req) => {
         req.user.username
     ]);
 
-    console.log(result);
-
-    return result[0][0];
+    return result[0];
 };

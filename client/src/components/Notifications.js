@@ -5,29 +5,31 @@ import SingleNotification from './SingleNotification';
 import '../css/Notifications.css';
 import Cookies from 'universal-cookie';
 
-
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const [valueNotifications, setValueNotifications] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios
-          .get('http://localhost:1234/notifications', {
+        const response = await axios.get(
+          'http://localhost:1234/notifications',
+          {
             headers: { Authorization: `Bearer ${token}` },
-          })
-          .then((res) => {
-            const curr_notif = {
-              id: res.data.nid,
-              title: res.data.content,
-              content: 'blah blah blah new notification blah blah blah',
-            };
+          }
+        );
 
-            setNotifications((prevNotification) => [...prevNotification, curr_notif]);
-          })
-          .catch((e) => {});
+        const notificationsData = response.data.map((notif) => ({
+          id: notif.nid,
+          title: notif.content,
+          content: 'blah blah blah new notification blah blah blah',
+        }));
+
+        setNotifications([...notifications,
+          ...notificationsData,
+        ]);
       } catch (e) {
         console.log(e);
       }
@@ -35,6 +37,7 @@ const Notifications = () => {
 
     fetchData();
   }, []);
+
 
   return (
     <div className="notifs">
