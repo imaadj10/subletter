@@ -11,6 +11,7 @@ const MessageBoard = () => {
   const [conversations, setConversations] = useState([]);
   const [conversation_partner, setPartner] = useState('');
   const [messages, setMessages] = useState([]);
+  const [sentMessage, setSentMessage] = useState([]);
 
   useEffect(() => {
     axios
@@ -24,6 +25,11 @@ const MessageBoard = () => {
         console.log('Error fetching listings data');
       });
   }, []);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    axios.post(`http://localhost:1234/messages/${conversation_partner}`, { message : sentMessage }, { headers: { Authorization: `Bearer ${token}`}});
+  };
 
   const handleConversationClick = (conversation_partner) => {
     setPartner(conversation_partner);
@@ -60,11 +66,12 @@ const MessageBoard = () => {
               );
             })}
           </div>
-          <form className="text-bar">
+          <form onSubmit={submit} className="text-bar">
             <input
               type="text"
               placeholder="Type Message Here..."
               className="text-input-area"
+              onChange={e => setSentMessage(e.target.value)}
             ></input>
             <button type="submit" className="send-button">
               <img src={sendIcon} alt="send" className="send-icon"></img>
