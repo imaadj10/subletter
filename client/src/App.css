@@ -39,6 +39,10 @@ nav {
   z-index:1000;
 }
 
+h1.hidden {
+  font-size:40px;
+}
+
 button {
   padding:0.8rem;
   background-color: black;
