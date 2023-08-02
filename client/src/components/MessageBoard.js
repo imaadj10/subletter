@@ -1,7 +1,7 @@
 import '../css/Messages.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 const sendIcon = require('../assets/send.png');
 
 const MessageBoard = () => {
@@ -12,6 +12,7 @@ const MessageBoard = () => {
   const [conversation_partner, setPartner] = useState('');
   const [messages, setMessages] = useState([]);
   const [sentMessage, setSentMessage] = useState([]);
+  const chatBoxRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -26,9 +27,21 @@ const MessageBoard = () => {
       });
   }, []);
 
+  useEffect(() => {
+    // Scroll to the bottom of the chat box after messages are loaded
+    chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+  }, [messages]);
+
   const submit = async (e) => {
-    e.preventDefault();
-    axios.post(`http://localhost:1234/messages/${conversation_partner}`, { message : sentMessage }, { headers: { Authorization: `Bearer ${token}`}});
+    try {
+      e.preventDefault();
+      axios.post(`http://localhost:1234/messages/${conversation_partner}`, 
+                { message : sentMessage }, 
+                { headers: { Authorization: `Bearer ${token}`}})
+      .then(() => setSentMessage(''));
+    } catch (error) {
+      console.log(e);
+    }
   };
 
   const handleConversationClick = (conversation_partner) => {
@@ -57,7 +70,7 @@ const MessageBoard = () => {
         </div>
         <div className="messages-container">
           <h2 className="name-header">{conversation_partner}</h2>
-          <div className="chat-box">
+          <div className="chat-box" ref={chatBoxRef}>
             {messages.map((message) => {
               return message.sid === username ? (
                 <div className="message-right">{message.content}</div>
@@ -71,6 +84,7 @@ const MessageBoard = () => {
               type="text"
               placeholder="Type Message Here..."
               className="text-input-area"
+              value={sentMessage}
               onChange={e => setSentMessage(e.target.value)}
             ></input>
             <button type="submit" className="send-button">
