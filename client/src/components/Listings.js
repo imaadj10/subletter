@@ -153,7 +153,11 @@ const Listing = ({ lid, name, username, price, image }) => {
     <>
       <div className="listing" id={lid} onClick={handleClick}>
         <div className="listing-image">
-          <img src={`http://localhost:1234/images/${image}`} alt="Tallwood" />
+          <img
+            loading="lazy"
+            src={`http://localhost:1234/images/${image}`}
+            alt="Tallwood"
+          />
         </div>
         <div className="listing-name">{name}</div>
         <div className="listing-username">Posted by {username}</div>

@@ -35,35 +35,35 @@ const Homepage = () => {
 
   return (
     <div className="home-container">
-      {!token ? (
-        <div>
-          <section className="hidden" style={{ marginTop: 50 }}>
-            <h1 className="home-h1">
-              The perfect place to sell your items and find the best sublets on
-              campus.
-            </h1>
-            <h3>
-              The cheapest, most affordable sublets that every student uses
-            </h3>
+      <div>
+        <h1 className="hidden">Welcome {username}! </h1>
+
+        <section className="hidden" style={{ marginTop: 50 }}>
+          <h1 className="home-h1">
+            The perfect place to sell your items and find the best sublets on
+            campus.
+          </h1>
+          <h3>The cheapest, most affordable sublets that every student uses</h3>
+
+          {!token && (
             <div className="auth-links">
               <button onClick={redirectRegister}>Get Started</button>
               <button onClick={redirectLogin}>Login</button>
             </div>
-          </section>
+          )}
+        </section>
 
-          <section className="hidden">
-            <h1 className="home-h1">Create postings in the blink of an eye!</h1>
-          </section>
+        <section className="hidden">
+          <h1 className="home-h1">Create postings in the blink of an eye!</h1>
+        </section>
 
-          <section className="hidden">
-            <h1 className="home-h1">
-              Chat with friends and discover new listings!
-            </h1>
-          </section>
-        </div>
-      ) : (
-        <h1> You are logged in {username}!</h1>
-      )}
+        <section className="hidden">
+          <h1 className="home-h1">
+            Chat with friends and discover new listings!
+          </h1>
+        </section>
+      </div>
+      )
     </div>
   );
 };
