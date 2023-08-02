@@ -5,5 +5,5 @@ exports.retrieve_notifications = async (req) => {
         req.user.username
     ]);
 
-    return result[0];
+    return result[0].reverse();
 };
