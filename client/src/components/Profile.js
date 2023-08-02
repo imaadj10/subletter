@@ -8,6 +8,8 @@ import axios from 'axios';
 
 const Profile = () => {
   const [description, setDescription] = useState('');
+  const [school, setSchool] = useState('');
+
   const history = useNavigate();
   const cookies = new Cookies();
   const username = cookies.get('USERNAME');
@@ -18,7 +20,8 @@ const Profile = () => {
         await axios
           .get(`http://localhost:1234/users/?username=${username}`)
           .then((res) => {
-            setDescription(res.data);
+            setDescription(res.data.description);
+            setSchool(res.data.school_name);
           })
           .catch((e) => {
             console.log(e);
@@ -51,7 +54,7 @@ const Profile = () => {
             </div>
             <div className="Profile-detail">
               <div className="Profile-university">
-                University of British Columbia
+                {school}
               </div>
               <div className="Profile-major">Anthropology</div>
               <div className="Profile-year">3rd Year</div>

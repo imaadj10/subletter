@@ -4,14 +4,14 @@ const registration_middleware = require('../middleware/registration_middleware')
 
 
 // Needs to be tested
-exports.get_user_description = async (username) => {
+exports.get_user_info = async (username) => {
   console.log("arrived");
   const result = await db.query(
-    'SELECT description FROM users WHERE username = ?', [
+    'SELECT school_name, description FROM users WHERE username = ?', [
       username
   ]);
-
-  return result[0][0].description;
+  console.log(result[0]);
+  return result[0][0];
 };
 
 exports.update_user_info = async (old_username, new_username, new_password, new_description) => {
