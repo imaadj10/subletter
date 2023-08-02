@@ -10,9 +10,9 @@ import Profile from './components/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
+import SingleListing from './components/SingleListing';
 
 function App() {
-
   return (
     <div>
       <Navbar />
@@ -21,6 +21,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Homepage />} />
         <Route path="/housinginfo" element={<HousingInfo />} />
+        <Route path="/listings/:id" element={<SingleListing />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/notifications" element={<Notifications />} />
