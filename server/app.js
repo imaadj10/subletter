@@ -1,9 +1,9 @@
-const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+const http = require('http')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const socketManager = require('./socketManager');
 
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
@@ -18,8 +18,9 @@ const notificationRouter = require('./routes/notifications');
 const messagesRouter = require('./routes/messages');
 
 const app = express();
-
 app.use(cors());
+
+const server = http.createServer(app);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -53,7 +54,10 @@ app.use('/addresses', addressRouter);
 app.use('/notifications', notificationRouter);
 app.use('/messages', messagesRouter);
 
+// Import the socket handler and initialize it with the server
+socketManager.initSocketIO(server);
+
 const port = 1234;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
