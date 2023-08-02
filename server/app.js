@@ -14,7 +14,7 @@ const schoolsRouter = require('./routes/schools');
 const housingRouter = require('./routes/housing');
 const commentsRouter = require('./routes/comments');
 const addressRouter = require('./routes/addresses');
-const notificationRouter = require('./routes/notification');
+const notificationRouter = require('./routes/notifications');
 
 const app = express();
 

@@ -19,7 +19,7 @@ const Notifications = () => {
               content: 'blah blah blah new notification blah blah blah',
             };
 
-            setNotifications([...notifications, curr_notif]);
+            setNotifications((prevNotification) => [...prevNotification, curr_notif]);
           })
           .catch((e) => {});
       } catch (e) {
@@ -28,7 +28,7 @@ const Notifications = () => {
     };
 
     fetchData();
-  }, []);
+  }, [notifications]);
 
   return (
     <div className="notifs">
