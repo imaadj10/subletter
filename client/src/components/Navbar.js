@@ -17,7 +17,7 @@ export default function Navbar() {
               style={{ width: 30, marginRight: 5, borderRadius: 10 }}
               alt="icon"
             />
-            Sublettor
+            Subletter
           </Link>
         </li>
         {token && (

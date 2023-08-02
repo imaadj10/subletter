@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../css/Listings.css';
+import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
 
 export default function SingleListing() {
@@ -48,6 +49,10 @@ export default function SingleListing() {
     },
   };
 
+  const sendNewMessage = () => {
+    document.getElementById('create-new-message-modal').showModal();
+  };
+
   const submitComment = (e) => {
     e.preventDefault();
     setIsComment(false);
@@ -89,6 +94,9 @@ export default function SingleListing() {
                 {listing.username}
               </p>
             </div>
+            <button onClick={() => sendNewMessage(true)}>
+                Send seller a message!
+              </button>
             <h2>Comments</h2>
             {!isComment ? (
               <button onClick={() => setIsComment(true)}>
@@ -132,6 +140,14 @@ export default function SingleListing() {
           </div>
         </div>
       </div>
+      <dialog data-modal id="create-new-message-modal">
+        <NewMessage
+          props={{
+            listing,
+            token,
+          }}
+        />
+      </dialog>
     </>
   );
 }
