@@ -1,4 +1,5 @@
-const messages_middleware = require('../middleware/messages_middleware');
+const db = require("../mysql/mysql");
+const { getIO } = require('../socketManager');
 
 exports.get_conversations = async (req, res) => {
   try {
