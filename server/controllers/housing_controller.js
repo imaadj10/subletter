@@ -18,6 +18,6 @@ exports.addResidence = async (req, res) => {
 
     res.status(201).send('Successfully added residence!')
   } catch (error) {
-    res.status(400).json({ message: e});
+    res.status(400).json({ message: error});
   }
 };

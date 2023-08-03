@@ -5,10 +5,6 @@ const  housing_controller = require('../controllers/housing_controller');
 
 router.get('/', isAuthenticated, housing_controller.getUserHousing);
 
-// router.post('/', isAuthenticated, housing_controller.addResidence);
-router.post('/', isAuthenticated, (req, res) => {
-    console.log(req.body);
-});
-
+router.post('/', isAuthenticated, housing_controller.addResidence);
 
 module.exports = router;
