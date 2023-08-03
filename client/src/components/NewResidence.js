@@ -26,12 +26,19 @@ export default function NewResidence({ props }) {
       unit_types: selectedUnits,
       prices: unit_prices
     };
+    try {
+        axios.post('http://localhost:1234/housinginfo', form, {
+            headers: {
+                Authorization: `Bearer ${props.token}`,
+            },
+        }).then((res) => {
 
-    axios.post('http://localhost:1234/housinginfo', form, {
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-      },
-    });
+        }).catch((e) => {
+            alert('Error adding residence!');
+        })
+    } catch (error) {
+        alert('Error adding residence!');   
+    }
     closeModal(e);
   };
 
