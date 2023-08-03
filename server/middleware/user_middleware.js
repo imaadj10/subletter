@@ -50,3 +50,10 @@ exports.update_user_info = async (old_username, new_username, new_password, new_
 
   return new_username !== '' && new_username !== undefined ? new_username : old_username;
 };
+
+
+exports.delete_user = async (req, res) => {
+  await db.query('DELETE FROM users WHERE username = ?', [
+    req.user.username,
+  ]);
+};
