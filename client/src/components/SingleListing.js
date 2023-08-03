@@ -37,6 +37,7 @@ export default function SingleListing() {
       })
       .then((res) => {
         setComments(res.data);
+        
         console.log(comments);
       })
       .catch((e) => console.log(e));
@@ -68,6 +69,17 @@ export default function SingleListing() {
       .then((res) => {
         console.log('line 55');
         console.log(res);
+
+        axios.post('http://localhost:1234/notifications', {
+            title: 'You have a new comment!',
+            username: listing.username,
+            content: `Your post ${listing.name} has a new comment!`,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         getListingComments();
       })
       .catch((e) => console.log(e));

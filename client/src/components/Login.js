@@ -33,6 +33,21 @@ const Login = () => {
           cookies.set('USERNAME', res.data.username, {
             path: '/',
           });
+
+          axios.post(
+            'http://localhost:1234/notifications',
+            {
+              title: 'Welcome to the app!',
+              username: res.data.username,
+              content: `Welcome back ${res.data.username}`,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${res.data.token}`,
+              },
+            }
+          );
+
           history('/home', {});
         })
         .catch((e) => {

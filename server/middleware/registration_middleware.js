@@ -9,9 +9,9 @@ exports.isValidUsername = async (username) => {
 };
 
 exports.addNewUser = async (username, password, name, school) => {
-  const insertUserQuery = `INSERT INTO users(username, password, name, school_name) VALUES ('${username}', '${password}', '${name}', '${school}')`;
+  const insertUserQuery = 'INSERT INTO users(username, password, name, school_name) VALUES (?, ?, ?, ?)';
   try {
-    await db.query(insertUserQuery);
+    await db.query(insertUserQuery, [username, password, name, school]);
   } catch (error) {
     throw error;
   }

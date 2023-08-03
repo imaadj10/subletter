@@ -1,7 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const registration_controller = require('../controllers/registration_controller')
-
 
 router.post('/', registration_controller.handle_registration);
 

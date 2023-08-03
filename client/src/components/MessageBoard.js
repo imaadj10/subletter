@@ -53,7 +53,7 @@ const MessageBoard = () => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
   }, []);
-  
+
   const submit = async (e) => {
     e.preventDefault();
     try {
@@ -62,16 +62,26 @@ const MessageBoard = () => {
         { message: sentMessage },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
+      axios.post('http://localhost:1234/notifications', {
+        title: 'You have a new message!',
+        username: conversation_partner,
+        content: `${conversation_partner} has sent you a new message!`,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       // Fetch the updated messages after sending the new message
       const response = await axios.get(
         `http://localhost:1234/messages/${conversation_partner}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
       // Update the messages state with the new messages
       setMessages(response.data);
-  
+
       // Clear the input after successful message send
       setSentMessage('');
     } catch (error) {
@@ -91,7 +101,7 @@ const MessageBoard = () => {
       .catch((e) => {
         console.log('Error fetching listings data');
       });
-  }
+  };
 
   return (
     <div>
@@ -99,8 +109,16 @@ const MessageBoard = () => {
         <div className="conversations">
           <h1 className="chat-h1">Conversations</h1>
           {conversations.map((conversation) => {
-            return <div className="conversation"
-                    onClick={() => handleConversationClick(conversation.conversation_partner)}>{conversation.conversation_partner}</div>;
+            return (
+              <div
+                className="conversation"
+                onClick={() =>
+                  handleConversationClick(conversation.conversation_partner)
+                }
+              >
+                {conversation.conversation_partner}
+              </div>
+            );
           })}
         </div>
         <div className="messages-container">
@@ -108,9 +126,14 @@ const MessageBoard = () => {
           <div className="chat-box" ref={chatBoxRef}>
             {messages.map((message) => {
               return message.sid === username ? (
-                  message.rid === username ? <><div className="message-right">{message.content}</div>
-                                             <div className="message-left">{message.content}</div></> :
-                                             <div className="message-right">{message.content}</div>
+                message.rid === username ? (
+                  <>
+                    <div className="message-right">{message.content}</div>
+                    <div className="message-left">{message.content}</div>
+                  </>
+                ) : (
+                  <div className="message-right">{message.content}</div>
+                )
               ) : (
                 <div className="message-left">{message.content}</div>
               );
@@ -122,7 +145,7 @@ const MessageBoard = () => {
               placeholder="Type Message Here..."
               className="text-input-area"
               value={sentMessage}
-              onChange={e => setSentMessage(e.target.value)}
+              onChange={(e) => setSentMessage(e.target.value)}
             ></input>
             <button type="submit" className="send-button">
               <img src={sendIcon} alt="send" className="send-icon"></img>
