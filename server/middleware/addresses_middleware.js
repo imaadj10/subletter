@@ -7,9 +7,9 @@ exports.get_address = async (req) => {
                             FROM addresses_1 a1, addresses_2 a2, addresses_3 a3
                             WHERE a1.postal_code=a2.postal_code AND
                             a2.postal_code = a3.postal_code AND 
-                            a1.postal_code="${postalCode}"`;
+                            a1.postal_code=?`;
     
-        const queryResult = await db.query(query);
+        const queryResult = await db.query(query, [postalCode]);
         const info = queryResult[0][0];
         const address = {
           postalCode,
