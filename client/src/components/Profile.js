@@ -37,25 +37,31 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  async function deleteAccount() {
-    try {
-      await axios
-        .delete(`http://localhost:1234/users/${username}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          console.log('deleted');
-          cookies.remove('TOKEN', { path: '/' });
-          cookies.remove('USERNAME', { path: '/' });
-          history('/home', {});
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } catch (e) {
-      console.log(e);
+  const deleteAccount = async () => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this account?'
+    );
+
+    if (confirmed) {
+      try {
+        await axios
+          .delete(`http://localhost:1234/users/${username}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => {
+            console.log('deleted');
+            cookies.remove('TOKEN', { path: '/' });
+            cookies.remove('USERNAME', { path: '/' });
+            history('/home', {});
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } catch (e) {
+        console.log(e);
+      }
     }
-  }
+  };
 
   const logout = () => {
     cookies.remove('TOKEN', { path: '/' });
