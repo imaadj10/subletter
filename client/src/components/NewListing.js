@@ -113,7 +113,6 @@ export default function NewListing({ props }) {
           min="0"
           placeholder="0"
           onChange={(e) => setPrice(e.target.value)}
-          step="50"
         ></input>
 
         <label htmlFor="name">Description</label>
