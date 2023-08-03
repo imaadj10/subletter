@@ -17,11 +17,18 @@ const createComment = async (req, res) => {
     const username = req.user.username;
     const lid = req.params.id;
     const { content } = req.body;
-    const query = `INSERT INTO comments(username, lid, content) VALUES("${username}", ${lid}, "${content}")`;
-    const newCommentResult = await db.query(query);
+    const receiver_query = 'SELECT username FROM listings WHERE lid = ?';
+    const query = `INSERT INTO comments(username, lid, content) VALUES(?, ?, ?)`;
+
+    await db.query(query, [username, lid, content]);
+
+    const receiver_username = await db.query(receiver_query, [lid]);
+
+    const result = receiver_username[0][0].username
+    
     res
       .status(200)
-      .json({ message: 'successfully created comment', newCommentResult });
+      .json({ message: 'successfully created comment', result });
   } catch (e) {
     res.status(500).json({ message: e });
   }

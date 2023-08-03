@@ -11,7 +11,6 @@ exports.retrieve_notifications = async (req, res) => {
 
 exports.add_notification = async (req, res) => {
     try {
-        console.log(req.body);
         await notification_middleware.add_notification(req);
         res.status(201).send('Added notification!');
     } catch(e) {
