@@ -1,5 +1,5 @@
-const messages_middleware = require("../middleware/messages_middleware");
 const db = require("../mysql/mysql");
+const { getIO } = require('../socketManager');
 
 exports.get_conversations = async (req, res) => {
   try {
@@ -29,9 +29,13 @@ exports.get_conversations = async (req, res) => {
 
 exports.get_conversation_messages = async (req, res) => {
   try {
-    const query = `SELECT * FROM messages
+    const query = req.user.username !== req.params.conversation ?
+                  `SELECT * FROM messages
                     WHERE (sid = '${req.user.username}' OR rid = '${req.user.username}') AND (sid = '${req.params.conversation}' OR rid = '${req.params.conversation}')
-                    ORDER BY time_sent ASC;`;
+                    ORDER BY time_sent ASC;` :
+                  `SELECT * FROM messages
+                    WHERE sid = '${req.user.username}' AND rid = '${req.user.username}'
+                    ORDER BY time_sent ASC;`
     const result = await db.query(query);
     res.status(200).send(result[0]);
   } catch (error) {
@@ -39,13 +43,23 @@ exports.get_conversation_messages = async (req, res) => {
   }
 };
 
-exports.send_new_message = async (req, res) => {
-    try {
-        const query = `INSERT INTO messages(sid, rid, content)
-                        VALUES ('${req.user.username}', '${req.params.conversation}', '${req.body.message}')`;
-        await db.query(query);
-        res.status(201).send('Message sent.')
-    } catch (error) {
-        res.status(401).json({ message: 'Error Sending Messages' });
-    }
-}
+exports.send_new_message = async (req, res, io) => {
+  try {
+    const query = `INSERT INTO messages(sid, rid, content)
+                    VALUES ('${req.user.username}', '${req.params.conversation}', '${req.body.message}')`;
+    await db.query(query);
+
+    // Emit the 'new_message' event to relevant clients using the getIO function
+    const io = getIO();
+    const message = {
+      sid: req.user.username,
+      rid: req.params.conversation,
+      content: req.body.message,
+    };
+    io.emit('new_message', message);
+
+    res.status(201).send('Message sent.');
+  } catch (error) {
+    res.status(401).json({ message: 'Error Sending Messages' });
+  }
+};
