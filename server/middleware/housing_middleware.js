@@ -17,7 +17,7 @@ exports.add_new_residence = async (req) => {
 };
 
 exports.add_residence_types = async (req) => {
-  for (const type in req.body.unit_types) {
+  for (let i = 0; i < req.body.unit_types.length; i++) {
     let query = 'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
     await db.query(query, req.body.res_name, req.user.school, type, req.body.price);
   }
