@@ -6,4 +6,7 @@ const { isAuthenticated } = require('../middleware/auth_middleware');
 
 router.get('/', isAuthenticated, notification_controller.retrieve_notifications);
 
+router.post('/', notification_controller.add_notification);
+
+
 module.exports = router;
