@@ -1,5 +1,16 @@
 const db = require('../mysql/mysql');
 
+exports.getComments = async (req) => {
+  try {
+    const lid = parseInt(req.params.id);
+    const query = `SELECT username, content FROM comments WHERE lid=${lid}`;
+    const commentResult = await db.query(query);
+    return commentResult[0];
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 exports.createComment = async (req) => {
   try {
     const username = req.user.username;
