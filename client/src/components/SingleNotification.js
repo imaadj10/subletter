@@ -9,7 +9,7 @@ export default function SingleNotification(props) {
   async function deleteNotification() {
     try {
       await axios
-        .delete('http://localhost:1234/notifications', {
+        .delete(`http://localhost:1234/notifications/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
