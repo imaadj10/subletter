@@ -12,10 +12,10 @@ exports.getListingComments = async (req, res) => {
 
 exports.createComment = async (req, res) => {
   try {
-    const result = await comments_middleware.createComment(req);
+    await comments_middleware.createComment(req);
     res
       .status(200)
-      .json({ message: 'successfully created comment', result });
+      .json({ message: 'successfully created comment'});
   } catch (e) {
     res.status(500).json({ message: 'Unable to create comment' });
   }

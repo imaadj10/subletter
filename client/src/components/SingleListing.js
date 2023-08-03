@@ -71,8 +71,13 @@ export default function SingleListing() {
         console.log(res);
 
         axios.post('http://localhost:1234/notifications', {
-            username: res.data.result,
-            content: 'You have a new comment!',
+            title: 'You have a new comment!',
+            username: listing.username,
+            content: `Your post ${listing.name} has a new comment!`,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         getListingComments();

@@ -18,7 +18,7 @@ exports.createComment = async (req) => {
       const lid = req.params.id;
       const { content } = req.body;
       const query = `INSERT INTO comments(username, lid, content) VALUES("${username}", ${lid}, "${content}")`;
-      return await db.query(query);
+      await db.query(query);
     } catch (e) {
       throw e;
     }
