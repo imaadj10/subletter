@@ -38,3 +38,12 @@ exports.update_user_info = async (req, res) => {
     res.status(401).json({ message: 'Error updating user info' });
   }
 };
+
+exports.delete_user = async (req, res) => {
+  try {
+    await user_middleware.delete_user(req);
+    res.status(200).send({ message: "Successfully deleted "});
+  } catch(e) {
+    res.status(500).json({ message: 'Error deleting user'});
+  }
+}

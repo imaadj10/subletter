@@ -19,11 +19,7 @@ export default function EditProfile({ props }) {
     const new_password = passwordRef.current.value;
     const new_description = descriptionRef.current.value;
 
-    if (
-      !new_username &&
-      !new_password &&
-      !new_description
-    ) {
+    if (!new_username && !new_password && !new_description) {
       closeModal(e);
     } else {
       try {
@@ -42,12 +38,18 @@ export default function EditProfile({ props }) {
         }
 
         await axios
-          .patch('http://localhost:1234/users', {
-            old_username: props.username,
-            new_username: input_username,
-            new_password: new_password,
-            new_description: input_description,
-          })
+          .patch(
+            'http://localhost:1234/users',
+            {
+              old_username: props.username,
+              new_username: input_username,
+              new_password: new_password,
+              new_description: input_description,
+            },
+            {
+              headers: { Authorization: `Bearer ${props.token}` },
+            }
+          )
           .then((res) => {
             cookies.set('TOKEN', res.data.token, {
               path: '/',
