@@ -40,10 +40,11 @@ const Profile = () => {
   async function deleteAccount() {
     try {
       await axios
-        .delete(`http://localhost:1234/users`, {
+        .delete(`http://localhost:1234/users/${username}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
+          console.log('deleted');
           cookies.remove('TOKEN', { path: '/' });
           cookies.remove('USERNAME', { path: '/' });
           history('/home', {});

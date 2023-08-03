@@ -54,6 +54,6 @@ exports.update_user_info = async (old_username, new_username, new_password, new_
 
 exports.delete_user = async (req, res) => {
   await db.query('DELETE FROM users WHERE username = ?', [
-    req.user.username,
+    req.params.id,
   ]);
 };

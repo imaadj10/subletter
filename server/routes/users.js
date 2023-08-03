@@ -9,6 +9,6 @@ router.get('/', isAuthenticated, user_controller.fetch_user_info);
 
 router.patch('/', isAuthenticated, user_controller.update_user_info);
 
-router.delete('/', isAuthenticated, user_controller.delete_user);
+router.delete('/:id', user_controller.delete_user);
 
 module.exports = router;
