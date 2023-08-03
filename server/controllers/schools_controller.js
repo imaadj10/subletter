@@ -1,10 +1,8 @@
-const db = require('../mysql/mysql');
+const schools_middleware = require('../middleware/schools_middleware');
 
-const getAllSchools = async (req, res) => {
+exports.getAllSchools = async (req, res) => {
   try {
-    const text = req.query.text;
-    const query = `SELECT * FROM schools WHERE school_name LIKE "%${text}%" LIMIT 5`;
-    const schools = await db.query(query);
+    const schools = await schools_middleware.getAllSchools(req);
     if (!schools[0]) {
       res.status(400).json({ message: 'No schools available' });
     }
@@ -12,8 +10,4 @@ const getAllSchools = async (req, res) => {
   } catch (e) {
     res.status(500).json({ message: e });
   }
-};
-
-module.exports = {
-  getAllSchools,
 };
