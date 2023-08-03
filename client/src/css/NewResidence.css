@@ -1,0 +1,60 @@
+#create-new-residence-modal {
+    width: 50%;
+}
+
+.residence-form {
+    width: 100%;
+  }
+  
+  .residence-input {
+    width: 100%;
+  }
+  
+  .input-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Add spacing between rows */
+  }
+  
+  .input-group {
+    flex: 1; /* Each input-group takes equal width */
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px; /* Add spacing between input-groups */
+  }
+  
+  .unit-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .unit-box {
+    flex: 0 0 calc(50% - 20px); /* Two checkboxes per row with 20px spacing */
+    margin-right: 20px; /* Add spacing between unit-boxes */
+    margin-bottom: 10px; /* Add spacing between rows */
+    display: flex;
+    align-items: center;
+    width: 200px; /* Set a fixed width for each unit-box */
+  }
+  
+  /* Set a fixed width for the checkboxes */
+  .unit-box input[type="checkbox"] {
+    width: 20px; /* Adjust the width as needed */
+    margin-right: 10px; /* Add spacing between checkbox and label */
+  }
+  
+  /* Set a fixed width for the labels */
+  .unit-box label {
+    width: 150px; /* Adjust the width as needed */
+    white-space: nowrap; /* Prevent label text from wrapping */
+    overflow: hidden; /* Hide any overflowing text */
+    text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
+  }
+  
+  /* Optional: Add media query for responsive design */
+  @media (max-width: 600px) {
+    .unit-box {
+      flex: 0 0 100%; /* One checkbox per row on smaller screens */
+      margin-right: 0;
+    }
+  }

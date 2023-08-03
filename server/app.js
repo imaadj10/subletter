@@ -15,6 +15,7 @@ const commentsRouter = require('./routes/comments');
 const addressRouter = require('./routes/addresses');
 const notificationRouter = require('./routes/notifications');
 const messagesRouter = require('./routes/messages');
+const unitsRouter = require('./routes/units');
 
 const app = express();
 app.use(cors());
@@ -51,6 +52,7 @@ app.use('/comments', commentsRouter);
 app.use('/addresses', addressRouter);
 app.use('/notifications', notificationRouter);
 app.use('/messages', messagesRouter);
+app.use('/units', unitsRouter);
 
 // Import the socket handler and initialize it with the server
 socketManager.initSocketIO(server);
