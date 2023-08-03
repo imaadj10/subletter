@@ -34,10 +34,19 @@ const Login = () => {
             path: '/',
           });
 
-          axios.post('http://localhost:1234/notifications', {
-            username: res.data.username,
-            content: 'Welcome to the app!',
-          });
+          axios.post(
+            'http://localhost:1234/notifications',
+            {
+              title: 'Welcome to the app!',
+              username: res.data.username,
+              content: `Welcome back ${res.data.username}`,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${res.data.token}`,
+              },
+            }
+          );
 
           history('/home', {});
         })

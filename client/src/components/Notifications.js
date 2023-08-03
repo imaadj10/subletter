@@ -22,8 +22,8 @@ const Notifications = () => {
 
         const notificationsData = response.data.map((notif) => ({
           id: notif.nid,
-          title: notif.content,
-          content: 'blah blah blah new notification blah blah blah',
+          title: notif.title,
+          content: notif.content,
         }));
 
         setNotifications([...notifications,
