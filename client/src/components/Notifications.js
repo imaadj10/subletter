@@ -26,9 +26,11 @@ const Notifications = () => {
           content: notif.content,
         }));
 
-        setNotifications([...notifications,
-          ...notificationsData,
-        ]);
+        setNotifications(notificationsData);
+
+        // setNotifications([...notifications,
+        //   ...notificationsData,
+        // ]);
       } catch (e) {
         console.log(e);
       }
@@ -45,10 +47,12 @@ const Notifications = () => {
         {notifications.map((notif) => {
           return (
             <SingleNotification
+              key={notif.id}
               id={notif.id}
               title={notif.title}
               content={notif.content}
               setNotifications={setNotifications}
+              token={token}
             />
           );
         })}

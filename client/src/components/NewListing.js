@@ -140,7 +140,7 @@ export default function NewListing({ props }) {
         <input
           id="input"
           filename={file}
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) => setFile(e.target.sfile[0])}
           type="file"
           accept="image/*"
         ></input>

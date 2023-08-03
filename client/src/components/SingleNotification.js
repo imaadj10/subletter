@@ -1,10 +1,7 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 export default function SingleNotification(props) {
-  const { id, title, content, setNotifications } = props;
-  const cookies = new Cookies();
-  const token = cookies.get('TOKEN');
+  const { id, title, content, setNotifications, token } = props;
 
   async function deleteNotification() {
     try {
@@ -14,9 +11,7 @@ export default function SingleNotification(props) {
         })
         .then((res) => {
           setNotifications((prevNotifs) => {
-            prevNotifs.filter((notif) => {
-              return notif.id !== id;
-            });
+            return prevNotifs.filter((notif) => notif.id !== id);
           });
         })
         .catch((e) => {

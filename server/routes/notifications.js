@@ -7,6 +7,6 @@ router.get('/', isAuthenticated, notification_controller.retrieve_notifications)
 
 router.post('/', isAuthenticated, notification_controller.add_notification);
 
-router.delete('/:id', isAuthenticated, notification_controller.delete_notification);
+router.delete('/:id', notification_controller.delete_notification);
 
 module.exports = router;
