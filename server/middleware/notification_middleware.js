@@ -7,3 +7,11 @@ exports.retrieve_notifications = async (req) => {
 
     return result[0].reverse();
 };
+
+exports.add_notification = async (req) => {
+    
+    await db.query('INSERT INTO notifications (username, content)  VALUES  (?,?)', [
+        req.body.username, 
+        req.body.content
+    ]);
+};
