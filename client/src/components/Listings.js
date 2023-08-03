@@ -24,7 +24,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/listings/?username=${username}`, {
+      .get(`http://localhost:1234/listings`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
