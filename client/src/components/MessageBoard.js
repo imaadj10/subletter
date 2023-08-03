@@ -64,8 +64,13 @@ const MessageBoard = () => {
       );
 
       axios.post('http://localhost:1234/notifications', {
-            username: conversation_partner,
-            content: 'You have a new message!',
+        title: 'You have a new message!',
+        username: conversation_partner,
+        content: `${conversation_partner} has sent you a new message!`,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       // Fetch the updated messages after sending the new message
