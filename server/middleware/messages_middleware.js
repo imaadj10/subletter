@@ -1,8 +1,7 @@
 const db = require("../mysql/mysql");
 const { getIO } = require('../socketManager');
 
-exports.get_conversations = async (req, res) => {
-  try {
+exports.get_conversations = async (req) => {
     const query = `SELECT conversation_partner
                     FROM (
                         SELECT 
@@ -21,14 +20,10 @@ exports.get_conversations = async (req, res) => {
                     ORDER BY
                         max_time_sent DESC`;
     const result = await db.query(query);
-    res.status(200).send(result[0]);
-  } catch (error) {
-    res.status(401).json({ message: 'Error Fetching Conversations' });
-  }
+    return result[0];
 };
 
-exports.get_conversation_messages = async (req, res) => {
-  try {
+exports.get_conversation_messages = async (req) => {
     const query = req.user.username !== req.params.conversation ?
                   `SELECT * FROM messages
                     WHERE (sid = '${req.user.username}' OR rid = '${req.user.username}') AND (sid = '${req.params.conversation}' OR rid = '${req.params.conversation}')
@@ -37,14 +32,10 @@ exports.get_conversation_messages = async (req, res) => {
                     WHERE sid = '${req.user.username}' AND rid = '${req.user.username}'
                     ORDER BY time_sent ASC;`
     const result = await db.query(query);
-    res.status(200).send(result[0]);
-  } catch (error) {
-    res.status(401).json({ message: 'Error Fetching Messages' });
-  }
+    return result[0];
 };
 
-exports.send_new_message = async (req, res, io) => {
-  try {
+exports.send_new_message = async (req) => {
     const query = `INSERT INTO messages(sid, rid, content)
                     VALUES ('${req.user.username}', '${req.params.conversation}', '${req.body.message}')`;
     await db.query(query);
@@ -57,9 +48,4 @@ exports.send_new_message = async (req, res, io) => {
       content: req.body.message,
     };
     io.emit('new_message', message);
-
-    res.status(201).send('Message sent.');
-  } catch (error) {
-    res.status(401).json({ message: 'Error Sending Messages' });
-  }
 };
