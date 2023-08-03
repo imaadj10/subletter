@@ -6,7 +6,7 @@ exports.getListingComments = async (req, res) => {
     const result = await comment_middleware.getComments(req);
     res.status(200).send(result);
   } catch (e) {
-    res.status(401).json({ message: 'Error Fetching Comments' });
+    res.status(500).json({ message: 'Error Fetching Comments' });
   }
 };
 
@@ -15,7 +15,7 @@ exports.createComment = async (req, res) => {
     const result = await comment_middleware.createComment(req);
     res.status(200).json({ message: 'successfully created comment', result});
   } catch (e) {
-    res.status(400).json({ message: 'Unable to create comment' });
+    res.status(500).json({ message: 'Unable to create comment' });
   }
 };
 
