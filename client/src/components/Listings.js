@@ -6,7 +6,6 @@ import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
 
 const Listings = () => {
-  const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
@@ -24,7 +23,7 @@ const Listings = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/listings/?username=${username}`, {
+      .get(`http://localhost:1234/listings`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
