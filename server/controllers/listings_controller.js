@@ -22,10 +22,7 @@ exports.add_listing = async (req, res) => {
 
 exports.getSingleListing = async (req, res) => {
   try {
-    const lid = parseInt(req.params.id);
-    const query = `SELECT * FROM listings WHERE lid=${lid}`;
-    const queryResult = await db.query(query);
-    const listing = queryResult[0][0];
+    const listing = await listings_middleware.get_single_listing(req);
     res.status(200).json(listing);
   } catch (e) {
     res.status(404).json({ message: e });
