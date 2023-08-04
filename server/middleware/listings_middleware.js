@@ -30,8 +30,8 @@ exports.delete_listing = async (id) => {
 
 exports.verify_deletion_user = async (id, logged_user) => {
   const query = 'SELECT username FROM listings WHERE lid = ?';
-  const [result] = db.query(query, [id]);
-  if (result[0].username === logged_user) {
+  const [result] = await db.query(query, [id]);
+  if (result[0].username !== logged_user) {
     throw Error("You are not authorized to delete this listing!");
   }
 };
