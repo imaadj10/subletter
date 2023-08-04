@@ -9,7 +9,6 @@ import {
   Input,
   FormLabel,
   Button,
-  Container,
   VStack,
   Heading,
   Text,
@@ -117,12 +116,13 @@ const Login = () => {
             Forgot Password?
           </Button>
         </HStack>
+
         <Button onClick={submit} colorScheme="blue" w="full">
           Login
         </Button>
 
         <HStack w="full" justify="center">
-          <text>Don't have an account?</text>
+          <Text>Don't have an account?</Text>
           <Link to="/register">
             <Button variant="link" colorScheme="blue">
               Sign up!
