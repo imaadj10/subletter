@@ -128,7 +128,7 @@ const Register = () => {
     > 
       <VStack display="flex" justifyItems="center">
         {valid ? (
-          <Alert status='error' position="fixed" top="0" width="30%" zIndex="5" borderRadius="10px">
+          <Alert status='error' position="fixed" top="0" width={{ base:"full", md:"30%" }} zIndex="5" borderRadius={{ base: "0", md: "10px"}}>
             <AlertIcon />
             One or more required field is empty!
           </Alert>
