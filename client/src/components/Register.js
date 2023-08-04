@@ -15,6 +15,9 @@ import {
   Text,
   HStack,
   Select,
+  Alert,
+  AlertIcon,
+  Stack
 } from '@chakra-ui/react';
 
 const Register = () => {
@@ -27,6 +30,8 @@ const Register = () => {
   const [name, setName] = useState('');
   const [school, setSchool] = useState('');
   const [availableSchools, setAvailableSchools] = useState([]);
+  const [valid, setValid] = useState(false);
+
 
   useEffect(() => {
     if (token) {
@@ -46,7 +51,8 @@ const Register = () => {
       !password ||
       !confirmPassword
     ) {
-      alert('One or more field is empty!');
+      setValid(true);
+      // alert('One or more field is empty!');
       return;
     }
 
@@ -119,7 +125,16 @@ const Register = () => {
       border={{ base: 'none', md: '1px' }}
       borderColor={{ base: '', md: 'gray.300' }}
       borderRadius="10"
-    >
+    > 
+      <VStack display="flex" justifyItems="center">
+        {valid ? (
+          <Alert status='error' position="fixed" top="0" width="30%" zIndex="5" borderRadius="10px">
+            <AlertIcon />
+            One or more required field is empty!
+          </Alert>
+        ) : null}
+      </VStack>
+
       <VStack spacing="4" align="flex-start" w="full">
         <VStack spacing="1" align="center" w="full">
           <Heading>User Registration</Heading>
@@ -202,63 +217,10 @@ const Register = () => {
             </Button>
           </Link>
         </HStack>
+
       </VStack>
     </Box>
   );
-
-  // return (
-  //   <div className="section form-page">
-  //     <h1>Sign Up!</h1>
-  //     <form action="POST" className="auth-form">
-  //       <label for="name">Name</label>
-  //       <input
-  //         name="name"
-  //         className="form-text"
-  //         placeholder="Name"
-  //         value={name}
-  //         onChange={(e) => setName(e.target.value)}
-  //       />
-  //       <label htmlFor="available-schools">School</label>
-  //       <input
-  //         value={school}
-  //         onChange={(e) => setSchool(e.target.value)}
-  //         list="available-schools"
-  //         name="available-schools"
-  //         className="form-text"
-  //       />
-  //       <datalist id="available-schools">
-  //         {availableSchools.map((school) => {
-  //           console.log(school.school_name);
-  //           return <option value={school.school_name} />;
-  //         })}
-  //       </datalist>
-
-  //       <label for="username">Username</label>
-  //       <input
-  //         name="username"
-  //         className="form-text"
-  //         placeholder="Username"
-  //         value={username}
-  //         onChange={(e) => setUsername(e.target.value.toLowerCase())}
-  //       />
-  //       <label htmlFor="password">Password</label>
-  //       <input
-  //         type="password"
-  //         className="form-text"
-  //         placeholder="Password"
-  //         value={password}
-  //         onChange={(e) => setPassword(e.target.value)}
-  //       />
-  //       <button onClick={submit} className="auth-button">
-  //         Submit
-  //       </button>
-  //     </form>
-  //     <div>
-  //       <span className="padding-right">Already have an account?</span>
-  //       <Link to="/">Login Page</Link>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default Register;
