@@ -24,7 +24,12 @@ exports.get_address = async (req) => {
 
 exports.add_new_address = async (req) => {
     const main_query = 'INSERT INTO addresses_main(street_address, postal_code, country) VALUES(?, ?, ?)';
-    const pc_query = 'INSERT INTO addresses_1(postal_code, country, city, province) VALUES(?, ?, ?, ?)';
+
     await db.query(main_query, [req.body.street_address, req.body.postal_code, req.body.country]);
+    await this.add_address_1(req);
     await db.query(pc_query, [req.body.postal_code, req.body.country, req.body.city, req.body.province]);
 };
+
+add_address_1 = async (req) => {
+  const query = 'INSERT INTO addresses_1(postal_code, country, city, province) VALUES(?, ?, ?, ?)';
+}
