@@ -21,7 +21,6 @@ exports.get_single_listing = async (req) => {
                     INNER JOIN items i on l.lid = i.lid 
                     WHERE l.lid = ?`
     const res = await db.query(query, [req.params.id]);
-    console.log(res);
     return res[0][0];
   }
 };
