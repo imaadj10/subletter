@@ -58,13 +58,15 @@ export default function SingleListing() {
   };
 
   const deleteListing = () => {
-    axios.delete(`http://localhost:1234/listings/${lid}`, axiosConfig)
-    .then((res) => {
-      history('/listings');
-    }).catch((e) => {
-      alert(e.message);
-    })
-  }
+    axios
+      .delete(`http://localhost:1234/listings/${lid}`, axiosConfig)
+      .then((res) => {
+        history('/listings');
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+  };
 
   const submitComment = (e) => {
     e.preventDefault();
@@ -111,9 +113,19 @@ export default function SingleListing() {
           alt="Tallwood"
         />
         <div className="right-side">
-          {username === listing.username ? <button onClick={() => deleteListing()}>Delete Listing</button> : null}
+          {username === listing.username ? (
+            <button onClick={() => deleteListing()}>Delete Listing</button>
+          ) : null}
           <div>
             <h2>{listing.name}</h2>
+            {listing.type === 'sublet' ? (
+              <div>
+              <h4>Residence Name:</h4> <p>{listing.res_name}</p>
+              <h4>Unit Type:</h4> <p>{listing.unit}</p>  
+              </div>
+            ) : (
+              <h4>Quantity: {listing.quantity}</h4>
+            )}
             <div className="details">
               <p>
                 <b>Price: </b>${listing.price}
@@ -126,6 +138,8 @@ export default function SingleListing() {
             <button onClick={() => sendNewMessage(true)}>
               Send seller a message!
             </button>
+            <h2>Description</h2>
+            {listing.description}
             <h2>Comments</h2>
             {!isComment ? (
               <button onClick={() => setIsComment(true)}>
