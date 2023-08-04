@@ -11,13 +11,19 @@ exports.retrieve_school_listings = async (req) => {
 exports.get_single_listing = async (req) => {
   const type = await get_listing_type(req.params.id);
   if (type === 'sublet') {
-    
+    const query = `SELECT l.*, s.type AS unit, s.res_name, 'sublet' AS type FROM listings l
+                    INNER JOIN sublets s on l.lid = s.lid
+                    WHERE l.lid = ?`
+    const res = await db.query(query, [req.params.id]);
+    return res[0][0];
   } else {
-
+    const query = `SELECT l.*, i.quantity, 'item' AS type FROM listings l
+                    INNER JOIN items i on l.lid = i.lid 
+                    WHERE l.lid = ?`
+    const res = await db.query(query, [req.params.id]);
+    console.log(res);
+    return res[0][0];
   }
-  const query = 'SELECT * FROM listings WHERE lid=?';
-  const queryResult = await db.query(query, [req.params.id]);
-  return queryResult[0][0];
 };
 
 exports.add_new_listing = async (req) => {
@@ -65,6 +71,6 @@ get_listing_type = async (id) => {
                       WHEN EXISTS (SELECT * FROM sublets WHERE lid = ?) THEN 'sublet'
                       ELSE 'item'
                   END AS result`;
-  const [result] = db.query(query, [id]);
+  const [result] = await db.query(query, [id]);
   return result[0].result;
 }
