@@ -123,9 +123,11 @@ const Login = () => {
 
         <HStack w="full" justify="center">
           <text>Don't have an account?</text>
-          <Button variant="link" colorScheme="blue">
-            Sign up!
-          </Button>
+          <Link to="/register">
+            <Button variant="link" colorScheme="blue">
+              Sign up!
+            </Button>
+          </Link>
         </HStack>
       </VStack>
     </Box>
