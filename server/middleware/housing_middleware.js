@@ -44,8 +44,22 @@ exports.add_new_residence = async (req) => {
 };
 
 exports.add_residence_types = async (req) => {
+  console.log(req.body);
   for (const unit of req.body.unit_types) {
     let query = 'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
     await db.query(query, [req.body.res_name, req.user.school, unit, req.body.prices[unit]]);
   }
+}
+
+exports.update_residence = async (req) => {
+  const update_query = `UPDATE residences
+                        SET res_name = ?
+                        WHERE res_name = ? AND school_name = ?`;
+  this.add_residence_types(req);
+  const delete_query = `DELETE FROM contains
+                        WHERE res_name = ?
+                          AND school_name = ?
+                          AND type NOT IN (?)`;
+  await db.query(update_query, [req.body.res_name, req.params.residence, req.user.school]);
+  await db.query(delete_query, [req.body.res_name, req.user.school, req.body.unit_types]);
 }

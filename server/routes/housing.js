@@ -9,6 +9,6 @@ router.get('/:residence', isAuthenticated, housing_controller.getResidence)
 
 router.post('/', isAuthenticated, housing_controller.addResidence);
 
-router.put('/', isAuthenticated, housing_controller.updateResidence);
+router.put('/:residence', isAuthenticated, housing_controller.updateResidence);
 
 module.exports = router;

@@ -23,7 +23,8 @@ exports.get_address = async (req) => {
 };
 
 exports.add_new_address = async (req) => {
-  await this.check_address_main(req);
+  await check_address_main(req);
+  console.log('checked address');
   const main_query =
     'INSERT INTO addresses_main(street_address, postal_code, country) VALUES(?, ?, ?)';
   await db.query(main_query, [
@@ -31,23 +32,30 @@ exports.add_new_address = async (req) => {
     req.body.postal_code,
     req.body.country,
   ]);
-  await this.add_address_1(req);
+  console.log('got past adding man');
+  await add_address_1(req);
+  console.log('added 1');
 };
 
-exports.update_residence = async (req) => {
-  prev_res = await this.get_previous_residence(req);
-  console.log(prev_res);
-  this.check_address_main(req);
-  const query =
-    'UPDATE addresses_main SET street_address = ?, postal_code = ?, country = ? WHERE street_address = ? AND postal_code = ? AND country = ?';
-  await db.query(query, [
-    req.body.street_address,
-    req.body.postal_code,
-    req.body.country,
-    prev_res.street_address,
-    prev_res.postal_code,
-    prev_res.country,
-  ]);
+exports.update_address = async (req) => {
+  prev_res = await get_previous_address(req);
+  if (
+    req.body.street_address !== prev_res.street_address ||
+    req.body.postal_code !== prev_res.postal_code ||
+    req.body.country !== prev_res.country
+  ) {
+    check_address_main(req);
+    const query =
+      'UPDATE addresses_main SET street_address = ?, postal_code = ?, country = ? WHERE street_address = ? AND postal_code = ? AND country = ?';
+    await db.query(query, [
+      req.body.street_address,
+      req.body.postal_code,
+      req.body.country,
+      prev_res.street_address,
+      prev_res.postal_code,
+      prev_res.country,
+    ]);
+  }
 };
 
 add_address_1 = async (req) => {
@@ -82,9 +90,9 @@ check_address_main = async (req) => {
   }
 };
 
-get_previous_residence = async (req) => {
+get_previous_address = async (req) => {
   const query =
     'SELECT street_address, postal_code, country FROM residences WHERE res_name = ? AND school_name = ?';
-  const result = await db.query(query, req.body.res_name, req.user.school);
+  const [result] = await db.query(query, [req.params.residence, req.user.school]);
   return result[0];
 };
