@@ -1,4 +1,4 @@
-/* .hidden {
+.hidden {
     opacity: 0;
     filter: blur(3px);
     transform: translateX(-100px);
@@ -50,4 +50,4 @@ section.hidden {
 .home-h1 {
     display: grid;
     align-content: center;
-} */
+}
