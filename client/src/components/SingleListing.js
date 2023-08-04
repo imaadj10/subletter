@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 import '../css/Listings.css';
 import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function SingleListing() {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
+  const username = cookies.get('USERNAME');
+  const history = useNavigate();
   const [listing, setListing] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -37,7 +40,7 @@ export default function SingleListing() {
       })
       .then((res) => {
         setComments(res.data);
-        
+
         console.log(comments);
       })
       .catch((e) => console.log(e));
@@ -53,6 +56,15 @@ export default function SingleListing() {
   const sendNewMessage = () => {
     document.getElementById('create-new-message-modal').showModal();
   };
+
+  const deleteListing = () => {
+    axios.delete(`http://localhost:1234/listings/${lid}`, axiosConfig)
+    .then((res) => {
+      history('/listings');
+    }).catch((e) => {
+      alert(e.message);
+    })
+  }
 
   const submitComment = (e) => {
     e.preventDefault();
@@ -70,15 +82,19 @@ export default function SingleListing() {
         console.log('line 55');
         console.log(res);
 
-        axios.post('http://localhost:1234/notifications', {
+        axios.post(
+          'http://localhost:1234/notifications',
+          {
             title: 'You have a new comment!',
             username: listing.username,
             content: `Your post ${listing.name} has a new comment!`,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         getListingComments();
       })
@@ -95,6 +111,7 @@ export default function SingleListing() {
           alt="Tallwood"
         />
         <div className="right-side">
+          {username === listing.username ? <button onClick={() => deleteListing()}>Delete Listing</button> : null}
           <div>
             <h2>{listing.name}</h2>
             <div className="details">
@@ -107,8 +124,8 @@ export default function SingleListing() {
               </p>
             </div>
             <button onClick={() => sendNewMessage(true)}>
-                Send seller a message!
-              </button>
+              Send seller a message!
+            </button>
             <h2>Comments</h2>
             {!isComment ? (
               <button onClick={() => setIsComment(true)}>

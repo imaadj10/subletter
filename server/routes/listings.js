@@ -11,4 +11,6 @@ router.get('/:id', isAuthenticated, listings_controller.getSingleListing);
 
 router.post('/', isAuthenticated, upload.single('image'), listings_controller.add_listing);
 
+router.delete('/:id', isAuthenticated, listings_controller.deleteListing);
+
 module.exports = router;
