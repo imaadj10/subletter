@@ -26,18 +26,26 @@ export default function NewResidence({ props }) {
 
   useEffect(() => {
     if (props.selectedResidence) {
-        setResidence(props.selectedResidence.res_name);
-        setAddress(props.selectedResidence.street_address);
-        setPostalCode(props.selectedResidence.postal_code);
-        setCountry(props.selectedResidence.country);
-        setCity(props.selectedResidence.city);
-        setProvince(props.selectedResidence.province);
-        setSelectedUnits(props.selectedResidence.types_list);
-        setUnitPrices(parsePricesList(props.selectedResidence.prices_list));
+      setResidence(props.selectedResidence.res_name);
+      setAddress(props.selectedResidence.street_address);
+      setPostalCode(props.selectedResidence.postal_code);
+      setCountry(props.selectedResidence.country);
+      setCity(props.selectedResidence.city);
+      setProvince(props.selectedResidence.province);
+
+      setSelectedUnits(parseTypesList(props.selectedResidence.types_list));
+
+      setUnitPrices(parsePricesList(props.selectedResidence.prices_list));
     } else {
-        resetForm();
+      resetForm();
     }
   }, [props.selectedResidence]);
+
+  const parseTypesList = (unitsString) => {
+    console.log(unitsString);
+    const unitsList = unitsString.split(',');
+    return unitsList;
+  }
 
   const parsePricesList = (pricesListString) => {
     const pricesListArray = pricesListString.split(',');
@@ -53,7 +61,7 @@ export default function NewResidence({ props }) {
 
   const submit = async (e) => {
     e.preventDefault();
-  
+
     const form = {
       res_name: res_name,
       street_address: street_address,
@@ -62,33 +70,41 @@ export default function NewResidence({ props }) {
       city: city,
       province: province,
       unit_types: selectedUnits,
-      prices: unit_prices
+      prices: unit_prices,
     };
-  
+
     try {
       if (props.selectedResidence) {
         // If there's a selected residence, it means we are updating
-        await axios.put(`http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`, form, {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-        }).catch((e) => {
+        await axios
+          .put(
+            `http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`,
+            form,
+            {
+              headers: {
+                Authorization: `Bearer ${props.token}`,
+              },
+            }
+          )
+          .catch((e) => {
             alert(e.response.data.message);
-        });
+          });
       } else {
         // If there's no selected residence, it means we are adding a new one
-        await axios.post('http://localhost:1234/housinginfo', form, {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-        }).catch((e) => {
+        await axios
+          .post('http://localhost:1234/housinginfo', form, {
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+            },
+          })
+          .catch((e) => {
             alert(e.response.data.message);
-        });
+          });
       }
     } catch (error) {
       alert('Error adding/updating residence!');
     }
-  
+
     closeModal(e);
   };
 
@@ -127,7 +143,7 @@ export default function NewResidence({ props }) {
       [unitType]: price,
     }));
   };
-  
+
   const closeModal = (e) => {
     e.preventDefault();
     document.getElementById('create-new-residence-modal').close();

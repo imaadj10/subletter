@@ -39,27 +39,80 @@ exports.get_residence = async (req) => {
 };
 
 exports.add_new_residence = async (req) => {
-  const query = 'INSERT INTO residences(res_name, school_name, street_address, postal_code, country) VALUES(?, ?, ?, ?, ?)';
-  await db.query(query, [req.body.res_name, req.user.school, req.body.street_address, req.body.postal_code, req.body.country]);
+  const query =
+    'INSERT INTO residences(res_name, school_name, street_address, postal_code, country) VALUES(?, ?, ?, ?, ?)';
+  await db.query(query, [
+    req.body.res_name,
+    req.user.school,
+    req.body.street_address,
+    req.body.postal_code,
+    req.body.country,
+  ]);
 };
 
 exports.add_residence_types = async (req) => {
   console.log(req.body);
   for (const unit of req.body.unit_types) {
-    let query = 'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
-    await db.query(query, [req.body.res_name, req.user.school, unit, req.body.prices[unit]]);
+    let query =
+      'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
+    await db.query(query, [
+      req.body.res_name,
+      req.user.school,
+      unit,
+      req.body.prices[unit],
+    ]);
   }
-}
+};
 
 exports.update_residence = async (req) => {
   const update_query = `UPDATE residences
                         SET res_name = ?
                         WHERE res_name = ? AND school_name = ?`;
-  this.add_residence_types(req);
+  console.log(req.body);
+  await update_residence_types(req);
+  console.log('got past update');
   const delete_query = `DELETE FROM contains
                         WHERE res_name = ?
                           AND school_name = ?
                           AND type NOT IN (?)`;
-  await db.query(update_query, [req.body.res_name, req.params.residence, req.user.school]);
-  await db.query(delete_query, [req.body.res_name, req.user.school, req.body.unit_types]);
-}
+  await db.query(update_query, [
+    req.body.res_name,
+    req.params.residence,
+    req.user.school,
+  ]);
+  await db.query(delete_query, [
+    req.body.res_name,
+    req.user.school,
+    req.body.unit_types,
+  ]);
+};
+
+update_residence_types = async (req) => {
+  for (const type of req.body.unit_types) {
+    // Check if the combination of 'res_name', 'school_name', and 'type' exists in the table
+    const [exists] = await db.query(
+      'SELECT EXISTS (SELECT 1 FROM contains WHERE res_name = ? AND school_name = ? AND type = ?) AS type_exists',
+      [req.body.res_name, req.user.school, type]
+    );
+
+    if (exists[0].type_exists === 1) {
+
+      console.log(req.body.prices[type]);
+      console.log(req.body.res_name);
+      console.log(req.user.school);
+      console.log(type);
+      // If the combination exists, perform an update
+      await db.query(
+        `UPDATE contains SET price = ? WHERE res_name = ? AND school_name = ? AND type = ?`,
+        [req.body.prices[type], req.body.res_name, req.user.school, type]
+      );
+    } else {
+      // If the combination doesn't exist, perform an insert
+      console.log('sike elsed yah');
+      await db.query(
+        `INSERT INTO contains (res_name, school_name, type, price) VALUES (?, ?, ?, ?)`,
+        [req.body.res_name, req.user.school, type, req.body.prices[type]]
+      );
+    }
+  }
+};
