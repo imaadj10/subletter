@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Box,
@@ -37,7 +37,23 @@ const Register = () => {
   async function submit(e) {
     e.preventDefault();
 
-    console.log(school)
+    console.log(school);
+
+    if (
+      !name ||
+      !username ||
+      !school ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert('One or more field is empty!');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Password does not match!');
+      return;
+    }
 
     try {
       await axios
@@ -82,7 +98,7 @@ const Register = () => {
           console.log(modifiedData);
           // Update the state with the modified data
           setAvailableSchools(modifiedData);
-        })
+        });
       console.log(availableSchools);
     } catch (e) {
       console.log(e);
