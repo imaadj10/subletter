@@ -13,6 +13,52 @@ export default function NewResidence({ props }) {
   const [unit_prices, setUnitPrices] = useState({});
   const [selectedUnits, setSelectedUnits] = useState([]);
 
+  const resetForm = () => {
+    setResidence('');
+    setAddress('');
+    setPostalCode('');
+    setCountry('');
+    setCity('');
+    setProvince('');
+    setSelectedUnits([]);
+    setUnitPrices({});
+  };
+
+  useEffect(() => {
+    if (props.selectedResidence) {
+      setResidence(props.selectedResidence.res_name);
+      setAddress(props.selectedResidence.street_address);
+      setPostalCode(props.selectedResidence.postal_code);
+      setCountry(props.selectedResidence.country);
+      setCity(props.selectedResidence.city);
+      setProvince(props.selectedResidence.province);
+
+      setSelectedUnits(parseTypesList(props.selectedResidence.types_list));
+
+      setUnitPrices(parsePricesList(props.selectedResidence.prices_list));
+    } else {
+      resetForm();
+    }
+  }, [props.selectedResidence]);
+
+  const parseTypesList = (unitsString) => {
+    console.log(unitsString);
+    const unitsList = unitsString.split(',');
+    return unitsList;
+  }
+
+  const parsePricesList = (pricesListString) => {
+    const pricesListArray = pricesListString.split(',');
+    const pricesDict = {};
+
+    pricesListArray.forEach((item) => {
+      const [unitType, price] = item.split(':');
+      pricesDict[unitType] = price;
+    });
+
+    return pricesDict;
+  };
+
   const submit = async (e) => {
     e.preventDefault();
 
@@ -24,21 +70,41 @@ export default function NewResidence({ props }) {
       city: city,
       province: province,
       unit_types: selectedUnits,
-      prices: unit_prices
+      prices: unit_prices,
     };
-    try {
-        axios.post('http://localhost:1234/housinginfo', form, {
-            headers: {
-                Authorization: `Bearer ${props.token}`,
-            },
-        }).then((res) => {
 
-        }).catch((e) => {
-            alert('Error adding residence!');
-        })
+    try {
+      if (props.selectedResidence) {
+        // If there's a selected residence, it means we are updating
+        await axios
+          .put(
+            `http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`,
+            form,
+            {
+              headers: {
+                Authorization: `Bearer ${props.token}`,
+              },
+            }
+          )
+          .catch((e) => {
+            alert(e.response.data.message);
+          });
+      } else {
+        // If there's no selected residence, it means we are adding a new one
+        await axios
+          .post('http://localhost:1234/housinginfo', form, {
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+            },
+          })
+          .catch((e) => {
+            alert(e.response.data.message);
+          });
+      }
     } catch (error) {
-        alert('Error adding residence!');   
+      alert('Error adding/updating residence!');
     }
+
     closeModal(e);
   };
 
@@ -77,7 +143,7 @@ export default function NewResidence({ props }) {
       [unitType]: price,
     }));
   };
-  
+
   const closeModal = (e) => {
     e.preventDefault();
     document.getElementById('create-new-residence-modal').close();
@@ -93,6 +159,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="res_name"
               type="text"
+              value={res_name}
               placeholder="Residence Name"
               onChange={(e) => setResidence(e.target.value)}
             />
@@ -103,6 +170,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="street_address"
               type="text"
+              value={street_address}
               placeholder="Street Address"
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -116,6 +184,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="city"
               type="text"
+              value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="City"
             />
@@ -126,6 +195,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="province"
               type="text"
+              value={province}
               onChange={(e) => setProvince(e.target.value)}
               placeholder="Province"
             />
@@ -139,6 +209,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="country"
               type="text"
+              value={country}
               onChange={(e) => setCountry(e.target.value)}
               placeholder="Country"
             />
@@ -149,6 +220,7 @@ export default function NewResidence({ props }) {
               className="big-text-field"
               name="postal_code"
               type="text"
+              value={postal_code}
               onChange={(e) => setPostalCode(e.target.value)}
               placeholder="Postal Code"
             />
