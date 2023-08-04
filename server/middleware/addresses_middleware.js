@@ -55,6 +55,7 @@ exports.update_address = async (req) => {
       prev_res.postal_code,
       prev_res.country,
     ]);
+    add_address_1(req);
   }
 };
 

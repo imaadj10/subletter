@@ -51,7 +51,6 @@ exports.add_new_residence = async (req) => {
 };
 
 exports.add_residence_types = async (req) => {
-  console.log(req.body);
   for (const unit of req.body.unit_types) {
     let query =
       'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
@@ -68,9 +67,7 @@ exports.update_residence = async (req) => {
   const update_query = `UPDATE residences
                         SET res_name = ?
                         WHERE res_name = ? AND school_name = ?`;
-  console.log(req.body);
   await update_residence_types(req);
-  console.log('got past update');
   const delete_query = `DELETE FROM contains
                         WHERE res_name = ?
                           AND school_name = ?
@@ -96,11 +93,6 @@ update_residence_types = async (req) => {
     );
 
     if (exists[0].type_exists === 1) {
-
-      console.log(req.body.prices[type]);
-      console.log(req.body.res_name);
-      console.log(req.user.school);
-      console.log(type);
       // If the combination exists, perform an update
       await db.query(
         `UPDATE contains SET price = ? WHERE res_name = ? AND school_name = ? AND type = ?`,
@@ -108,7 +100,6 @@ update_residence_types = async (req) => {
       );
     } else {
       // If the combination doesn't exist, perform an insert
-      console.log('sike elsed yah');
       await db.query(
         `INSERT INTO contains (res_name, school_name, type, price) VALUES (?, ?, ?, ?)`,
         [req.body.res_name, req.user.school, type, req.body.prices[type]]
