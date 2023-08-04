@@ -72,6 +72,8 @@ export default function NewResidence({ props }) {
           headers: {
             Authorization: `Bearer ${props.token}`,
           },
+        }).catch((e) => {
+            alert(e.response.data.message);
         });
       } else {
         // If there's no selected residence, it means we are adding a new one
@@ -79,6 +81,8 @@ export default function NewResidence({ props }) {
           headers: {
             Authorization: `Bearer ${props.token}`,
           },
+        }).catch((e) => {
+            alert(e.response.data.message);
         });
       }
     } catch (error) {
