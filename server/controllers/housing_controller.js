@@ -30,3 +30,13 @@ exports.addResidence = async (req, res) => {
     res.status(400).json({ message: error});
   }
 };
+
+exports.updateResidence = async (req, res) => {
+  try {
+    await addresses_middleware.update_address(req);
+    await housing_middleware.update_residence(req);
+    await housing_middleware.update_residence_types(req);
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
+}

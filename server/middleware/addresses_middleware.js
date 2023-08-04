@@ -34,6 +34,22 @@ exports.add_new_address = async (req) => {
   await this.add_address_1(req);
 };
 
+exports.update_residence = async (req) => {
+  prev_res = await this.get_previous_residence(req);
+  console.log(prev_res);
+  this.check_address_main(req);
+  const query =
+    'UPDATE addresses_main SET street_address = ?, postal_code = ?, country = ? WHERE street_address = ? AND postal_code = ? AND country = ?';
+  await db.query(query, [
+    req.body.street_address,
+    req.body.postal_code,
+    req.body.country,
+    prev_res.street_address,
+    prev_res.postal_code,
+    prev_res.country,
+  ]);
+};
+
 add_address_1 = async (req) => {
   const exists_query =
     'SELECT EXISTS (SELECT 1 FROM addresses_1 WHERE postal_code = ? AND country = ?) AS pc_exists';
@@ -64,4 +80,11 @@ check_address_main = async (req) => {
   if (exists[0].address_exists === 1) {
     throw Error('A residence already exists at this address!');
   }
+};
+
+get_previous_residence = async (req) => {
+  const query =
+    'SELECT street_address, postal_code, country FROM residences WHERE res_name = ? AND school_name = ?';
+  const result = await db.query(query, req.body.res_name, req.user.school);
+  return result[0];
 };
