@@ -10,14 +10,32 @@ exports.getUserHousing = async (req, res) => {
   }
 };
 
+exports.getResidence = async (req, res) => {
+  try {
+    const result = await housing_middleware.get_residence(req);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).json({ message: e });
+  }
+};
+
 exports.addResidence = async (req, res) => {
   try {
     await addresses_middleware.add_new_address(req);
     await housing_middleware.add_new_residence(req);
     await housing_middleware.add_residence_types(req);
-
-    res.status(201).send('Successfully added residence!')
+    res.status(201).send('Successfully added residence!');
   } catch (error) {
-    res.status(400).json({ message: error});
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.updateResidence = async (req, res) => {
+  try {
+    await addresses_middleware.update_address(req);
+    await housing_middleware.update_residence(req);
+    res.status(201).send('Successfully updated residence!');
+  } catch (error) {
+    res.status(400).send({ message: error.message });
   }
 };

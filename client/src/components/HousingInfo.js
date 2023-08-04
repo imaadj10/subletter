@@ -6,6 +6,7 @@ import NewResidence from './NewResidence';
 
 const HousingInfo = () => {
   const [residences, setResidences] = useState([]);
+  const [selectedResidence, setSelectedResidence] = useState(null);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
@@ -17,6 +18,7 @@ const HousingInfo = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
+          console.log(res.data);
           setResidences(res.data);
         })
         .catch((e) => console.log('error fetching residences'));
@@ -30,9 +32,14 @@ const HousingInfo = () => {
   }, []);
 
   const createNewResidence = () => {
+    setSelectedResidence(null);
     document.getElementById('create-new-residence-modal').showModal();
   };
 
+  const updateResidence = (residence) => {
+    setSelectedResidence(residence)
+    document.getElementById('create-new-residence-modal').showModal();
+  }
 
   return (
     <div>
@@ -42,7 +49,7 @@ const HousingInfo = () => {
         {residences.map((residence) => {
           return (
             <div className="residence" key={residence.res_name}>
-              <h1>{residence.res_name}</h1>
+              <h1>{residence.res_name}</h1><button className="update" onClick={() => updateResidence(residence)}>Update</button>
               <div className="address-container">
                 <h3>{residence.street_address}</h3>
                 <h3>{residence.postal_code}</h3>
@@ -56,6 +63,7 @@ const HousingInfo = () => {
           props={{
             username,
             token,
+            selectedResidence,
           }}
         />
       </dialog>
