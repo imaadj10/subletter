@@ -10,6 +10,15 @@ exports.getUserHousing = async (req, res) => {
   }
 };
 
+exports.getResidence = async (req, res) => {
+  try {
+    const result = await housing_middleware.get_residence(req);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).json({ message: e });
+  }
+};
+
 exports.addResidence = async (req, res) => {
   try {
     await addresses_middleware.add_new_address(req);
