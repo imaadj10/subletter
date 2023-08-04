@@ -24,7 +24,7 @@ exports.addResidence = async (req, res) => {
     await addresses_middleware.add_new_address(req);
     await housing_middleware.add_new_residence(req);
     await housing_middleware.add_residence_types(req);
-    res.status(201).send('Successfully added residence!')
+    res.status(201).send('Successfully added residence!');
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -38,4 +38,4 @@ exports.updateResidence = async (req, res) => {
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
-}
+};
