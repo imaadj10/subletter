@@ -9,6 +9,12 @@ exports.retrieve_school_listings = async (req) => {
 };
 
 exports.get_single_listing = async (req) => {
+  const type = await get_listing_type(req.params.id);
+  if (type === 'sublet') {
+    
+  } else {
+
+  }
   const query = 'SELECT * FROM listings WHERE lid=?';
   const queryResult = await db.query(query, [req.params.id]);
   return queryResult[0][0];
@@ -52,3 +58,13 @@ exports.verify_deletion_user = async (id, logged_user) => {
     throw Error('You are not authorized to delete this listing!');
   }
 };
+
+get_listing_type = async (id) => {
+  const query = `SELECT 
+                  CASE 
+                      WHEN EXISTS (SELECT * FROM sublets WHERE lid = ?) THEN 'sublet'
+                      ELSE 'item'
+                  END AS result`;
+  const [result] = db.query(query, [id]);
+  return result[0].result;
+}
