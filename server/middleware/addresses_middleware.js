@@ -24,12 +24,16 @@ exports.get_address = async (req) => {
 
 exports.add_new_address = async (req) => {
     const main_query = 'INSERT INTO addresses_main(street_address, postal_code, country) VALUES(?, ?, ?)';
-
     await db.query(main_query, [req.body.street_address, req.body.postal_code, req.body.country]);
     await this.add_address_1(req);
-    await db.query(pc_query, [req.body.postal_code, req.body.country, req.body.city, req.body.province]);
+    
 };
 
 add_address_1 = async (req) => {
-  const query = 'INSERT INTO addresses_1(postal_code, country, city, province) VALUES(?, ?, ?, ?)';
+  const exists_query = 'SELECT EXISTS (SELECT 1 FROM addresses_1 WHERE postal_code = ? AND country = ?) AS pc_exists';
+  const [exists_res] = await db.query(exists_query, [req.body.postal_code, req.body.country]);
+  if (exists_res[0].pc_exists !== 1) {
+    const query = 'INSERT INTO addresses_1(postal_code, country, city, province) VALUES(?, ?, ?, ?)';
+    await db.query(query, [req.body.postal_code, req.body.country, req.body.city, req.body.province]);
+  }
 }
