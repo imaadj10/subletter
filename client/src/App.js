@@ -12,6 +12,7 @@ import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
 import SingleListing from './components/SingleListing';
+import { ChakraProvider } from '@chakra-ui/react'
 
 function App() {
   const location = useLocation();
@@ -25,7 +26,7 @@ function App() {
   }, [location]);
 
   return (
-    <div>
+    <ChakraProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Login />} exact />
@@ -39,7 +40,7 @@ function App() {
         <Route path="/messageboard" element={<MessageBoard />} />
         <Route path="/users" element={<Users />} />
       </Routes>
-    </div>
+    </ChakraProvider>
   );
 }
 
