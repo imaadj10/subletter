@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Listings.css';
 
@@ -11,6 +11,18 @@ export default function NewListing({ props }) {
   const [unitType, setUnitType] = useState();
   const [residence, setResidence] = useState();
   const [file, setFile] = useState();
+
+  useEffect(() => {
+    if (props.listing) {
+      setName(props.listing.name);
+      setPrice(props.listing.price);
+      setDescription(props.listing.description);
+      setType(props.listing.type);
+      setQuantity(props.listing.quantity);
+      setUnitType(props.listing.unit);
+      setResidence(props.listing.res_name);
+    }
+  }, [props.listing]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -25,12 +37,22 @@ export default function NewListing({ props }) {
     formData.append('residence', residence);
     formData.append('image', file);
 
-    axios.post('http://localhost:1234/listings', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${props.token}`,
-      },
-    });
+    if (props.listing) {
+      axios.put('http://localhost:1234/listings', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+    } else {
+      axios.post('http://localhost:1234/listings', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+    }
+
     closeModal(e);
   };
 
@@ -51,6 +73,7 @@ export default function NewListing({ props }) {
           min="1"
           step="1"
           type="number"
+          value={quantity}
           placeholder="Quantity"
           onChange={(e) => setQuantity(e.target.value)}
         ></input>
@@ -65,6 +88,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="unitType"
           type="text"
+          value={unitType}
           placeholder="Unit Type"
           onChange={(e) => setUnitType(e.target.value)}
         ></input>
@@ -73,6 +97,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="residence"
           type="text"
+          value={residence}
           placeholder="Residence Name"
           onChange={(e) => setResidence(e.target.value)}
         ></input>
@@ -88,6 +113,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="name"
           type="text"
+          value={name}
           placeholder="Name"
           onChange={(e) => setName(e.target.value)}
         ></input>
@@ -99,6 +125,7 @@ export default function NewListing({ props }) {
           type="number"
           min="0"
           placeholder="0"
+          value={price}
           onChange={(e) => setPrice(e.target.value)}
         ></input>
 
@@ -108,20 +135,26 @@ export default function NewListing({ props }) {
           name="description"
           type="text"
           rows="10"
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Write a detailed description of your listing..."
         ></textarea>
 
-        <label htmlFor="type">Type</label>
-        <select
-          className="selector"
-          name="type"
-          type="text"
-          onChange={(e) => setType(e.target.value)}
-        >
-          <option value="sublet">Sublet</option>
-          <option value="item">Item</option>
-        </select>
+        {props.listing ? null : (
+          <>
+            <label htmlFor="type">Type</label>
+            <select
+              className="selector"
+              name="type"
+              type="text"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value="sublet">Sublet</option>
+              <option value="item">Item</option>
+            </select>
+          </>
+        )}
         {inputSection}
         <label for="image">Image</label>
         <input
