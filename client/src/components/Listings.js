@@ -4,6 +4,22 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
+import {
+  Text,
+  Box,
+  Flex,
+  Button,
+  HStack,
+  SimpleGrid,
+  Image,
+  Badge,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
+import { Search2Icon, AddIcon } from '@chakra-ui/icons';
+// import campus from '../assets/ubc_campus.jpg';
+import campus from '../assets/test2.jpg';
 
 const Listings = () => {
   const cookies = new Cookies();
@@ -54,8 +70,105 @@ const Listings = () => {
   };
 
   return (
-    <>
-      <div className="listing-container">
+    <Flex flexDirection="column" border="1px" position="relative">
+
+      <Box
+        mt="20px"
+        borderRadius="20px"
+        position="sticky"
+        top="0"
+        left="50%"
+        transform="translateX(-50%)"
+        w="40%"
+        h="70px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <InputGroup
+          w="100%"
+          bg="white"
+          borderRadius="10px"
+          border="10px solid rgb(49, 130, 206)"
+        >
+          <InputLeftElement children={<Search2Icon color="gray.600" />} />
+          <Input type="text" variant="filled" placeholder="Search listings" />
+        </InputGroup>
+      </Box>
+
+      <SimpleGrid p="20px" spacing="10" minChildWidth="300px">
+        {listings.map((listing) => {
+          return (
+            <Box
+              maxW="sm"
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+            >
+              <Image src={campus} h="300px" w="full" objectFit="cover" />
+
+              <Box p="6">
+                <Box display="flex" alignItems="baseline">
+                  <Badge borderRadius="full" px="2" colorScheme="teal">
+                    New
+                  </Badge>
+                  <Box
+                    color="gray.500"
+                    fontWeight="semibold"
+                    letterSpacing="wide"
+                    fontSize="xs"
+                    textTransform="uppercase"
+                    ml="2"
+                  >
+                    Sublet
+                  </Box>
+                </Box>
+
+                <Box
+                  mt="1"
+                  fontWeight="semibold"
+                  as="h4"
+                  lineHeight="tight"
+                  noOfLines={1}
+                >
+                  {listing.name}
+                </Box>
+
+                <Box>
+                  {listing.price}
+                  <Box as="span" color="gray.600" fontSize="sm">
+                    / month
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          );
+        })}
+      </SimpleGrid>
+
+      <Box position="fixed" right="40px" bottom="30px">
+        <Button colorScheme="blue" p="30px" borderRadius="30px">
+            Add Listing
+        </Button>
+      </Box>
+{/* 
+      <Box
+        position="fixed"
+        w="100px"
+        h="50px"
+        bottom="30px"
+        right="40px"
+        // bg="rgb(49, 130, 206)"
+        borderRadius="full"
+        p="10px" // Optional padding to increase the size of the circle
+        zIndex="1" // Optional zIndex to control the stacking order if needed
+      >
+        <Button>
+          Add Listing
+        </Button>
+      </Box> */}
+
+      {/* <div className="listing-container">
         <div className="navigator">
           <button className="plus" onClick={createNewListing} />
           <div className="options">
@@ -136,8 +249,8 @@ const Listings = () => {
             token,
           }}
         />
-      </dialog>
-    </>
+      </dialog> */}
+    </Flex>
   );
 };
 

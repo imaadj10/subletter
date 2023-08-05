@@ -3,9 +3,7 @@ import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Container,
   Text,
-  Image,
   Box,
   Flex,
   Button,
