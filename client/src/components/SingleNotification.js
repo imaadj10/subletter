@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Flex, Spacer, Box, Text, Button } from '@chakra-ui/react';
 
 export default function SingleNotification(props) {
   const { id, title, content, setNotifications, token } = props;
@@ -23,14 +24,44 @@ export default function SingleNotification(props) {
   }
 
   return (
-    <li className="notif-item">
-      <div className="padding-right">
-        <h4>{title}</h4>
-        <p>{content}</p>
-      </div>
-      <span className="delete">
-        <u onClick={deleteNotification}>Delete</u>
-      </span>
-    </li>
+    <>
+      <Flex
+        gap="3rem"
+        maxWidth="800px"
+        bg="gray.100"
+        p="1rem"
+        borderRadius="1rem"
+        w="80%"
+        marginInline="auto"
+        marginBlock="1rem"
+      >
+        <Box>
+          <Text fontSize="lg" fontWeight="semibold">
+            {title}
+          </Text>
+          <Text>{content}</Text>
+        </Box>
+        <Spacer />
+        <Button
+          alignSelf="center"
+          onClick={deleteNotification}
+          borderRadius="0.5rem"
+          size="sm"
+          colorScheme="red"
+        >
+          Delete
+        </Button>
+      </Flex>
+
+      {/* <li className="notif-item">
+        <div className="padding-right">
+          <h4>{title}</h4>
+          <p>{content}</p>
+        </div>
+        <span className="delete">
+          <u onClick={deleteNotification}>Delete</u>
+        </span>
+      </li> */}
+    </>
   );
 }
