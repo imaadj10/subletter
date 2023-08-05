@@ -45,6 +45,7 @@
 .picture {
     border-radius:2rem;
     width:clamp(300px, 60%, 70%);
+    max-height:600px;
 }
 
 .right-side {
@@ -52,6 +53,7 @@
     width:100%;
     border-radius:2rem;
     padding:1rem;
+    position:relative;
 }
 
 .listing:hover {

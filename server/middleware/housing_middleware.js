@@ -35,6 +35,7 @@ exports.get_residence = async (req) => {
                   INNER JOIN contains c ON r.res_name = c.res_name AND r.school_name = c.school_name
                   WHERE r.res_name = ? AND r.school_name = ?`;
   const result = await db.query(query, [req.params.residence, req.user.school]);
+  console.log(req.params.residence);
   return result[0];
 };
 
@@ -67,16 +68,16 @@ exports.update_residence = async (req) => {
   const update_query = `UPDATE residences
                         SET res_name = ?
                         WHERE res_name = ? AND school_name = ?`;
-  await update_residence_types(req);
-  const delete_query = `DELETE FROM contains
-                        WHERE res_name = ?
-                          AND school_name = ?
-                          AND type NOT IN (?)`;
   await db.query(update_query, [
     req.body.res_name,
     req.params.residence,
     req.user.school,
   ]);
+  await update_residence_types(req);
+  const delete_query = `DELETE FROM contains
+                        WHERE res_name = ?
+                          AND school_name = ?
+                          AND type NOT IN (?)`;
   await db.query(delete_query, [
     req.body.res_name,
     req.user.school,

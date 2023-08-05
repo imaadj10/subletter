@@ -19,6 +19,12 @@
     transition: all 250ms;
 }
 
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
 .residence:hover {
     transform: scale(1.02);
 }

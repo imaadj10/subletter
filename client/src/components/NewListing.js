@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Listings.css';
 
@@ -12,23 +12,22 @@ export default function NewListing({ props }) {
   const [residence, setResidence] = useState();
   const [file, setFile] = useState();
 
-  // const uploadImage = (e) => {
-  //   let reader = new FileReader();
-  //   const file = document.getElementById('input').files[0];
-  //   const output = document.getElementById('output');
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     output.setAttribute('src', reader.result);
-  //     output.style.width = '300px';
-  //     output.style.maxHeight = '300px';
-  //   };
-  // };
+  useEffect(() => {
+    if (props.listing) {
+      setName(props.listing.name);
+      setPrice(props.listing.price);
+      setDescription(props.listing.description);
+      setType(props.listing.type);
+      setQuantity(props.listing.quantity);
+      setUnitType(props.listing.unit);
+      setResidence(props.listing.res_name);
+    }
+  }, [props.listing]);
 
   const submit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    //formData.append('username', props.username);
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
@@ -38,12 +37,23 @@ export default function NewListing({ props }) {
     formData.append('residence', residence);
     formData.append('image', file);
 
-    axios.post('http://localhost:1234/listings', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${props.token}`,
-      },
-    });
+    if (props.listing) {
+      console.log(formData);
+      axios.put(`http://localhost:1234/listings/${props.listing.lid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+    } else {
+      axios.post('http://localhost:1234/listings', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+    }
+
     closeModal(e);
   };
 
@@ -64,6 +74,7 @@ export default function NewListing({ props }) {
           min="1"
           step="1"
           type="number"
+          value={quantity}
           placeholder="Quantity"
           onChange={(e) => setQuantity(e.target.value)}
         ></input>
@@ -78,6 +89,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="unitType"
           type="text"
+          value={unitType}
           placeholder="Unit Type"
           onChange={(e) => setUnitType(e.target.value)}
         ></input>
@@ -86,6 +98,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="residence"
           type="text"
+          value={residence}
           placeholder="Residence Name"
           onChange={(e) => setResidence(e.target.value)}
         ></input>
@@ -101,6 +114,7 @@ export default function NewListing({ props }) {
           className="big-text-field"
           name="name"
           type="text"
+          value={name}
           placeholder="Name"
           onChange={(e) => setName(e.target.value)}
         ></input>
@@ -112,6 +126,7 @@ export default function NewListing({ props }) {
           type="number"
           min="0"
           placeholder="0"
+          value={price}
           onChange={(e) => setPrice(e.target.value)}
         ></input>
 
@@ -121,20 +136,26 @@ export default function NewListing({ props }) {
           name="description"
           type="text"
           rows="10"
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Write a detailed description of your listing..."
         ></textarea>
 
-        <label htmlFor="type">Type</label>
-        <select
-          className="selector"
-          name="type"
-          type="text"
-          onChange={(e) => setType(e.target.value)}
-        >
-          <option value="sublet">Sublet</option>
-          <option value="item">Item</option>
-        </select>
+        {props.listing ? null : (
+          <>
+            <label htmlFor="type">Type</label>
+            <select
+              className="selector"
+              name="type"
+              type="text"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value="sublet">Sublet</option>
+              <option value="item">Item</option>
+            </select>
+          </>
+        )}
         {inputSection}
         <label for="image">Image</label>
         <input
@@ -144,7 +165,6 @@ export default function NewListing({ props }) {
           type="file"
           accept="image/*"
         ></input>
-        <img id="output" alt="user-uploaded" />
 
         <div className="new-listing-buttons">
           <button className="red" onClick={closeModal}>
