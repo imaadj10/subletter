@@ -45,7 +45,7 @@ export default function NewResidence({ props }) {
     console.log(unitsString);
     const unitsList = unitsString.split(',');
     return unitsList;
-  }
+  };
 
   const parsePricesList = (pricesListString) => {
     const pricesListArray = pricesListString.split(',');
@@ -72,40 +72,43 @@ export default function NewResidence({ props }) {
       unit_types: selectedUnits,
       prices: unit_prices,
     };
-
-    try {
-      if (props.selectedResidence) {
-        // If there's a selected residence, it means we are updating
-        await axios
-          .put(
-            `http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`,
-            form,
-            {
+    if (selectedUnits.length === 0) {
+      alert('Please select at least one unit type!');
+    } else {
+      try {
+        if (props.selectedResidence) {
+          // If there's a selected residence, it means we are updating
+          await axios
+            .put(
+              `http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`,
+              form,
+              {
+                headers: {
+                  Authorization: `Bearer ${props.token}`,
+                },
+              }
+            )
+            .catch((e) => {
+              alert(e.response.data.message);
+            });
+        } else {
+          // If there's no selected residence, it means we are adding a new one
+          await axios
+            .post('http://localhost:1234/housinginfo', form, {
               headers: {
                 Authorization: `Bearer ${props.token}`,
               },
-            }
-          )
-          .catch((e) => {
-            alert(e.response.data.message);
-          });
-      } else {
-        // If there's no selected residence, it means we are adding a new one
-        await axios
-          .post('http://localhost:1234/housinginfo', form, {
-            headers: {
-              Authorization: `Bearer ${props.token}`,
-            },
-          })
-          .catch((e) => {
-            alert(e.response.data.message);
-          });
+            })
+            .catch((e) => {
+              alert(e.response.data.message);
+            });
+        }
+      } catch (error) {
+        alert('Error adding/updating residence!');
       }
-    } catch (error) {
-      alert('Error adding/updating residence!');
-    }
 
-    closeModal(e);
+      closeModal(e);
+    }
   };
 
   async function getUnitTypes() {

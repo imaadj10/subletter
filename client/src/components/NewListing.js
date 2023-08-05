@@ -144,7 +144,6 @@ export default function NewListing({ props }) {
           type="file"
           accept="image/*"
         ></input>
-        <img id="output" alt="user-uploaded" />
 
         <div className="new-listing-buttons">
           <button className="red" onClick={closeModal}>

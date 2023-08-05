@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 import '../css/Listings.css';
 import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function SingleListing() {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
+  const username = cookies.get('USERNAME');
+  const history = useNavigate();
   const [listing, setListing] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -49,6 +52,17 @@ export default function SingleListing() {
 
   const sendNewMessage = () => {
     document.getElementById('create-new-message-modal').showModal();
+  };
+
+  const deleteListing = () => {
+    axios
+      .delete(`http://localhost:1234/listings/${lid}`, axiosConfig)
+      .then((res) => {
+        history('/listings');
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   };
 
   const submitComment = (e) => {
@@ -108,8 +122,19 @@ export default function SingleListing() {
           alt="Tallwood"
         />
         <div className="right-side">
+          {username === listing.username ? (
+            <button onClick={() => deleteListing()}>Delete Listing</button>
+          ) : null}
           <div>
             <h2>{listing.name}</h2>
+            {listing.type === 'sublet' ? (
+              <div>
+                <h4>Residence Name:</h4> <p>{listing.res_name}</p>
+                <h4>Unit Type:</h4> <p>{listing.unit}</p>
+              </div>
+            ) : (
+              <h4>Quantity: {listing.quantity}</h4>
+            )}
             <div className="details">
               <p>
                 <b>Price: </b>${listing.price}
@@ -122,6 +147,8 @@ export default function SingleListing() {
             <button onClick={() => sendNewMessage(true)}>
               Send seller a message!
             </button>
+            <h2>Description</h2>
+            {listing.description}
             <h2>Comments</h2>
             {!isComment ? (
               <button onClick={() => setIsComment(true)}>

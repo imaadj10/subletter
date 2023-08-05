@@ -22,12 +22,19 @@ exports.add_listing = async (req, res) => {
 
 exports.getSingleListing = async (req, res) => {
   try {
-    const lid = parseInt(req.params.id);
-    const query = `SELECT * FROM listings WHERE lid=${lid}`;
-    const queryResult = await db.query(query);
-    const listing = queryResult[0][0];
+    const listing = await listings_middleware.get_single_listing(req);
     res.status(200).json(listing);
   } catch (e) {
     res.status(404).json({ message: e });
+  }
+};
+
+exports.deleteListing = async (req, res) => {
+  try {
+    await listings_middleware.verify_deletion_user(req.params.id, req.user.username);
+    await listings_middleware.delete_listing(req.params.id);
+    res.status(200).send('Successfully deleted listing!');
+  } catch (e) {
+    res.status(404).json({ message: e.message })
   }
 };
