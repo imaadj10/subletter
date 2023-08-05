@@ -12,11 +12,11 @@ export default function Navbar() {
 
   return (
     <Flex as="nav" p="10px" pb="15px" mb="20px" mt="10px" justifyContent="space-between" borderBottom="1px solid #E2E8F0">
-      <Heading as="h1" mx="20px" mb="5px" >Subletter</Heading>
+      <Heading as="h1" mx="20px" mb="5px">Subletter</Heading>
 
       {token && ( 
         <div>
-            <HStack spacing="20px">
+            <HStack spacing="20px" pt="8px">
             <Link to="/listings">
               <Button bg="white">Listing</Button>
             </Link>
@@ -37,7 +37,7 @@ export default function Navbar() {
 
       {token && ( 
         <div>
-          <HStack spacing="20px" mr="20px">      
+          <HStack spacing="20px" mr="20px" pt="5px">      
             <Link to="/notifications" >
               <Button colorScheme="blue">
                 <BellIcon />
