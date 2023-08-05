@@ -17,7 +17,6 @@ import {
   Select,
   Alert,
   AlertIcon,
-  Stack
 } from '@chakra-ui/react';
 
 const Register = () => {

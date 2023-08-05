@@ -150,7 +150,7 @@ const Listings = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Create Listing</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <NewListing
@@ -161,23 +161,20 @@ const Listings = () => {
             />
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+          <ModalFooter display="flex" justifyContent="center">
+            <Button
+              variant="ghost"
+              colorScheme="blue"
+              mr={3}
+              onClick={onClose}
+              border="2px solid rgb(49, 130, 206)"
+            >
+              Cancel
             </Button>
-            <Button variant="ghost">Add Listing</Button>
+            <Button colorScheme="blue"> Add Listing</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      {/* <dialog data-modal id="create-new-listing-modal">
-        <NewListing
-          props={{
-            username,
-            token,
-          }}
-        />
-      </dialog> */}
     </Flex>
   );
 };
