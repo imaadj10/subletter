@@ -6,9 +6,7 @@ import '../css/Housing.css';
 import NewResidence from './NewResidence';
 import {
   Flex,
-  Box,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Image,
@@ -16,7 +14,6 @@ import {
   Stack,
   Text,
   Heading,
-  SimpleGrid,
   Divider,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
@@ -67,45 +64,6 @@ const HousingInfo = () => {
   };
 
   return (
-    // <div>
-    //   <h1> Housing Information </h1>
-    //   <button className="plus" onClick={createNewResidence} />
-
-    //   <div>
-    //     <h2>Residence Ratings</h2>
-    //     <div>
-    //       {residenceRatings.map((res) => {
-    //         return (
-    //           <>
-    //             <p>
-    //               {res.res_name} : {Math.round(res.overall * 10) / 10}/10
-    //             </p>
-    //           </>
-    //         );
-    //       })}
-    //     </div>
-    //   </div>
-
-    //   <div className="residences">
-    //     {residences.map((residence) => {
-    //       return (
-    //         <Residence
-    //           residence={residence}
-    //           setSelectedResidence={setSelectedResidence}
-    //         />
-    //       );
-    //     })}
-    //   </div>
-    //   <dialog data-modal id="create-new-residence-modal">
-    //     <NewResidence
-    //       props={{
-    //         username,
-    //         token,
-    //         selectedResidence,
-    //       }}
-    //     />
-    //   </dialog>
-    // </div>
     <Flex flexDirection="column" maxW="75%" mx="auto">
       <Stack spacing="10" p="20px">
         {residences.map((residence) => (
@@ -121,7 +79,7 @@ const HousingInfo = () => {
   );
 };
 
-const Residence = ({ residence, setSelectedResidence, ratings }) => {
+const Residence = ({ residence, ratings }) => {
   const rating = ratings.find(
     (rating) => rating.res_name === residence.res_name
   );
@@ -143,43 +101,30 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
     .map((unit) => prices_list[unit.trim()]);
   const minPrice = Math.min(...unitPrices);
   const maxPrice = Math.max(...unitPrices);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const handleClick = (e) => {
-  //   const name = residence.res_name;
-  //   navigate(`${name}`);
-  // };
+  const handleClick = (e) => {
+    const name = residence.res_name;
+    navigate(`${name}`);
+  };
 
-  // const updateResidence = (residence) => {
-  //   setSelectedResidence(residence);
-  //   document.getElementById('create-new-residence-modal').showModal();
-  // };
-  // return (
-  //   <div className="residence" key={residence.res_name} onClick={handleClick}>
-  //     <h1>{residence.res_name}</h1>
-  //     <button className="update" onClick={() => updateResidence(residence)}>
-  //       Update
-  //     </button>
-  //     <div className="address-container">
-  //       <h3>{residence.street_address}</h3>
-  //       <h3>{residence.postal_code}</h3>
-  //     </div>
-  //   </div>
-  // );
   return (
     <Card
       direction={{ base: 'column', sm: 'row' }}
       overflow="hidden"
       variant="outline"
+      onClick={handleClick}
+      cursor="pointer"
     >
       <Image
         objectFit="cover"
-        maxW={{ base: '100%', sm: '300px', md: '400px', lg: '500px' }}
+        h="300px"
+        w="400px"
         src={`http://localhost:1234/images/residences/${residence.image}`}
         alt="Residence"
       />
 
-      <Stack>
+      <Stack w="full">
         <Text
           position="absolute"
           top="0"

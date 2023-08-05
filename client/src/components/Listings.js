@@ -196,7 +196,7 @@ const Listing = ({ lid, name, price, image, type }) => {
       cursor="pointer"
     >
       <Image
-        src={`http://localhost:1234/images/${image}`}
+        src={`http://localhost:1234/images/listings/${image}`}
         h="300px"
         w="full"
         objectFit="cover"
