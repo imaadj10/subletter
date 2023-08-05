@@ -115,7 +115,7 @@ export default function SingleListing() {
         <img
           className="picture"
           src={`http://localhost:1234/images/${listing.image}`}
-          alt="Tallwood"
+          alt={listing.image}
         />
         <div className="right-side">
           {username === listing.username ? (

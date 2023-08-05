@@ -12,9 +12,7 @@ router.get('/:id', isAuthenticated, listings_controller.getSingleListing);
 router.post('/', isAuthenticated, upload.single('image'), listings_controller.add_listing);
 
 // router.put('/', isAuthenticated, listings_controller.updateListing);
-router.put('/:id', isAuthenticated, (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
+router.put('/:id', isAuthenticated, upload.single('image'), (req, res) => {
     res.status(200).send('');
 });
 
