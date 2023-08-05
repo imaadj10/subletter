@@ -12,23 +12,10 @@ export default function NewListing({ props }) {
   const [residence, setResidence] = useState();
   const [file, setFile] = useState();
 
-  // const uploadImage = (e) => {
-  //   let reader = new FileReader();
-  //   const file = document.getElementById('input').files[0];
-  //   const output = document.getElementById('output');
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     output.setAttribute('src', reader.result);
-  //     output.style.width = '300px';
-  //     output.style.maxHeight = '300px';
-  //   };
-  // };
-
   const submit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    //formData.append('username', props.username);
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
