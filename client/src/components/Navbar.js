@@ -20,7 +20,7 @@ export default function Navbar() {
         <div>
             <HStack spacing="20px" pt="8px">
             <Link to="/listings">
-              <Button bg="white">Listing</Button>
+              <Button bg="white">Listings</Button>
             </Link>
 
             <Link to="/housinginfo">
