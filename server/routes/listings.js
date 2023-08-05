@@ -11,11 +11,11 @@ router.get('/:id', isAuthenticated, listings_controller.getSingleListing);
 
 router.post('/', isAuthenticated, upload.single('image'), listings_controller.add_listing);
 
-// router.put('/', isAuthenticated, listings_controller.updateListing);
+//router.put('/:id', isAuthenticated, upload.single('image'), listings_controller.updateListing);
 router.put('/:id', isAuthenticated, upload.single('image'), (req, res) => {
-    res.status(200).send('');
+    console.log(req.body.image);
+    res.status(200);
 });
-
 
 router.delete('/:id', isAuthenticated, listings_controller.deleteListing);
 

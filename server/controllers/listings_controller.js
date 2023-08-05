@@ -29,6 +29,18 @@ exports.getSingleListing = async (req, res) => {
   }
 };
 
+exports.updateListing = async (req, res) => {
+  try {
+    await listings_middleware.update_listing_attributes(req);
+    if (!req.body.image) {
+      await listings_middleware.update_listing_image(req.params.id, req.body.image);
+    }
+    res.status(201).send('Successfully updated listing!');
+  } catch (e) {
+    res.status(404).json({ message: e.message })
+  }
+}
+
 exports.deleteListing = async (req, res) => {
   try {
     await listings_middleware.verify_deletion_user(req.params.id, req.user.username);
