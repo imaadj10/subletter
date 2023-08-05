@@ -89,12 +89,14 @@ delete_image = async (id) => {
   const query = 'SELECT image FROM listings WHERE lid = ?'
   const [result] = await db.query(query, [id]);
   const image = result[0].image;
-  const imagePath = path.join(__dirname, '../images', image);
-  fs.unlink(imagePath, (err) => {
-    if (err) {
+  if (image !== 'default.jpg') {
+    const imagePath = path.join(__dirname, '../images/listings', image);
+    fs.unlink(imagePath, (err) => {
+      if (err) {
         throw err;
-    }
-});
+      }
+    });
+  }
 }
 
 exports.delete_listing = async (id) => {

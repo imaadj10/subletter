@@ -123,7 +123,7 @@ export default function SingleListing() {
       <div className="single-listing" id={listing.lid}>
         <img
           className="picture"
-          src={`http://localhost:1234/images/${listing.image}`}
+          src={`http://localhost:1234/images/listings/${listing.image}`}
           alt={listing.image}
         />
         <div className="right-side">

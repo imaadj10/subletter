@@ -1,4 +1,6 @@
 const db = require('../mysql/mysql');
+const fs = require('fs');
+const path = require('path');
 
 exports.getUserHousing = async (req) => {
   try {
@@ -13,6 +15,7 @@ exports.getUserHousing = async (req) => {
                       a1.province,
                       GROUP_CONCAT(c.type) AS types_list,
                       GROUP_CONCAT(CONCAT(c.type, ':', c.price)) AS prices_list
+                      r.image
                     FROM
                         residences AS r
                     INNER JOIN addresses_1 AS a1 ON r.postal_code = a1.postal_code AND r.country = a1.country
@@ -30,7 +33,7 @@ exports.getUserHousing = async (req) => {
 };
 
 exports.get_residence = async (req) => {
-  const query = `SELECT r.res_name, r.school_name, r.street_address, r.postal_code, r.country, a1.city, a1.province, c.type, c.price FROM residences r
+  const query = `SELECT r.res_name, r.school_name, r.street_address, r.postal_code, r.country, a1.city, a1.province, c.type, c.price, r.image FROM residences r
                   INNER JOIN addresses_1 a1 ON r.postal_code = a1.postal_code AND r.country = a1.country
                   INNER JOIN contains c ON r.res_name = c.res_name AND r.school_name = c.school_name
                   WHERE r.res_name = ? AND r.school_name = ?`;
@@ -41,13 +44,14 @@ exports.get_residence = async (req) => {
 
 exports.add_new_residence = async (req) => {
   const query =
-    'INSERT INTO residences(res_name, school_name, street_address, postal_code, country) VALUES(?, ?, ?, ?, ?)';
+    'INSERT INTO residences(res_name, school_name, street_address, postal_code, country, image) VALUES(?, ?, ?, ?, ?, ?)';
   await db.query(query, [
     req.body.res_name,
     req.user.school,
     req.body.street_address,
     req.body.postal_code,
     req.body.country,
+    req.file.filename,
   ]);
 };
 
@@ -73,6 +77,9 @@ exports.update_residence = async (req) => {
     req.params.residence,
     req.user.school,
   ]);
+  if (!req.body.image) {
+    await update_residence_image(req);
+  }
   await update_residence_types(req);
   const delete_query = `DELETE FROM contains
                         WHERE res_name = ?
@@ -83,6 +90,26 @@ exports.update_residence = async (req) => {
     req.user.school,
     req.body.unit_types,
   ]);
+};
+
+update_residence_image = async (req) => {
+  await delete_image(req);
+  const query = 'UPDATE residences SET image = ? WHERE res_name = ? AND school_name = ?';
+  await db.query(query, [req.file.filename, req.body.res_name, req.user.school]);
+};
+
+delete_image = async (req) => {
+  const query = 'SELECT image FROM residences WHERE res_name = ? AND school_name = ?';
+  const [result] = await db.query(query, [req.body.res_name, req.user.school]);
+  const image = result[0].image;
+  if (image !== 'default.jpg') {
+    const imagePath = path.join(__dirname, '../images/residences', image);
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+  }
 };
 
 update_residence_types = async (req) => {

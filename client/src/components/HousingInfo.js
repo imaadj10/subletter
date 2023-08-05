@@ -104,15 +104,17 @@ const Residence = ({ residence, setSelectedResidence }) => {
     document.getElementById('create-new-residence-modal').showModal();
   };
   return (
-    <div className="residence" key={residence.res_name} onClick={handleClick}>
-      <h1>{residence.res_name}</h1>
-      <button className="update" onClick={() => updateResidence(residence)}>
+    <div>
+    <button className="update" onClick={() => updateResidence(residence)}>
         Update
       </button>
+    <div className="residence" key={residence.res_name} onClick={handleClick}>
+      <h1>{residence.res_name}</h1>
       <div className="address-container">
         <h3>{residence.street_address}</h3>
         <h3>{residence.postal_code}</h3>
       </div>
+    </div>
     </div>
   );
 };
