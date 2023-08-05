@@ -21,7 +21,9 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Select,
+  Stack,
 } from '@chakra-ui/react';
+import { AttachmentIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 
 export default function NewListing({ props }) {
   const [name, setName] = useState();
@@ -113,6 +115,16 @@ export default function NewListing({ props }) {
     document.getElementById('create-new-listing-modal').close();
   };
 
+  const handleKeyDown = (e) => {
+    if (
+      e.keyCode === 69 || // 'e' key
+      e.keyCode === 187 || // '+' key
+      e.keyCode === 189 // '-' key
+    ) {
+      e.preventDefault(); // Prevent the input of these characters
+    }
+  };
+
   let inputSection;
   if (type === 'item') {
     inputSection = (
@@ -125,6 +137,7 @@ export default function NewListing({ props }) {
             variant="filled"
             value={quantity}
             onChange={(valueString) => setQuantity(valueString)}
+            onKeyDown={handleKeyDown}
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -173,19 +186,9 @@ export default function NewListing({ props }) {
     );
   }
 
-  const handleKeyDown = (e) => {
-    if (
-      e.keyCode === 69 || // 'e' key
-      e.keyCode === 187 || // '+' key
-      e.keyCode === 189 // '-' key
-    ) {
-      e.preventDefault(); // Prevent the input of these characters
-    }
-  };
-
   return (
     <Box>
-      <VStack>
+      <VStack spacing="5">
         <FormControl>
           <FormLabel>Select Listing Type:</FormLabel>
           <Select
@@ -245,72 +248,20 @@ export default function NewListing({ props }) {
         </FormControl>
 
         {inputSection}
+
+        <Flex justifyContent="flex-start" w="full">
+          <Input
+            pl="0"
+            // leftIcon={<AttachmentIcon />}
+            colorScheme="teal"
+            variant="solid"
+            filename={file}
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            accept="image/*"
+          ></Input>
+        </Flex>
       </VStack>
-      {/* <form onSubmit={submit}>
-        <label htmlFor="name">Listing Name</label>
-        <input
-          className="big-text-field"
-          name="name"
-          type="text"
-          value={name}
-          placeholder="Name"
-          onChange={(e) => setName(e.target.value)}
-        ></input>
-
-        <label htmlFor="price">Price</label>
-        <input
-          className="big-text-field"
-          name="price"
-          type="number"
-          min="0"
-          placeholder="0"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        ></input>
-
-        <label htmlFor="name">Description</label>
-        <textarea
-          className="big-text-field"
-          name="description"
-          type="text"
-          rows="10"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Write a detailed description of your listing..."
-        ></textarea>
-
-        {props.listing ? null : (
-          <>
-            <label htmlFor="type">Type</label>
-            <select
-              className="selector"
-              name="type"
-              type="text"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="sublet">Sublet</option>
-              <option value="item">Item</option>
-            </select>
-          </>
-        )}
-        {inputSection}
-        <label for="image">Image</label>
-        <input
-          id="input"
-          filename={file}
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          accept="image/*"
-        ></input>
-
-        <div className="new-listing-buttons">
-          <button className="red" onClick={closeModal}>
-            Cancel
-          </button>
-          <button type="submit">Submit</button>
-        </div>
-      </form> */}
     </Box>
   );
 }
