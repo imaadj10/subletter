@@ -24,7 +24,6 @@ export default function SingleListing() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log({ ...res.data });
         setListing({ ...res.data });
       })
       .catch((e) => console.log(e));
@@ -37,8 +36,6 @@ export default function SingleListing() {
       })
       .then((res) => {
         setComments(res.data);
-        
-        console.log(comments);
       })
       .catch((e) => console.log(e));
   };
@@ -70,20 +67,36 @@ export default function SingleListing() {
         console.log('line 55');
         console.log(res);
 
-        axios.post('http://localhost:1234/notifications', {
+        axios.post(
+          'http://localhost:1234/notifications',
+          {
             title: 'You have a new comment!',
             username: listing.username,
             content: `Your post ${listing.name} has a new comment!`,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         getListingComments();
       })
       .catch((e) => console.log(e));
     setNewComment('');
+  };
+
+  const deleteComment = async (e) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:1234/comments/${e.target.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => getListingComments())
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -107,8 +120,8 @@ export default function SingleListing() {
               </p>
             </div>
             <button onClick={() => sendNewMessage(true)}>
-                Send seller a message!
-              </button>
+              Send seller a message!
+            </button>
             <h2>Comments</h2>
             {!isComment ? (
               <button onClick={() => setIsComment(true)}>
@@ -146,6 +159,15 @@ export default function SingleListing() {
                     <b>{comment.username}: </b>
                     {comment.content}
                   </p>
+                  {comment.username == cookies.get('USERNAME') && (
+                    <button
+                      onClick={deleteComment}
+                      className="red"
+                      id={comment.cid}
+                    >
+                      Delete Comment
+                    </button>
+                  )}
                 </div>
               );
             })}

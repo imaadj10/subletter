@@ -13,10 +13,17 @@ exports.getListingComments = async (req, res) => {
 exports.createComment = async (req, res) => {
   try {
     await comments_middleware.createComment(req);
-    res
-      .status(200)
-      .json({ message: 'successfully created comment'});
+    res.status(200).json({ message: 'successfully created comment' });
   } catch (e) {
     res.status(500).json({ message: 'Unable to create comment' });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  try {
+    await comments_middleware.deleteComment(req);
+    res.status(200).send('Comment deleted');
+  } catch (e) {
+    res.status(500).json({ message: 'unable to delete comment' });
   }
 };
