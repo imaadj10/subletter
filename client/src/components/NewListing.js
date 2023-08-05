@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Listings.css';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Text,
   Box,
@@ -23,11 +24,37 @@ export default function NewListing({ props }) {
   const [name, setName] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
-  const [type, setType] = useState('sublet');
+  const [type, setType] = useState('none');
   const [quantity, setQuantity] = useState();
   const [unitType, setUnitType] = useState();
   const [residence, setResidence] = useState();
+  const [housingInfo, setHousingInfo] = useState([]);
   const [file, setFile] = useState();
+
+  useEffect(() => {
+    const getHousingInfo = async () => {
+      try {
+        await axios
+          .get('http://localhost:1234/housinginfo', {
+            headers: { Authorization: `Bearer ${props.token}` },
+          })
+          .then((res) => {
+            const modifiedData = res.data.map((housing) => ({
+              ...housing,
+              id: uuidv4(),
+            }));
+            setHousingInfo(modifiedData);
+            console.log(modifiedData);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getHousingInfo();
+  }, []);
 
   useEffect(() => {
     if (props.listing) {
@@ -104,26 +131,41 @@ export default function NewListing({ props }) {
   } else if (type === 'sublet') {
     inputSection = (
       /* JSX for the input section when type is "Sublets" */
-      <div>
-        <label htmlFor="unitType">Unit Type</label>
-        <input
-          className="big-text-field"
-          name="unitType"
-          type="text"
-          value={unitType}
-          placeholder="Unit Type"
-          onChange={(e) => setUnitType(e.target.value)}
-        ></input>
-        <label htmlFor="residence">Residence Name</label>
-        <input
-          className="big-text-field"
-          name="residence"
-          type="text"
-          value={residence}
-          placeholder="Residence Name"
-          onChange={(e) => setResidence(e.target.value)}
-        ></input>
-      </div>
+      <Box>
+        <FormControl>
+          <FormLabel>Residence:</FormLabel>
+          <Select
+            placeholder="Select Residence"
+            // onChange={(e) => setSchool(e.target.value)}
+            variant="filled"
+          >
+            {housingInfo.map((housing) => {
+              // console.log(school.school_name);
+              return <option key={housing.id}>{housing.res_name}</option>;
+            })}
+          </Select>
+        </FormControl>
+      </Box>
+      // <div>
+      //   <label htmlFor="unitType">Unit Type</label>
+      //   <input
+      //     className="big-text-field"
+      //     name="unitType"
+      //     type="text"
+      //     value={unitType}
+      //     placeholder="Unit Type"
+      //     onChange={(e) => setUnitType(e.target.value)}
+      //   ></input>
+      //   <label htmlFor="residence">Residence Name</label>
+      //   <input
+      //     className="big-text-field"
+      //     name="residence"
+      //     type="text"
+      //     value={residence}
+      //     placeholder="Residence Name"
+      //     onChange={(e) => setResidence(e.target.value)}
+      //   ></input>
+      // </div>
     );
   }
 
@@ -198,7 +240,39 @@ export default function NewListing({ props }) {
           />
         </FormControl>
 
-        {inputSection}
+        <FormControl>
+          <FormLabel>Residence:</FormLabel>
+          <Select
+            placeholder="Select Residence"
+            onChange={(e) => setResidence(e.target.value)}
+            variant="filled"
+          >
+            {housingInfo.map((housing) => {
+              // console.log(school.school_name);
+              return <option key={housing.id}>{housing.res_name}</option>;
+            })}
+          </Select>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Unit Type:</FormLabel>
+          <Select
+            placeholder="Select Unit Type"
+            onChange={(e) => {
+              setUnitType(e.target.value);
+            }}
+            variant="filled"
+          >
+            {housingInfo
+              .find((housing) => housing.res_name === residence)
+              ?.types_list.split(',')
+              .map((unit, index) => (
+                <option key={index}>{unit}</option>
+              ))}
+          </Select>
+        </FormControl>
+
+        {/* {inputSection} */}
       </VStack>
       {/* <form onSubmit={submit}>
         <label htmlFor="name">Listing Name</label>
