@@ -1,4 +1,6 @@
 const db = require('../mysql/mysql');
+const fs = require('fs');
+const path = require('path');
 
 exports.retrieve_school_listings = async (req) => {
   const joinSearchQuery = `SELECT lid, listings.name, listings.username, price, image FROM listings 
@@ -72,20 +74,34 @@ update_item_attributes = async (id, quantity) => {
 };
 
 exports.update_listing_image = async (id, filename) => {
+  await delete_image(id);
   const query = 'UPDATE listings SET image = ? WHERE lid = ?';
   await db.query(query, [filename, id]);
 };
 
+delete_image = async (id) => {
+  const query = 'SELECT image FROM listings WHERE lid = ?'
+  const [result] = await db.query(query, [id]);
+  const image = result[0].image;
+  const imagePath = path.join(__dirname, '../images', image);
+  fs.unlink(imagePath, (err) => {
+    if (err) {
+        throw err;
+    }
+});
+}
+
 exports.delete_listing = async (id) => {
+  await delete_image(id);
   const query = 'DELETE FROM listings WHERE lid = ?';
   await db.query(query, [id]);
 };
 
-exports.verify_deletion_user = async (id, logged_user) => {
+exports.verify_listing_user = async (id, logged_user) => {
   const query = 'SELECT username FROM listings WHERE lid = ?';
   const [result] = await db.query(query, [id]);
   if (result[0].username !== logged_user) {
-    throw Error('You are not authorized to delete this listing!');
+    throw Error('You are not authorized to change this listing!');
   }
 };
 

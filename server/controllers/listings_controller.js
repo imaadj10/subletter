@@ -31,6 +31,7 @@ exports.getSingleListing = async (req, res) => {
 
 exports.updateListing = async (req, res) => {
   try {
+    await listings_middleware.verify_listing_user(req.params.id, req.user.username);
     await listings_middleware.update_listing_attributes(req);
     if (!req.body.image) {
       await listings_middleware.update_listing_image(req.params.id, req.file.filename);
@@ -43,7 +44,7 @@ exports.updateListing = async (req, res) => {
 
 exports.deleteListing = async (req, res) => {
   try {
-    await listings_middleware.verify_deletion_user(req.params.id, req.user.username);
+    await listings_middleware.verify_listing_user(req.params.id, req.user.username);
     await listings_middleware.delete_listing(req.params.id);
     res.status(200).send('Successfully deleted listing!');
   } catch (e) {
