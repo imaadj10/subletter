@@ -20,7 +20,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  HStack,
 } from '@chakra-ui/react';
 
 const Profile = () => {
@@ -58,28 +57,22 @@ const Profile = () => {
   }, []);
 
   const deleteAccount = async () => {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this account?'
-    );
-
-    if (confirmed) {
-      try {
-        await axios
-          .delete(`http://localhost:1234/users/${username}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then((res) => {
-            console.log('deleted');
-            cookies.remove('TOKEN', { path: '/' });
-            cookies.remove('USERNAME', { path: '/' });
-            history('/home', {});
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } catch (e) {
-        console.log(e);
-      }
+    try {
+      await axios
+        .delete(`http://localhost:1234/users/${username}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          console.log('deleted');
+          cookies.remove('TOKEN', { path: '/' });
+          cookies.remove('USERNAME', { path: '/' });
+          history('/home', {});
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
     }
   };
 
