@@ -6,6 +6,7 @@ import '../css/Housing.css';
 import NewResidence from './NewResidence';
 import {
   Flex,
+  Box,
   Card,
   CardBody,
   CardFooter,
@@ -15,11 +16,21 @@ import {
   Text,
   Heading,
   Divider,
+  Icon,
+  Modal,
+  ModalHeader,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { StarIcon, AddIcon } from '@chakra-ui/icons';
 const md = require('../assets/md.jpg');
 
 const HousingInfo = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [residences, setResidences] = useState([]);
   const [selectedResidence, setSelectedResidence] = useState(null);
   const [residenceRatings, setResidenceRatings] = useState([]);
@@ -75,6 +86,42 @@ const HousingInfo = () => {
           />
         ))}
       </Stack>
+      <Box position="fixed" right="40px" bottom="30px">
+        <Button colorScheme="blue" p="30px" borderRadius="30px" onClick={onOpen}>
+          <Flex align="center">
+            <Icon as={AddIcon} boxSize={4} mr="2" />
+            Add Residence
+          </Flex>
+        </Button>
+      </Box>
+
+      <Modal
+        blockScrollOnMount={false}
+        size="xl"
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <NewResidence
+              props={{
+                username,
+                token,
+                selectedResidence,
+              }}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Add Residence</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };

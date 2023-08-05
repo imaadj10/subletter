@@ -6,6 +6,7 @@ import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
 import {
   Text,
+  Icon,
   Box,
   Flex,
   Button,
@@ -78,7 +79,7 @@ const Listings = () => {
   };
 
   return (
-    <Flex flexDirection="column" border="1px">
+    <Flex flexDirection="column">
       <Box
         mt="20px"
         borderRadius="20px"
@@ -134,7 +135,10 @@ const Listings = () => {
           borderRadius="30px"
           onClick={onOpen}
         >
-          Add Listing
+          <Flex align="center">
+            <Icon as={AddIcon} boxSize={4} mr="2" />
+            Add Listing
+          </Flex>
         </Button>
       </Box>
 
