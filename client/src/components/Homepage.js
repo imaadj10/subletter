@@ -47,7 +47,13 @@ const Homepage = () => {
       </Flex> */}
 
       {token && (
-        <Flex w="vw" mt="20px" pt="0" flexDirection="column" alignItems="center">
+        <Flex
+          w="vw"
+          mt="20px"
+          pt="0"
+          flexDirection="column"
+          alignItems="center"
+        >
           <Box as="section" mt="20px">
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               Welcome back {username}!
@@ -56,11 +62,17 @@ const Homepage = () => {
               Discover new Listings!
             </Text>
           </Box>
-        </Flex>  
+        </Flex>
       )}
 
       {!token && (
-        <Flex w="vw" mt="20px" pt="0" flexDirection="column" alignItems="center">
+        <Flex
+          w="vw"
+          mt="20px"
+          pt="0"
+          flexDirection="column"
+          alignItems="center"
+        >
           <Box as="section" mt="20px">
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               Welcome to Subletter
@@ -70,12 +82,12 @@ const Homepage = () => {
           <Box w="40%" textAlign="center" mt="20px">
             <Text>
               Subletter is the ultimate web platform for students, offering a
-              seamless experience to discover and promote both sublet opportunities
-              and items for sale. From finding the perfect dorm sublet to buying and
-              selling items among peers, we've got you covered. Simplifying the
-              process and fostering a vibrant student community, Subletter is your
-              go-to destination for hassle-free subletting and marketplace
-              transactions.
+              seamless experience to discover and promote both sublet
+              opportunities and items for sale. From finding the perfect dorm
+              sublet to buying and selling items among peers, we've got you
+              covered. Simplifying the process and fostering a vibrant student
+              community, Subletter is your go-to destination for hassle-free
+              subletting and marketplace transactions.
             </Text>
             <HStack spacing="20px" mt="30px" justifyContent="center">
               <Link to="/register">
@@ -86,7 +98,45 @@ const Homepage = () => {
               </Link>
             </HStack>
           </Box>
-        </Flex>  
+
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            as="section"
+            mt="20px"
+          >
+            <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
+              We strive for excellence
+            </Text>
+            <Box w="40%" textAlign="center" mt="20px">
+              <Text>
+                Our platform has all the information you need to get started on
+                finding the best sublets, and it is unbelievably easy to find
+                ratings of different residences which our trusted users have
+                made over time
+              </Text>
+            </Box>
+          </Flex>
+
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            as="section"
+            mt="20px"
+          >
+            <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
+              Wait, that's not even the end of it
+            </Text>
+            <Box w="40%" textAlign="center" mt="20px">
+              <Text>
+                Not only do we feature sublet listings, but users can post items
+                to sell at unbelievable prices! Plus, you can rest assured that
+                the items will all be located near campus so that you don't have
+                to go through the hassle of filtering for locations!
+              </Text>
+            </Box>
+          </Flex>
+        </Flex>
       )}
     </Box>
     // <div className="home-container">

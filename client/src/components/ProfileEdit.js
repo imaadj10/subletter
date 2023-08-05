@@ -1,8 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import '../css/Profile.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Textarea,
+} from '@chakra-ui/react';
 
 export default function EditProfile({ props }) {
   const cookies = new Cookies();
@@ -10,6 +18,10 @@ export default function EditProfile({ props }) {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const descriptionRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+  const [usernameErr, setUsernameErr] = useState();
+  const [passwordErr, setPassErr] = useState();
+  const [passEqualityErr, setPassEqualityErr] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
@@ -17,11 +29,22 @@ export default function EditProfile({ props }) {
     // Get the new_username and new_password from the input fields using refs
     const new_username = usernameRef.current.value;
     const new_password = passwordRef.current.value;
+    const confirm_password = confirmPasswordRef.current.value;
     const new_description = descriptionRef.current.value;
 
-    if (!new_username && !new_password && !new_description) {
-      closeModal(e);
+    if (
+      !new_username ||
+      !new_password ||
+      !confirm_password ||
+      confirm_password !== new_password
+    ) {
+      new_username ? setUsernameErr(false) : setUsernameErr(true);
+      new_password ? setPassErr(false) : setPassErr(true);
+      confirm_password === new_password
+        ? setPassEqualityErr(false)
+        : setPassEqualityErr(true);
     } else {
+      props.onClose(e);
       try {
         // Values that are going to be send to the backend
         let input_username = undefined;
@@ -65,7 +88,7 @@ export default function EditProfile({ props }) {
             if (input_description) {
               props.setDescription(input_description);
             }
-            closeModal(e);
+            props.onClose(e);
             history('/profile', {});
           })
           .catch((e) => {
@@ -80,41 +103,54 @@ export default function EditProfile({ props }) {
     }
   }
 
-  const closeModal = (e) => {
-    e.preventDefault();
-    document.getElementById('edit-details-modal').close();
-  };
-
   return (
-    <div>
-      <form onSubmit={submit}>
-        <h1>Account Details</h1>
-        <label htmlFor="username">Username</label>
-        <input ref={usernameRef} type="text" name="username" defaultValue="" />
+    <>
+      <FormControl>
+        <FormControl isInvalid={usernameErr} isRequired>
+          <FormLabel>Username</FormLabel>
+          <Input
+            variant="filled"
+            ref={usernameRef}
+            type="text"
+            defaultValue={props.username}
+          />
+          {usernameErr && (
+            <FormErrorMessage>You must input a username</FormErrorMessage>
+          )}
+        </FormControl>
 
-        <label htmlFor="password">Password</label>
-        <input
-          ref={passwordRef}
-          type="password"
-          name="password"
-          defaultValue=""
-        />
+        <FormControl isInvalid={passwordErr} isRequired>
+          <FormLabel>New Password</FormLabel>
+          <Input ref={passwordRef} variant="filled" type="password" />
+          {passwordErr && (
+            <FormErrorMessage>You must input a password</FormErrorMessage>
+          )}
+        </FormControl>
 
-        <label htmlFor="description">Description</label>
-        <textarea
+        <FormControl isInvalid={passEqualityErr} isRequired>
+          <FormLabel>Re-Enter New Password</FormLabel>
+          <Input ref={confirmPasswordRef} variant="filled" type="password" />
+          {passEqualityErr && (
+            <FormErrorMessage>Your passwords don't match</FormErrorMessage>
+          )}
+        </FormControl>
+
+        <FormLabel>Description</FormLabel>
+        <Textarea
+          placeholder="Write a description..."
           ref={descriptionRef}
-          type="text"
-          name="description"
-          defaultValue=""
-        />
-
-        <div className="buttons-container">
-          <button onClick={closeModal} className="red">
-            Cancel
-          </button>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-    </div>
+          defaultValue={props.description}
+        ></Textarea>
+        <Button
+          colorScheme="blue"
+          marginTop="1rem"
+          width="100%"
+          type="submit"
+          onClick={submit}
+        >
+          Submit
+        </Button>
+      </FormControl>
+    </>
   );
 }

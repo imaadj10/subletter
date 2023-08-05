@@ -116,7 +116,7 @@ const Listings = () => {
               key={listing.lid}
               lid={listing.lid}
               name={listing.name}
-              username={listing.username}
+              type={listing.type}
               price={listing.price}
               image={listing.image}
             />
@@ -175,7 +175,7 @@ const Listings = () => {
   );
 };
 
-const Listing = ({ lid, name, username, price, image }) => {
+const Listing = ({ lid, name, price, image, type }) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -193,7 +193,7 @@ const Listing = ({ lid, name, username, price, image }) => {
       cursor="pointer"
     >
       <Image
-        src={`http://localhost:1234/images/${image}`}
+        src={`http://localhost:1234/images/listings/${image}`}
         h="300px"
         w="full"
         objectFit="cover"
@@ -201,19 +201,15 @@ const Listing = ({ lid, name, username, price, image }) => {
 
       <Box p="6">
         <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
-            New
-          </Badge>
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            Sublet
-          </Box>
+          {type === 'sublet' ? (
+            <Badge borderRadius="full" px="2" colorScheme="blue">
+              Sublet
+            </Badge>
+          ) : (
+            <Badge borderRadius="full" px="2" colorScheme="red">
+              Item
+            </Badge>
+          )}
         </Box>
 
         <Box
@@ -227,10 +223,12 @@ const Listing = ({ lid, name, username, price, image }) => {
         </Box>
 
         <Box>
-          {price}
-          <Box as="span" color="gray.600" fontSize="sm">
-            / month
-          </Box>
+          ${price}
+          {type === 'sublet' ? (
+            <Box as="span" color="gray.600" fontSize="sm">
+              /month
+            </Box>
+          ) : null}
         </Box>
       </Box>
     </Box>

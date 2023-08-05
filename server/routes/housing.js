@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ dest: './images/residences' });
 const { isAuthenticated } = require('../middleware/auth_middleware');
 const housing_controller = require('../controllers/housing_controller');
 
@@ -7,8 +9,8 @@ router.get('/', isAuthenticated, housing_controller.getUserHousing);
 
 router.get('/:residence', isAuthenticated, housing_controller.getResidence);
 
-router.post('/', isAuthenticated, housing_controller.addResidence);
+router.post('/', isAuthenticated, upload.single('image'), housing_controller.addResidence);
 
-router.put('/:residence', isAuthenticated, housing_controller.updateResidence);
+router.put('/:residence', isAuthenticated, upload.single('image'), housing_controller.updateResidence);
 
 module.exports = router;
