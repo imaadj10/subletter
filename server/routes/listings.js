@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: './images' });
+const upload = multer({ dest: './images/listings' });
 const router = express.Router();
 const listings_controller = require('../controllers/listings_controller');
 const { isAuthenticated } = require('../middleware/auth_middleware');
