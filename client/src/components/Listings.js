@@ -71,7 +71,6 @@ const Listings = () => {
 
   return (
     <Flex flexDirection="column" border="1px" position="relative">
-
       <Box
         mt="20px"
         borderRadius="20px"
@@ -89,7 +88,7 @@ const Listings = () => {
           w="100%"
           bg="white"
           borderRadius="10px"
-          border="10px solid rgb(49, 130, 206)"
+          border="5px solid rgb(49, 130, 206)"
         >
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input type="text" variant="filled" placeholder="Search listings" />
@@ -99,59 +98,24 @@ const Listings = () => {
       <SimpleGrid p="20px" spacing="10" minChildWidth="300px">
         {listings.map((listing) => {
           return (
-            <Box
-              maxW="sm"
-              borderWidth="1px"
-              borderRadius="lg"
-              overflow="hidden"
-            >
-              <Image src={campus} h="300px" w="full" objectFit="cover" />
-
-              <Box p="6">
-                <Box display="flex" alignItems="baseline">
-                  <Badge borderRadius="full" px="2" colorScheme="teal">
-                    New
-                  </Badge>
-                  <Box
-                    color="gray.500"
-                    fontWeight="semibold"
-                    letterSpacing="wide"
-                    fontSize="xs"
-                    textTransform="uppercase"
-                    ml="2"
-                  >
-                    Sublet
-                  </Box>
-                </Box>
-
-                <Box
-                  mt="1"
-                  fontWeight="semibold"
-                  as="h4"
-                  lineHeight="tight"
-                  noOfLines={1}
-                >
-                  {listing.name}
-                </Box>
-
-                <Box>
-                  {listing.price}
-                  <Box as="span" color="gray.600" fontSize="sm">
-                    / month
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
+            <Listing
+              key={listing.lid}
+              lid={listing.lid}
+              name={listing.name}
+              username={listing.username}
+              price={listing.price}
+              image={listing.image}
+            />
           );
         })}
       </SimpleGrid>
 
       <Box position="fixed" right="40px" bottom="30px">
         <Button colorScheme="blue" p="30px" borderRadius="30px">
-            Add Listing
+          Add Listing
         </Button>
       </Box>
-{/* 
+      {/* 
       <Box
         position="fixed"
         w="100px"
@@ -262,20 +226,57 @@ const Listing = ({ lid, name, username, price, image }) => {
   };
 
   return (
-    <>
-      <div className="listing" id={lid} onClick={handleClick}>
-        <div className="listing-image">
-          <img
-            loading="lazy"
-            src={`http://localhost:1234/images/${image}`}
-            alt={image}
-          />
-        </div>
-        <div className="listing-name">{name}</div>
-        <div className="listing-username">Posted by {username}</div>
-        <div className="listing-price">${price}</div>
-      </div>
-    </>
+    <Box
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      id={lid}
+      onClick={handleClick}
+      cursor="pointer"
+    >
+      <Image
+        src={`http://localhost:1234/images/${image}`}
+        h="300px"
+        w="full"
+        objectFit="cover"
+      />
+
+      <Box p="6">
+        <Box display="flex" alignItems="baseline">
+          <Badge borderRadius="full" px="2" colorScheme="teal">
+            New
+          </Badge>
+          <Box
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+            ml="2"
+          >
+            Sublet
+          </Box>
+        </Box>
+
+        <Box
+          mt="1"
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          noOfLines={1}
+        >
+          {name}
+        </Box>
+
+        <Box>
+          {price}
+          <Box as="span" color="gray.600" fontSize="sm">
+            / month
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
