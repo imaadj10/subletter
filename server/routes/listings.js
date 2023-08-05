@@ -11,6 +11,14 @@ router.get('/:id', isAuthenticated, listings_controller.getSingleListing);
 
 router.post('/', isAuthenticated, upload.single('image'), listings_controller.add_listing);
 
+// router.put('/', isAuthenticated, listings_controller.updateListing);
+router.put('/:id', isAuthenticated, (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    res.status(200).send('');
+});
+
+
 router.delete('/:id', isAuthenticated, listings_controller.deleteListing);
 
 module.exports = router;

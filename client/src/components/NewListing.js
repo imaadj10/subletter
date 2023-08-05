@@ -38,7 +38,8 @@ export default function NewListing({ props }) {
     formData.append('image', file);
 
     if (props.listing) {
-      axios.put('http://localhost:1234/listings', formData, {
+      console.log(formData);
+      axios.put(`http://localhost:1234/listings/${props.listing.lid}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${props.token}`,
