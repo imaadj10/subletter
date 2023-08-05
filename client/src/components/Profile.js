@@ -12,10 +12,21 @@ import {
   Grid,
   GridItem,
   Image,
+  ModalOverlay,
+  Modal,
   Text,
+  useDisclosure,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  HStack,
 } from '@chakra-ui/react';
 
 const Profile = () => {
+  const editModal = useDisclosure();
+  const logoutModal = useDisclosure();
+  const deleteModal = useDisclosure();
   const [description, setDescription] = useState('');
   const [school, setSchool] = useState('');
 
@@ -78,9 +89,10 @@ const Profile = () => {
     history('/home', {});
   };
 
-  const edit = () => {
-    document.getElementById('edit-details-modal').showModal();
-  };
+  // const edit = () => {
+  //   onEditOpen();
+  //   document.getElementById('edit-details-modal').showModal();
+  // };
 
   return (
     <>
@@ -115,63 +127,110 @@ const Profile = () => {
         </GridItem>
       </Grid>
       <Flex width="100%" justifyContent="center" p="2rem" gap="1rem">
-        <Button size="sm" variant="solid" colorScheme="blue" onClick={edit}>
+        <Button
+          size="sm"
+          variant="solid"
+          colorScheme="blue"
+          onClick={editModal.onOpen}
+        >
           Edit Details
         </Button>
-        <Button size="sm" variant="solid" colorScheme="red" onClick={logout}>
+        <Button
+          size="sm"
+          variant="solid"
+          colorScheme="red"
+          onClick={logoutModal.onOpen}
+        >
           Logout
         </Button>
         <Button
           size="sm"
           variant="solid"
           colorScheme="red"
-          onClick={deleteAccount}
+          onClick={deleteModal.onOpen}
         >
           Delete Account
         </Button>
       </Flex>
+      <Modal
+        borderRadius="2rem"
+        isOpen={editModal.isOpen}
+        onClose={editModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <EditProfile
+              props={{
+                token,
+                username,
+                description,
+                onClose: editModal.onClose,
+              }}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Modal
+        borderRadius="2rem"
+        isOpen={logoutModal.isOpen}
+        onClose={logoutModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign="center">
+            Are you sure you want to logout?
+          </ModalHeader>
+          <ModalCloseButton />
+          <Flex gap="1rem" justifyContent="center">
+            <Button colorScheme="blue" marginBottom="1rem" onClick={logout}>
+              Yes
+            </Button>
+            <Button
+              colorScheme="red"
+              marginBottom="1rem"
+              onClick={logoutModal.onClose}
+            >
+              No
+            </Button>
+          </Flex>
+        </ModalContent>
+      </Modal>
 
-      {/* <div>
-        <div className="Profile">
-          <div className="Profile-Upper-Section">
-            <div className="Profile-left">
-              <div className="Profile-image">
-                <img src={profile_Image} alt="Profile" />
-              </div>
-              <div className="Profile-detail">
-                <div className="Profile-university">{school}</div>
-                <div className="Profile-major">Anthropology</div>
-                <div className="Profile-year">3rd Year</div>
-              </div>
-            </div>
-            <div className="Profile-right">
-              <h1 className="Profile-name">{username}</h1>
-              <div className="Profile-description">
-                <p>{description}</p>
-              </div>
-            </div>
-          </div>
-          <div className="buttons-container">
-            <button onClick={Edit}>Edit Details</button>
-            <button className="red" onClick={logout}>
-              Logout
-            </button>
-            <button className="red" onClick={deleteAccount}>
-              Delete Account
-            </button>
-          </div>
-        </div> */}
-
-      <dialog data-modal id="edit-details-modal">
-        <EditProfile
-          props={{
-            token,
-            username,
-            description,
-            setDescription,
-          }}
-        />
-      </dialog>
+      <Modal
+        borderRadius="2rem"
+        isOpen={deleteModal.isOpen}
+        onClose={deleteModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign="center">
+            Are you sure you want to delete your account?
+          </ModalHeader>
+          <ModalCloseButton />
+          <Flex gap="1rem" justifyContent="center">
+            <Button
+              colorScheme="blue"
+              marginBottom="1rem"
+              onClick={deleteAccount}
+            >
+              Yes
+            </Button>
+            <Button
+              colorScheme="red"
+              marginBottom="1rem"
+              onClick={deleteModal.onClose}
+            >
+              No
+            </Button>
+          </Flex>
+        </ModalContent>
+      </Modal>
       {/* </div> */}
     </>
   );
