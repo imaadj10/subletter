@@ -16,6 +16,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Modal,
+  ModalOverlay,
+  ModalContent
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
 // import campus from '../assets/ubc_campus.jpg';
@@ -91,7 +94,13 @@ const Listings = () => {
           border="5px solid rgb(49, 130, 206)"
         >
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
-          <Input type="text" variant="filled" placeholder="Search listings" />
+          <Input
+            type="text"
+            variant="filled"
+            placeholder="Search listings"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </InputGroup>
       </Box>
 
@@ -115,97 +124,7 @@ const Listings = () => {
           Add Listing
         </Button>
       </Box>
-      {/* 
-      <Box
-        position="fixed"
-        w="100px"
-        h="50px"
-        bottom="30px"
-        right="40px"
-        // bg="rgb(49, 130, 206)"
-        borderRadius="full"
-        p="10px" // Optional padding to increase the size of the circle
-        zIndex="1" // Optional zIndex to control the stacking order if needed
-      >
-        <Button>
-          Add Listing
-        </Button>
-      </Box> */}
-
-      {/* <div className="listing-container">
-        <div className="navigator">
-          <button className="plus" onClick={createNewListing} />
-          <div className="options">
-            <div className="option">
-              <label htmlFor="search">Filter For a Listing</label>
-              <input
-                name="search"
-                type="text"
-                className="search"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            <div className="option">
-              <label htmlFor="selector">Listing Type</label>
-              <select
-                className="selector"
-                defaultValue={types.all}
-                value={type}
-                onChange={handleTypeChange}
-              >
-                <option value={types.all}>All</option>
-                <option value={types.items}>Items</option>
-                <option value={types.sublets}>Sublets</option>
-              </select>
-            </div>
-            <div
-              className="option"
-              style={{ display: 'flex', marginTop: '10px' }}
-            >
-              <label htmlFor="price">Price:</label>
-              <div>
-                <input
-                  type="number"
-                  name="price"
-                  min="0"
-                  max="5000"
-                  value={min}
-                  step="100"
-                  onChange={changeMin}
-                />
-                <label className="lab">Min</label>
-              </div>
-              <div>
-                <input
-                  type="number"
-                  min="0"
-                  max="5000"
-                  value={max}
-                  step="100"
-                  onChange={changeMax}
-                />
-                <label className="lab">Max</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="listings">
-          {listings.map((listing) => {
-            return (
-              <Listing
-                key={listing.lid}
-                lid={listing.lid}
-                name={listing.name}
-                username={listing.username}
-                price={listing.price}
-                image={listing.image}
-              />
-            );
-          })}
-        </div>
-      </div>
+      
       <dialog data-modal id="create-new-listing-modal">
         <NewListing
           props={{
@@ -213,7 +132,7 @@ const Listings = () => {
             token,
           }}
         />
-      </dialog> */}
+      </dialog>
     </Flex>
   );
 };
