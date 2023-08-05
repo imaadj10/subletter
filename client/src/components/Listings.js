@@ -121,7 +121,7 @@ const Listings = () => {
                 key={listing.lid}
                 lid={listing.lid}
                 name={listing.name}
-                username={listing.username}
+                type={listing.type}
                 price={listing.price}
                 image={listing.image}
               />
@@ -141,7 +141,7 @@ const Listings = () => {
   );
 };
 
-const Listing = ({ lid, name, username, price, image }) => {
+const Listing = ({ lid, name, price, image, type}) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -159,7 +159,7 @@ const Listing = ({ lid, name, username, price, image }) => {
           />
         </div>
         <div className="listing-name">{name}</div>
-        <div className="listing-username">Posted by {username}</div>
+        <div className="listing-type">{type}</div>
         <div className="listing-price">${price}</div>
       </div>
     </>
