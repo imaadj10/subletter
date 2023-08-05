@@ -15,8 +15,11 @@ import {
   InputGroup,
   InputLeftElement,
   Textarea,
-  RadioGroup,
-  Radio,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   Select,
 } from '@chakra-ui/react';
 
@@ -24,7 +27,7 @@ export default function NewListing({ props }) {
   const [name, setName] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
-  const [type, setType] = useState('none');
+  const [type, setType] = useState('sublet');
   const [quantity, setQuantity] = useState();
   const [unitType, setUnitType] = useState();
   const [residence, setResidence] = useState();
@@ -114,58 +117,59 @@ export default function NewListing({ props }) {
   if (type === 'item') {
     inputSection = (
       /* JSX for the input section when type is "Items" */
-      <div>
-        <label htmlFor="quantity">Quantity</label>
-        <input
-          className="big-text-field"
-          name="quantity"
-          min="1"
-          step="1"
-          type="number"
-          value={quantity}
-          placeholder="Quantity"
-          onChange={(e) => setQuantity(e.target.value)}
-        ></input>
-      </div>
+      <Box w="full">
+        <FormControl>
+          <FormLabel>Item Quantity:</FormLabel>
+          <NumberInput
+            min="1"
+            variant="filled"
+            value={quantity}
+            onChange={(valueString) => setQuantity(valueString)}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+      </Box>
     );
   } else if (type === 'sublet') {
     inputSection = (
       /* JSX for the input section when type is "Sublets" */
-      <Box>
+      <Box w="full">
         <FormControl>
           <FormLabel>Residence:</FormLabel>
           <Select
             placeholder="Select Residence"
-            // onChange={(e) => setSchool(e.target.value)}
+            onChange={(e) => setResidence(e.target.value)}
             variant="filled"
           >
             {housingInfo.map((housing) => {
-              // console.log(school.school_name);
               return <option key={housing.id}>{housing.res_name}</option>;
             })}
           </Select>
         </FormControl>
+
+        <FormControl>
+          <FormLabel>Unit Type:</FormLabel>
+          <Select
+            placeholder="Select Unit Type"
+            onChange={(e) => {
+              setUnitType(e.target.value);
+            }}
+            variant="filled"
+          >
+            {housingInfo
+              .find((housing) => housing.res_name === residence)
+              ?.types_list.split(',')
+              .map((unit, index) => (
+                <option key={index}>{unit}</option>
+              ))}
+          </Select>
+        </FormControl>
       </Box>
-      // <div>
-      //   <label htmlFor="unitType">Unit Type</label>
-      //   <input
-      //     className="big-text-field"
-      //     name="unitType"
-      //     type="text"
-      //     value={unitType}
-      //     placeholder="Unit Type"
-      //     onChange={(e) => setUnitType(e.target.value)}
-      //   ></input>
-      //   <label htmlFor="residence">Residence Name</label>
-      //   <input
-      //     className="big-text-field"
-      //     name="residence"
-      //     type="text"
-      //     value={residence}
-      //     placeholder="Residence Name"
-      //     onChange={(e) => setResidence(e.target.value)}
-      //   ></input>
-      // </div>
     );
   }
 
@@ -185,13 +189,12 @@ export default function NewListing({ props }) {
         <FormControl>
           <FormLabel>Select Listing Type:</FormLabel>
           <Select
-            placeholder="Select option"
             onChange={(e) => setType(e.target.value)}
             value={type}
             variant="filled"
           >
-            <option value="option1">Sublet</option>
-            <option value="option2">Item</option>
+            <option value="sublet">Sublet</option>
+            <option value="item">Item</option>
           </Select>
         </FormControl>
 
@@ -232,6 +235,7 @@ export default function NewListing({ props }) {
           <FormLabel>Listing Details:</FormLabel>
           <Textarea
             type="text"
+            variant="filled"
             placeholder="Write a detailed description of your listing..."
             size="md"
             resize="vertical"
@@ -240,39 +244,7 @@ export default function NewListing({ props }) {
           />
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Residence:</FormLabel>
-          <Select
-            placeholder="Select Residence"
-            onChange={(e) => setResidence(e.target.value)}
-            variant="filled"
-          >
-            {housingInfo.map((housing) => {
-              // console.log(school.school_name);
-              return <option key={housing.id}>{housing.res_name}</option>;
-            })}
-          </Select>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Unit Type:</FormLabel>
-          <Select
-            placeholder="Select Unit Type"
-            onChange={(e) => {
-              setUnitType(e.target.value);
-            }}
-            variant="filled"
-          >
-            {housingInfo
-              .find((housing) => housing.res_name === residence)
-              ?.types_list.split(',')
-              .map((unit, index) => (
-                <option key={index}>{unit}</option>
-              ))}
-          </Select>
-        </FormControl>
-
-        {/* {inputSection} */}
+        {inputSection}
       </VStack>
       {/* <form onSubmit={submit}>
         <label htmlFor="name">Listing Name</label>
