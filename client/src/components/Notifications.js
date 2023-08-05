@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import SingleNotification from './SingleNotification';
 import '../css/Notifications.css';
 import Cookies from 'universal-cookie';
+import { Text, Box } from '@chakra-ui/react';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -39,11 +40,12 @@ const Notifications = () => {
     fetchData();
   }, []);
 
-
   return (
-    <div className="notifs">
-      <h1>Notifications</h1>
-      <ul>
+    <>
+      <Text fontWeight="bold" p="1rem" textAlign="center" fontSize="3xl">
+        Notifications
+      </Text>
+      <Box>
         {notifications.map((notif) => {
           return (
             <SingleNotification
@@ -56,8 +58,26 @@ const Notifications = () => {
             />
           );
         })}
-      </ul>
-    </div>
+      </Box>
+
+      {/* <div className="notifs">
+        <h1>Notifications</h1>
+        <ul>
+          {notifications.map((notif) => {
+            return (
+              <SingleNotification
+                key={notif.id}
+                id={notif.id}
+                title={notif.title}
+                content={notif.content}
+                setNotifications={setNotifications}
+                token={token}
+              />
+            );
+          })}
+        </ul> */}
+      {/* </div> */}
+    </>
   );
 };
 
