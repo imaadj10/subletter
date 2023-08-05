@@ -13,6 +13,10 @@ import {
   FormLabel,
   InputGroup,
   InputLeftElement,
+  Textarea,
+  RadioGroup,
+  Radio,
+  Select,
 } from '@chakra-ui/react';
 
 export default function NewListing({ props }) {
@@ -133,10 +137,22 @@ export default function NewListing({ props }) {
     }
   };
 
-
   return (
     <Box>
       <VStack>
+        <FormControl>
+          <FormLabel>Select Listing Type:</FormLabel>
+          <Select
+            placeholder="Select option"
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+            variant="filled"
+          >
+            <option value="option1">Sublet</option>
+            <option value="option2">Item</option>
+          </Select>
+        </FormControl>
+
         <FormControl>
           <FormLabel>Listing Name:</FormLabel>
           <Input
@@ -150,6 +166,7 @@ export default function NewListing({ props }) {
         </FormControl>
 
         <FormControl>
+          <FormLabel>Listing Price:</FormLabel>
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
@@ -164,10 +181,24 @@ export default function NewListing({ props }) {
               value={price}
               placeholder="Enter listing price"
               onChange={(e) => setPrice(e.target.value)}
-              onKeyDown={handleKeyDown} 
+              onKeyDown={handleKeyDown}
             />
           </InputGroup>
         </FormControl>
+
+        <FormControl>
+          <FormLabel>Listing Details:</FormLabel>
+          <Textarea
+            type="text"
+            placeholder="Write a detailed description of your listing..."
+            size="md"
+            resize="vertical"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </FormControl>
+
+        {inputSection}
       </VStack>
       {/* <form onSubmit={submit}>
         <label htmlFor="name">Listing Name</label>
