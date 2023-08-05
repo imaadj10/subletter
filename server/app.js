@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http')
+const http = require('http');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
@@ -16,6 +16,7 @@ const addressRouter = require('./routes/addresses');
 const notificationRouter = require('./routes/notifications');
 const messagesRouter = require('./routes/messages');
 const unitsRouter = require('./routes/units');
+const reviewsRouter = require('./routes/reviews');
 
 const app = express();
 app.use(cors());
@@ -53,6 +54,7 @@ app.use('/addresses', addressRouter);
 app.use('/notifications', notificationRouter);
 app.use('/messages', messagesRouter);
 app.use('/units', unitsRouter);
+app.use('/reviews', reviewsRouter);
 
 // Import the socket handler and initialize it with the server
 socketManager.initSocketIO(server);
