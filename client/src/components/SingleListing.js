@@ -4,6 +4,7 @@ import '../css/Listings.css';
 import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import NewListing from './NewListing';
 
 export default function SingleListing() {
   const cookies = new Cookies();
@@ -65,6 +66,10 @@ export default function SingleListing() {
       });
   };
 
+  const updateListing = (listing) => {
+    document.getElementById('create-new-listing-modal').showModal();
+  }
+
   const submitComment = (e) => {
     e.preventDefault();
     setIsComment(false);
@@ -119,11 +124,14 @@ export default function SingleListing() {
         <img
           className="picture"
           src={`http://localhost:1234/images/${listing.image}`}
-          alt="Tallwood"
+          alt={listing.image}
         />
         <div className="right-side">
           {username === listing.username ? (
             <button onClick={() => deleteListing()}>Delete Listing</button>
+          ) : null}
+          {username === listing.username ? (
+            <button onClick={() => updateListing()}>Update Listing</button>
           ) : null}
           <div>
             <h2>{listing.name}</h2>
@@ -205,6 +213,15 @@ export default function SingleListing() {
         <NewMessage
           props={{
             listing,
+            token,
+          }}
+        />
+      </dialog>
+      <dialog data-modal id="create-new-listing-modal">
+        <NewListing
+          props={{
+            listing,
+            username,
             token,
           }}
         />
