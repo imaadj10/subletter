@@ -129,6 +129,20 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
     rating && rating.overall !== undefined
       ? Math.round(rating.overall * 10) / 20
       : 0;
+
+  const prices_list = residence.prices_list
+    .split(',')
+    .reduce((acc, priceItem) => {
+      const [unitType, price] = priceItem.split(':');
+      acc[unitType.trim()] = parseInt(price, 10);
+      return acc;
+    }, {});
+
+  const unitPrices = residence.types_list
+    .split(',')
+    .map((unit) => prices_list[unit.trim()]);
+  const minPrice = Math.min(...unitPrices);
+  const maxPrice = Math.max(...unitPrices);
   // const navigate = useNavigate();
 
   // const handleClick = (e) => {
@@ -166,6 +180,16 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
       />
 
       <Stack>
+        <Text
+          position="absolute"
+          top="0"
+          right="0"
+          p="2"
+          fontSize="sm"
+          fontWeight="bold"
+        >
+          ${minPrice} - ${maxPrice}/month
+        </Text>
         <CardBody>
           <Heading size="md">{residence.res_name}</Heading>
           {[...Array(Math.floor(overall))].map((_, index) => (
@@ -184,14 +208,16 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
         </CardBody>
         <Divider my="2" width="100%" borderWidth="2px" />
         <CardFooter>
-          {residence.types_list.split(',').map((unit) => (
-            <Image
-            src={`http://localhost:1234/images/units/${unit}.png`}
-            maxW="100%"
-            objectFit="contain"
-            alt={unit}
-            margin="10px"
-          />
+          {residence.types_list.split(',').map((unit, index) => (
+            <div key={index}>
+              <Image
+                src={`http://localhost:1234/images/units/${unit}.png`}
+                maxW="100%"
+                objectFit="contain"
+                alt={unit}
+                margin="10px"
+              />
+            </div>
           ))}
         </CardFooter>
       </Stack>
