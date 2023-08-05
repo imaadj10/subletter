@@ -35,6 +35,7 @@ exports.get_residence = async (req) => {
                   INNER JOIN contains c ON r.res_name = c.res_name AND r.school_name = c.school_name
                   WHERE r.res_name = ? AND r.school_name = ?`;
   const result = await db.query(query, [req.params.residence, req.user.school]);
+  console.log(req.params.residence);
   return result[0];
 };
 
