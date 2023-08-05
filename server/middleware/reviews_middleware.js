@@ -5,7 +5,7 @@ exports.getListingComments = async (req) => {
 };
 
 exports.getReviews = async (req) => {
-  const query = `SELECT username, description, rating FROM reviews WHERE res_name=? AND school_name=?`;
+  const query = `SELECT rid, username, description, rating FROM reviews WHERE res_name=? AND school_name=?`;
   const queryResult = await db.query(query, [
     req.params.residence,
     req.user.school,
@@ -37,4 +37,9 @@ exports.createResidenceReview = async (req) => {
     req.user.school,
     req.body.rating,
   ]);
+};
+
+exports.deleteReview = async (req) => {
+  const query = `DELETE FROM reviews WHERE rid=?`;
+  await db.query(query, [req.params.residence]); // residence is the review id here, really weird
 };

@@ -5,12 +5,15 @@ const {
   getResidenceReviews,
   getAllResidenceReviews,
   createResidenceReview,
+  deleteReview,
 } = require('../controllers/reviews_controller');
 
 router
   .route('/:residence')
   .get(isAuthenticated, getResidenceReviews)
-  .post(isAuthenticated, createResidenceReview);
+  .post(isAuthenticated, createResidenceReview)
+  .delete(isAuthenticated, deleteReview);
+
 router.route('/').get(isAuthenticated, getAllResidenceReviews);
 
 module.exports = router;
