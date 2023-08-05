@@ -9,7 +9,6 @@ import {
   Button,
   HStack,
 } from '@chakra-ui/react';
-import campus from '../assets/ubc_campus.jpg';
 
 const Homepage = () => {
   const cookies = new Cookies();

@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Listings.css';
+import {
+  Text,
+  Box,
+  Flex,
+  Button,
+  HStack,
+  VStack,
+  FormControl,
+  Input,
+  FormLabel,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
 
 export default function NewListing({ props }) {
   const [name, setName] = useState();
@@ -39,12 +52,16 @@ export default function NewListing({ props }) {
 
     if (props.listing) {
       console.log(formData);
-      axios.put(`http://localhost:1234/listings/${props.listing.lid}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${props.token}`,
-        },
-      });
+      axios.put(
+        `http://localhost:1234/listings/${props.listing.lid}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${props.token}`,
+          },
+        }
+      );
     } else {
       axios.post('http://localhost:1234/listings', formData, {
         headers: {
@@ -106,9 +123,53 @@ export default function NewListing({ props }) {
     );
   }
 
+  const handleKeyDown = (e) => {
+    if (
+      e.keyCode === 69 || // 'e' key
+      e.keyCode === 187 || // '+' key
+      e.keyCode === 189 // '-' key
+    ) {
+      e.preventDefault(); // Prevent the input of these characters
+    }
+  };
+
+
   return (
-    <>
-      <form onSubmit={submit}>
+    <Box>
+      <VStack>
+        <FormControl>
+          <FormLabel>Listing Name:</FormLabel>
+          <Input
+            type="text"
+            name="username"
+            value={name}
+            placeholder="eg: Studio Sublet at Marine Drive"
+            onChange={(e) => setName(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              color="gray.300"
+              fontSize="1.2em"
+              children="$"
+            />
+            <Input
+              type="number"
+              min="0"
+              variant="filled"
+              value={price}
+              placeholder="Enter listing price"
+              onChange={(e) => setPrice(e.target.value)}
+              onKeyDown={handleKeyDown} 
+            />
+          </InputGroup>
+        </FormControl>
+      </VStack>
+      {/* <form onSubmit={submit}>
         <label htmlFor="name">Listing Name</label>
         <input
           className="big-text-field"
@@ -172,7 +233,7 @@ export default function NewListing({ props }) {
           </button>
           <button type="submit">Submit</button>
         </div>
-      </form>
-    </>
+      </form> */}
+    </Box>
   );
 }
