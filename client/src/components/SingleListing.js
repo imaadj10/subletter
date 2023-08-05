@@ -27,7 +27,6 @@ export default function SingleListing() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log({ ...res.data });
         setListing({ ...res.data });
       })
       .catch((e) => console.log(e));
@@ -40,8 +39,6 @@ export default function SingleListing() {
       })
       .then((res) => {
         setComments(res.data);
-
-        console.log(comments);
       })
       .catch((e) => console.log(e));
   };
@@ -104,6 +101,18 @@ export default function SingleListing() {
     setNewComment('');
   };
 
+  const deleteComment = async (e) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:1234/comments/${e.target.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => getListingComments())
+      .catch((e) => console.log(e));
+  };
+
   return (
     <>
       <div className="single-listing" id={listing.lid}>
@@ -120,8 +129,8 @@ export default function SingleListing() {
             <h2>{listing.name}</h2>
             {listing.type === 'sublet' ? (
               <div>
-              <h4>Residence Name:</h4> <p>{listing.res_name}</p>
-              <h4>Unit Type:</h4> <p>{listing.unit}</p>  
+                <h4>Residence Name:</h4> <p>{listing.res_name}</p>
+                <h4>Unit Type:</h4> <p>{listing.unit}</p>
               </div>
             ) : (
               <h4>Quantity: {listing.quantity}</h4>
@@ -177,6 +186,15 @@ export default function SingleListing() {
                     <b>{comment.username}: </b>
                     {comment.content}
                   </p>
+                  {comment.username == cookies.get('USERNAME') && (
+                    <button
+                      onClick={deleteComment}
+                      className="red"
+                      id={comment.cid}
+                    >
+                      Delete Comment
+                    </button>
+                  )}
                 </div>
               );
             })}

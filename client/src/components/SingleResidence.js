@@ -139,14 +139,44 @@ export default function SingleResidence() {
         )}
         {reviews.map((review) => {
           return (
-            <div style={{ backgroundColor: 'grey' }}>
-              <h1>{review.username}</h1>
-              <p>{review.description}</p>
-              <p>{review.rating}</p>
-            </div>
+            <Review
+              key={review.rid}
+              review={review}
+              cookies={cookies}
+              getResidenceReviews={getResidenceReviews}
+            />
           );
         })}
       </div>
     </>
   );
 }
+
+const Review = ({ review, cookies, getResidenceReviews }) => {
+  const deleteReview = async (e) => {
+    e.preventDefault();
+    await axios
+      .delete(`http://localhost:1234/reviews/${e.target.id}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.get('TOKEN')}`,
+        },
+      })
+      .then((res) => getResidenceReviews())
+      .catch((e) => console.log(e));
+  };
+  return (
+    <div style={{ backgroundColor: 'grey' }}>
+      <div>
+        <h1>{review.username}</h1>
+        {review.username === cookies.get('USERNAME') && (
+          <button className="red" onClick={deleteReview} id={review.rid}>
+            Delete Review
+          </button>
+        )}
+      </div>
+
+      <p>{review.description}</p>
+      <p>{review.rating}</p>
+    </div>
+  );
+};
