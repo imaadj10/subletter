@@ -175,7 +175,7 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
       <Image
         objectFit="cover"
         maxW={{ base: '100%', sm: '300px', md: '400px', lg: '500px' }}
-        src={md}
+        src={`http://localhost:1234/images/residences/${residence.image}`}
         alt="Residence"
       />
 
