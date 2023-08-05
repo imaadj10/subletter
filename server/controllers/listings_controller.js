@@ -33,7 +33,7 @@ exports.updateListing = async (req, res) => {
   try {
     await listings_middleware.update_listing_attributes(req);
     if (!req.body.image) {
-      await listings_middleware.update_listing_image(req.params.id, req.body.image);
+      await listings_middleware.update_listing_image(req.params.id, req.file.filename);
     }
     res.status(201).send('Successfully updated listing!');
   } catch (e) {
