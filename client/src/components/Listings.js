@@ -1,5 +1,5 @@
 import '../css/Listings.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
@@ -17,17 +17,22 @@ import {
   InputGroup,
   InputLeftElement,
   Modal,
+  ModalHeader,
   ModalOverlay,
-  ModalContent
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
-// import campus from '../assets/ubc_campus.jpg';
-import campus from '../assets/test2.jpg';
 
 const Listings = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
+  const finalRef = useRef(null)
 
   const types = {
     items: 'Items',
@@ -73,7 +78,7 @@ const Listings = () => {
   };
 
   return (
-    <Flex flexDirection="column" border="1px" position="relative">
+    <Flex flexDirection="column" border="1px">
       <Box
         mt="20px"
         borderRadius="20px"
@@ -119,20 +124,43 @@ const Listings = () => {
         })}
       </SimpleGrid>
 
-      <Box position="fixed" right="40px" bottom="30px">
-        <Button colorScheme="blue" p="30px" borderRadius="30px">
+      <Box position="fixed" right="40px" bottom="30px" >
+        <Button position="fixed" right="40px" bottom="30px" colorScheme="blue" p="30px" borderRadius="30px" onClick={onOpen}>
           Add Listing
         </Button>
       </Box>
-      
-      <dialog data-modal id="create-new-listing-modal">
+
+      <Modal blockScrollOnMount={false} size="xl" isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <NewListing
+              props={{
+                username,
+                token,
+              }}
+            />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Add Listing</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* <dialog data-modal id="create-new-listing-modal">
         <NewListing
           props={{
             username,
             token,
           }}
         />
-      </dialog>
+      </dialog> */}
     </Flex>
   );
 };
