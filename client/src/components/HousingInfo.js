@@ -184,9 +184,15 @@ const Residence = ({ residence, setSelectedResidence, ratings }) => {
         </CardBody>
         <Divider my="2" width="100%" borderWidth="2px" />
         <CardFooter>
-          {residence.types_list
-            .split(',')
-            .map((unit) => <Image src={`http://localhost:1234/images/units/${unit}.png`}/>)}
+          {residence.types_list.split(',').map((unit) => (
+            <Image
+            src={`http://localhost:1234/images/units/${unit}.png`}
+            maxW="100%"
+            objectFit="contain"
+            alt={unit}
+            margin="10px"
+          />
+          ))}
         </CardFooter>
       </Stack>
     </Card>
