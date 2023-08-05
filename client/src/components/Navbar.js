@@ -11,8 +11,10 @@ export default function Navbar() {
   const token = cookies.get('TOKEN');
 
   return (
-    <Flex as="nav" p="10px" pb="15px" mb="20px" mt="10px" justifyContent="space-between" borderBottom="1px solid #E2E8F0">
-      <Heading as="h1" mx="20px" mb="5px">Subletter</Heading>
+    <Flex as="nav" p="10px" pb="15px" mt="10px" justifyContent="space-between" borderBottom="1px solid #E2E8F0">
+      <Link to="/">
+        <Heading as="h1" mx="20px" mb="5px">Subletter</Heading>
+      </Link>
 
       {token && ( 
         <div>
