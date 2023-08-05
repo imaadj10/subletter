@@ -165,7 +165,7 @@ const Listings = () => {
   );
 };
 
-const Listing = ({ lid, name, username, price, image }) => {
+const Listing = ({ lid, name, price, image, type}) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {

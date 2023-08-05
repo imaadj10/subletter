@@ -3,10 +3,16 @@ const fs = require('fs');
 const path = require('path');
 
 exports.retrieve_school_listings = async (req) => {
-  const joinSearchQuery = `SELECT lid, listings.name, listings.username, price, image FROM listings 
-                            INNER JOIN users ON listings.username = users.username 
+  const joinSearchQuery = `SELECT l1.lid, l1.name, l1.price, l1.image,
+                            CASE 
+                              WHEN EXISTS (SELECT * FROM sublets WHERE lid = l1.lid) THEN 'sublet'
+                              ELSE 'item'
+                            END AS type 
+                            FROM listings l1
+                            INNER JOIN users ON l1.username = users.username 
                             WHERE school_name = ?`;
   const [res] = await db.query(joinSearchQuery, [req.user.school]);
+  console.log(res);
   return res;
 };
 
