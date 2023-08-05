@@ -154,7 +154,7 @@ const Listing = ({ lid, name, username, price, image }) => {
         <div className="listing-image">
           <img
             loading="lazy"
-            src={`http://localhost:1234/images/${image}`}
+            src={`http://localhost:1234/images/listings/${image}`}
             alt={image}
           />
         </div>
