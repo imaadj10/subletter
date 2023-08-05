@@ -51,6 +51,30 @@ exports.add_new_listing = async (req) => {
   }
 };
 
+exports.update_listing_attributes = async (req) => {
+  const query = 'UPDATE listings SET name = ?, description = ?, price = ? WHERE lid = ?';
+  await db.query(query, [req.body.name, req.body.description, req.body.price, req.params.id]);
+  if (req.body.type === 'sublet') {
+    update_sublet_attributes(req.params.id, req.params.unitType, req.params.residence);
+  } else {
+    update_item_attributes(req.params.id, req.params.quantity)
+  }
+};
+
+update_sublet_attributes = async (id, unit, res) => {
+  const query = 'UPDATE sublets SET type = ?, res_name = ? WHERE lid = ?';
+  await db.query(query, [unit, res, id]);
+};
+
+update_item_attributes = async (id, quantity) => {
+  const query = 'UPDATE items SET quantity = ? WHERE lid = ?';
+  await db.query(query, [quantity, id]);
+};
+
+exports.update_listing_image = async (id, filename) => {
+
+};
+
 exports.delete_listing = async (id) => {
   const query = 'DELETE FROM listings WHERE lid = ?';
   await db.query(query, [id]);
