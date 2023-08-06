@@ -114,11 +114,17 @@ const HousingInfo = () => {
               }}
             />
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+          <ModalFooter display="flex" justifyContent="right">
+            <Button
+              variant="ghost"
+              colorScheme="blue"
+              mr={3}
+              onClick={onClose}
+              border="2px solid rgb(49, 130, 206)"
+            >
+              Cancel
             </Button>
-            <Button variant="ghost">Add Residence</Button>
+            <Button colorScheme="blue"> Add Listing</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

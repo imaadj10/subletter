@@ -5,13 +5,16 @@ import {
   Flex,
   Box,
   Input,
+  Grid,
   FormControl,
   FormLabel,
   Select,
   Textarea,
   VStack,
   InputGroup,
-  InputLeftElement
+  GridItem,
+  Checkbox,
+  InputLeftElement,
 } from '@chakra-ui/react';
 
 export default function NewResidence({ props }) {
@@ -163,6 +166,16 @@ export default function NewResidence({ props }) {
     }));
   };
 
+  const handleKeyDown = (e) => {
+    if (
+      e.keyCode === 69 || // 'e' key
+      e.keyCode === 187 || // '+' key
+      e.keyCode === 189 // '-' key
+    ) {
+      e.preventDefault(); // Prevent the input of these characters
+    }
+  };
+
   const closeModal = (e) => {
     e.preventDefault();
     document.getElementById('create-new-residence-modal').close();
@@ -286,77 +299,119 @@ export default function NewResidence({ props }) {
     //   </form>
     // </div>
     <Box>
-      <VStack spacing="5">
+      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         <FormControl>
-          <FormLabel>Select Listing Type:</FormLabel>
-          <Select
-            // onChange={(e) => setType(e.target.value)}
-            value="sublet"
-            variant="filled"
-          >
-            <option value="sublet">Sublet</option>
-            <option value="item">Item</option>
-          </Select>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Listing Name:</FormLabel>
+          <FormLabel>Residence Name</FormLabel>
           <Input
             type="text"
-            name="username"
-            value="bruh"
-            placeholder="eg: Studio Sublet at Marine Drive"
-            // onChange={(e) => setName(e.target.value)}
+            name="res_name"
+            value={res_name}
+            placeholder="eg. UBC Student Residence"
+            onChange={(e) => setResidence(e.target.value)}
             variant="filled"
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel>Listing Price:</FormLabel>
+          <FormLabel>Street Address</FormLabel>
+          <Input
+            type="text"
+            name="street_address"
+            value={street_address}
+            onChange={(e) => setAddress(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>City</FormLabel>
+          <Input
+            type="text"
+            name="city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>State/Province</FormLabel>
+          <Input
+            type="text"
+            name="province"
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Country</FormLabel>
+          <Input
+            type="text"
+            name="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Zip/Postal Code</FormLabel>
+          <Input
+            type="text"
+            name="postal_code"
+            value={postal_code}
+            onChange={(e) => setPostalCode(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <GridItem colSpan={2} />
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Available Units</FormLabel>
+          </FormControl>
+        </GridItem>
+        {availableUnits.map((unit) => (
+          <GridItem key={unit.type}>
+            <Checkbox onChange={() => handleCheckboxChange(unit.type)}>
+              {unit.type}
+            </Checkbox>
+            {selectedUnits.includes(unit.type) && (
           <InputGroup>
-            <InputLeftElement
+
+              <InputLeftElement
               pointerEvents="none"
               color="gray.300"
               fontSize="1.2em"
               children="$"
             />
-            <Input
-              type="number"
-              min="0"
-              variant="filled"
-              value="12"
-              placeholder="Enter listing price"
-              // onChange={(e) => setPrice(e.target.value)}
-            />
-          </InputGroup>
-        </FormControl>
-
+              <Input
+                type="number"
+                min="0"
+                variant="filled"
+                value={unit_prices[unit.type]}
+                placeholder="Enter unit rent"
+                w="70%"
+                onChange={(e) => handlePriceChange(unit.type, e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              </InputGroup>
+            )}
+          </GridItem>
+        ))}
         <FormControl>
-          <FormLabel>Listing Details:</FormLabel>
-          <Textarea
-            type="text"
-            variant="filled"
-            placeholder="Write a detailed description of your listing..."
-            size="md"
-            resize="vertical"
-            value="Bruh"
-            // onChange={(e) => setDescription(e.target.value)}
+          <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
+          <Input
+            type="file"
+            id="imageInput"
+            onChange={(e) => setFile(e.target.files[0])}
+            style={{ border: 'none' }}
           />
         </FormControl>
-
-        <Flex justifyContent="flex-start" w="full">
-          <Input
-            pl="0"
-            // leftIcon={<AttachmentIcon />}
-            colorScheme="teal"
-            variant="solid"
-            filename={file}
-            onChange={(e) => setFile(e.target.files[0])}
-            type="file"
-            accept="image/*"
-          ></Input>
-        </Flex>
-      </VStack>
+      </Grid>
     </Box>
   );
 }

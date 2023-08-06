@@ -190,7 +190,7 @@ export default function NewListing({ props }) {
     <Box>
       <VStack spacing="5">
         <FormControl>
-          <FormLabel>Select Listing Type:</FormLabel>
+          <FormLabel>Select Listing Type</FormLabel>
           <Select
             onChange={(e) => setType(e.target.value)}
             value={type}
@@ -202,19 +202,19 @@ export default function NewListing({ props }) {
         </FormControl>
 
         <FormControl>
-          <FormLabel>Listing Name:</FormLabel>
+          <FormLabel>Listing Name</FormLabel>
           <Input
             type="text"
             name="username"
             value={name}
-            placeholder="eg: Studio Sublet at Marine Drive"
+            placeholder="eg. Studio Sublet at Marine Drive"
             onChange={(e) => setName(e.target.value)}
             variant="filled"
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel>Listing Price:</FormLabel>
+          <FormLabel>Listing Price</FormLabel>
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
@@ -235,7 +235,7 @@ export default function NewListing({ props }) {
         </FormControl>
 
         <FormControl>
-          <FormLabel>Listing Details:</FormLabel>
+          <FormLabel>Listing Details</FormLabel>
           <Textarea
             type="text"
             variant="filled"
@@ -249,18 +249,15 @@ export default function NewListing({ props }) {
 
         {inputSection}
 
-        <Flex justifyContent="flex-start" w="full">
-          <Input
-            pl="0"
-            // leftIcon={<AttachmentIcon />}
-            colorScheme="teal"
-            variant="solid"
-            filename={file}
-            onChange={(e) => setFile(e.target.files[0])}
-            type="file"
-            accept="image/*"
-          ></Input>
-        </Flex>
+        <FormControl>
+        <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
+        <Input
+          type="file"
+          id="imageInput"
+          onChange={(e) => setFile(e.target.files[0])}
+          style={{ border: 'none' }}
+        />
+      </FormControl>
       </VStack>
     </Box>
   );
