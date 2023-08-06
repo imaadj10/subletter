@@ -12,6 +12,8 @@ export default function NewResidence({ props }) {
   const [availableUnits, setAvailableUnits] = useState([]);
   const [unit_prices, setUnitPrices] = useState({});
   const [selectedUnits, setSelectedUnits] = useState([]);
+  const [file, setFile] = useState();
+
 
   const resetForm = () => {
     setResidence('');
@@ -71,6 +73,7 @@ export default function NewResidence({ props }) {
       province: province,
       unit_types: selectedUnits,
       prices: unit_prices,
+      image: file,
     };
     if (selectedUnits.length === 0) {
       alert('Please select at least one unit type!');
@@ -84,6 +87,7 @@ export default function NewResidence({ props }) {
               form,
               {
                 headers: {
+                  'Content-Type': 'multipart/form-data',
                   Authorization: `Bearer ${props.token}`,
                 },
               }
@@ -96,6 +100,7 @@ export default function NewResidence({ props }) {
           await axios
             .post('http://localhost:1234/housinginfo', form, {
               headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${props.token}`,
               },
             })
@@ -252,6 +257,14 @@ export default function NewResidence({ props }) {
             </div>
           ))}
         </div>
+        <label for="image">Image</label>
+        <input
+          id="input"
+          filename={file}
+          onChange={(e) => setFile(e.target.files[0])}
+          type="file"
+          accept="image/*"
+        ></input>
 
         <div className="new-listing-buttons">
           <button className="red" onClick={closeModal}>

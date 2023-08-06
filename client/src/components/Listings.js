@@ -23,16 +23,16 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
 
 const Listings = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
-  const finalRef = useRef(null)
+  const finalRef = useRef(null);
 
   const types = {
     items: 'Items',
@@ -116,7 +116,7 @@ const Listings = () => {
               key={listing.lid}
               lid={listing.lid}
               name={listing.name}
-              username={listing.username}
+              type={listing.type}
               price={listing.price}
               image={listing.image}
             />
@@ -124,16 +124,29 @@ const Listings = () => {
         })}
       </SimpleGrid>
 
-      <Box position="fixed" right="40px" bottom="30px" >
-        <Button position="fixed" right="40px" bottom="30px" colorScheme="blue" p="30px" borderRadius="30px" onClick={onOpen}>
+      <Box position="fixed" right="40px" bottom="30px">
+        <Button
+          position="fixed"
+          right="40px"
+          bottom="30px"
+          colorScheme="blue"
+          p="30px"
+          borderRadius="30px"
+          onClick={onOpen}
+        >
           Add Listing
         </Button>
       </Box>
 
-      <Modal blockScrollOnMount={false} size="xl" isOpen={isOpen} onClose={onClose}>
+      <Modal
+        blockScrollOnMount={false}
+        size="xl"
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Create Listing</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <NewListing
@@ -144,28 +157,25 @@ const Listings = () => {
             />
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+          <ModalFooter display="flex" justifyContent="center">
+            <Button
+              variant="ghost"
+              colorScheme="blue"
+              mr={3}
+              onClick={onClose}
+              border="2px solid rgb(49, 130, 206)"
+            >
+              Cancel
             </Button>
-            <Button variant="ghost">Add Listing</Button>
+            <Button colorScheme="blue"> Add Listing</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      {/* <dialog data-modal id="create-new-listing-modal">
-        <NewListing
-          props={{
-            username,
-            token,
-          }}
-        />
-      </dialog> */}
     </Flex>
   );
 };
 
-const Listing = ({ lid, name, username, price, image }) => {
+const Listing = ({ lid, name, price, image, type }) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -183,7 +193,7 @@ const Listing = ({ lid, name, username, price, image }) => {
       cursor="pointer"
     >
       <Image
-        src={`http://localhost:1234/images/${image}`}
+        src={`http://localhost:1234/images/listings/${image}`}
         h="300px"
         w="full"
         objectFit="cover"
@@ -191,19 +201,15 @@ const Listing = ({ lid, name, username, price, image }) => {
 
       <Box p="6">
         <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
-            New
-          </Badge>
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            Sublet
-          </Box>
+          {type === 'sublet' ? (
+            <Badge borderRadius="full" px="2" colorScheme="blue">
+              Sublet
+            </Badge>
+          ) : (
+            <Badge borderRadius="full" px="2" colorScheme="red">
+              Item
+            </Badge>
+          )}
         </Box>
 
         <Box
@@ -217,10 +223,12 @@ const Listing = ({ lid, name, username, price, image }) => {
         </Box>
 
         <Box>
-          {price}
-          <Box as="span" color="gray.600" fontSize="sm">
-            / month
-          </Box>
+          ${price}
+          {type === 'sublet' ? (
+            <Box as="span" color="gray.600" fontSize="sm">
+              /month
+            </Box>
+          ) : null}
         </Box>
       </Box>
     </Box>
