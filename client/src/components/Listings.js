@@ -1,50 +1,40 @@
 import '../css/Listings.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
 import {
-  Text,
   Icon,
   Box,
   Flex,
   Button,
-  HStack,
   SimpleGrid,
   Image,
   Badge,
   Input,
   InputGroup,
   InputLeftElement,
-  Modal,
-  ModalHeader,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
 
 const Listings = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
-  const finalRef = useRef(null);
-
-  const types = {
-    items: 'Items',
-    sublets: 'Sublets',
-    all: 'All',
-  };
-  const [type, setType] = useState(types.all);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState('');
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(5000);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     axios
@@ -59,9 +49,9 @@ const Listings = () => {
       });
   }, []);
 
-  const handleTypeChange = (e) => {
-    setType(e.target.value);
-  };
+  // const handleTypeChange = (e) => {
+  //   setType(e.target.value);
+  // };
 
   const changeMin = (e) => {
     if (parseInt(e.target.value) <= max) {
@@ -133,7 +123,7 @@ const Listings = () => {
           colorScheme="blue"
           p="30px"
           borderRadius="30px"
-          onClick={onOpen}
+          onClick={handleOpenModal}
         >
           <Flex align="center">
             <Icon as={AddIcon} boxSize={4} mr="2" />
@@ -142,39 +132,15 @@ const Listings = () => {
         </Button>
       </Box>
 
-      <Modal
-        blockScrollOnMount={false}
-        size="xl"
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Listing</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <NewListing
-              props={{
-                username,
-                token,
-              }}
-            />
-          </ModalBody>
-
-          <ModalFooter display="flex" justifyContent="right">
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              mr={3}
-              onClick={onClose}
-              border="2px solid rgb(49, 130, 206)"
-            >
-              Cancel
-            </Button>
-            <Button colorScheme="blue"> Add Listing</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <NewListing
+        props={{
+          username,
+          token,
+        }}
+        isOpen={isModalOpen}
+        onOpen={handleOpenModal}
+        onClose={handleCloseModal}
+      />
     </Flex>
   );
 };

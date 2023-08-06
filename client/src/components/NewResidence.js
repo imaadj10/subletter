@@ -189,7 +189,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>{props.selectedResidence ? 'Update Residence Information' : 'Add New Residence'}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Box>

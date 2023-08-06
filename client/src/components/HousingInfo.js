@@ -27,7 +27,6 @@ const HousingInfo = () => {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
-
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = (res) => {
