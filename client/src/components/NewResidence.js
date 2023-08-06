@@ -81,17 +81,17 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
   const submit = async (e) => {
     e.preventDefault();
 
-    const form = {
-      res_name: res_name,
-      street_address: street_address,
-      postal_code: postal_code,
-      country: country,
-      city: city,
-      province: province,
-      unit_types: selectedUnits,
-      prices: unit_prices,
-      image: file,
-    };
+    const formData = new FormData();
+    formData.append('res_name', res_name);
+    formData.append('street_address', street_address);
+    formData.append('postal_code', postal_code);
+    formData.append('country', country);
+    formData.append('city', city);
+    formData.append('province', province);
+    formData.append('unit_types', selectedUnits);
+    formData.append('prices', unit_prices);
+    formData.append('image', file);
+
     if (selectedUnits.length === 0) {
       alert('Please select at least one unit type!');
     } else {
@@ -101,7 +101,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
           await axios
             .put(
               `http://localhost:1234/housinginfo/${props.selectedResidence.res_name}`,
-              form,
+              formData,
               {
                 headers: {
                   'Content-Type': 'multipart/form-data',
@@ -115,7 +115,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
         } else {
           // If there's no selected residence, it means we are adding a new one
           await axios
-            .post('http://localhost:1234/housinginfo', form, {
+            .post('http://localhost:1234/housinginfo', formData, {
               headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${props.token}`,
@@ -323,7 +323,9 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
           >
             Cancel
           </Button>
-          <Button colorScheme="blue"> Add Listing</Button>
+          <Button colorScheme="blue" onClick={submit}>
+            {props.selectedResidence ? 'Update Residence':'Add Residence'}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
