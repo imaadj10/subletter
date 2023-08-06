@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/NewResidence.css';
+import {
+  Flex,
+  Box,
+  Input,
+  FormControl,
+  FormLabel,
+  Select,
+  Textarea,
+  VStack,
+  InputGroup,
+  InputLeftElement
+} from '@chakra-ui/react';
 
 export default function NewResidence({ props }) {
   const [res_name, setResidence] = useState();
@@ -13,7 +25,6 @@ export default function NewResidence({ props }) {
   const [unit_prices, setUnitPrices] = useState({});
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [file, setFile] = useState();
-
 
   const resetForm = () => {
     setResidence('');
@@ -158,121 +169,194 @@ export default function NewResidence({ props }) {
   };
 
   return (
-    <div className="residence-form">
-      <form onSubmit={submit} className="residence-input">
-        <div className="input-row">
-          <div className="input-group">
-            <label htmlFor="res_name">Residence Name</label>
-            <input
-              className="big-text-field"
-              name="res_name"
-              type="text"
-              value={res_name}
-              placeholder="Residence Name"
-              onChange={(e) => setResidence(e.target.value)}
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="street_address">Street Address</label>
-            <input
-              className="big-text-field"
-              name="street_address"
-              type="text"
-              value={street_address}
-              placeholder="Street Address"
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-        </div>
+    // <div className="residence-form">
+    //   <form onSubmit={submit} className="residence-input">
+    //     <div className="input-row">
+    //       <div className="input-group">
+    //         <label htmlFor="res_name">Residence Name</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="res_name"
+    //           type="text"
+    //           value={res_name}
+    //           placeholder="Residence Name"
+    //           onChange={(e) => setResidence(e.target.value)}
+    //         />
+    //       </div>
+    //       <div className="input-group">
+    //         <label htmlFor="street_address">Street Address</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="street_address"
+    //           type="text"
+    //           value={street_address}
+    //           placeholder="Street Address"
+    //           onChange={(e) => setAddress(e.target.value)}
+    //         />
+    //       </div>
+    //     </div>
 
-        <div className="input-row">
-          <div className="input-group">
-            <label htmlFor="city">City</label>
-            <input
-              className="big-text-field"
-              name="city"
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="City"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="province">Province</label>
-            <input
-              className="big-text-field"
-              name="province"
-              type="text"
-              value={province}
-              onChange={(e) => setProvince(e.target.value)}
-              placeholder="Province"
-            />
-          </div>
-        </div>
+    //     <div className="input-row">
+    //       <div className="input-group">
+    //         <label htmlFor="city">City</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="city"
+    //           type="text"
+    //           value={city}
+    //           onChange={(e) => setCity(e.target.value)}
+    //           placeholder="City"
+    //         />
+    //       </div>
+    //       <div className="input-group">
+    //         <label htmlFor="province">Province</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="province"
+    //           type="text"
+    //           value={province}
+    //           onChange={(e) => setProvince(e.target.value)}
+    //           placeholder="Province"
+    //         />
+    //       </div>
+    //     </div>
 
-        <div className="input-row">
-          <div className="input-group">
-            <label htmlFor="country">Country</label>
-            <input
-              className="big-text-field"
-              name="country"
-              type="text"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              placeholder="Country"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="postal_code">Postal Code</label>
-            <input
-              className="big-text-field"
-              name="postal_code"
-              type="text"
-              value={postal_code}
-              onChange={(e) => setPostalCode(e.target.value)}
-              placeholder="Postal Code"
-            />
-          </div>
-        </div>
-        <div className="unit-container">
-          {availableUnits.map((unit) => (
-            <div className="unit-box" key={unit.type}>
-              <input
-                type="checkbox"
-                id={unit.type}
-                name={unit.type}
-                value={unit.type}
-                checked={unit_prices[unit.type]}
-                onChange={() => handleCheckboxChange(unit.type)}
-              />
-              <label htmlFor={unit.type}>{unit.type}</label>
-              {selectedUnits.includes(unit.type) && (
-                <input
-                  type="number"
-                  placeholder="Price"
-                  value={unit_prices[unit.type]}
-                  onChange={(e) => handlePriceChange(unit.type, e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-        <label for="image">Image</label>
-        <input
-          id="input"
-          filename={file}
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          accept="image/*"
-        ></input>
+    //     <div className="input-row">
+    //       <div className="input-group">
+    //         <label htmlFor="country">Country</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="country"
+    //           type="text"
+    //           value={country}
+    //           onChange={(e) => setCountry(e.target.value)}
+    //           placeholder="Country"
+    //         />
+    //       </div>
+    //       <div className="input-group">
+    //         <label htmlFor="postal_code">Postal Code</label>
+    //         <input
+    //           className="big-text-field"
+    //           name="postal_code"
+    //           type="text"
+    //           value={postal_code}
+    //           onChange={(e) => setPostalCode(e.target.value)}
+    //           placeholder="Postal Code"
+    //         />
+    //       </div>
+    //     </div>
+    //     <div className="unit-container">
+    //       {availableUnits.map((unit) => (
+    //         <div className="unit-box" key={unit.type}>
+    //           <input
+    //             type="checkbox"
+    //             id={unit.type}
+    //             name={unit.type}
+    //             value={unit.type}
+    //             checked={unit_prices[unit.type]}
+    //             onChange={() => handleCheckboxChange(unit.type)}
+    //           />
+    //           <label htmlFor={unit.type}>{unit.type}</label>
+    //           {selectedUnits.includes(unit.type) && (
+    //             <input
+    //               type="number"
+    //               placeholder="Price"
+    //               value={unit_prices[unit.type]}
+    //               onChange={(e) => handlePriceChange(unit.type, e.target.value)}
+    //             />
+    //           )}
+    //         </div>
+    //       ))}
+    //     </div>
+    //     <label for="image">Image</label>
+    //     <input
+    //       id="input"
+    //       filename={file}
+    //       onChange={(e) => setFile(e.target.files[0])}
+    //       type="file"
+    //       accept="image/*"
+    //     ></input>
 
-        <div className="new-listing-buttons">
-          <button className="red" onClick={closeModal}>
-            Cancel
-          </button>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-    </div>
+    //     <div className="new-listing-buttons">
+    //       <button className="red" onClick={closeModal}>
+    //         Cancel
+    //       </button>
+    //       <button type="submit">Submit</button>
+    //     </div>
+    //   </form>
+    // </div>
+    <Box>
+      <VStack spacing="5">
+        <FormControl>
+          <FormLabel>Select Listing Type:</FormLabel>
+          <Select
+            // onChange={(e) => setType(e.target.value)}
+            value="sublet"
+            variant="filled"
+          >
+            <option value="sublet">Sublet</option>
+            <option value="item">Item</option>
+          </Select>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Listing Name:</FormLabel>
+          <Input
+            type="text"
+            name="username"
+            value="bruh"
+            placeholder="eg: Studio Sublet at Marine Drive"
+            // onChange={(e) => setName(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Listing Price:</FormLabel>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              color="gray.300"
+              fontSize="1.2em"
+              children="$"
+            />
+            <Input
+              type="number"
+              min="0"
+              variant="filled"
+              value="12"
+              placeholder="Enter listing price"
+              // onChange={(e) => setPrice(e.target.value)}
+            />
+          </InputGroup>
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Listing Details:</FormLabel>
+          <Textarea
+            type="text"
+            variant="filled"
+            placeholder="Write a detailed description of your listing..."
+            size="md"
+            resize="vertical"
+            value="Bruh"
+            // onChange={(e) => setDescription(e.target.value)}
+          />
+        </FormControl>
+
+        <Flex justifyContent="flex-start" w="full">
+          <Input
+            pl="0"
+            // leftIcon={<AttachmentIcon />}
+            colorScheme="teal"
+            variant="solid"
+            filename={file}
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            accept="image/*"
+          ></Input>
+        </Flex>
+      </VStack>
+    </Box>
   );
 }

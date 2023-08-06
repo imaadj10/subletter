@@ -161,7 +161,7 @@ const Listings = () => {
             />
           </ModalBody>
 
-          <ModalFooter display="flex" justifyContent="center">
+          <ModalFooter display="flex" justifyContent="right">
             <Button
               variant="ghost"
               colorScheme="blue"
