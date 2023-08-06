@@ -5,7 +5,17 @@ import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import NewListing from './NewListing';
-import { Box, Image, Flex, Center } from '@chakra-ui/react';
+import {
+  Box,
+  Image,
+  Flex,
+  Center,
+  Button,
+  Heading,
+  Text,
+  Avatar,
+} from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 export default function SingleListing() {
   const cookies = new Cookies();
@@ -123,21 +133,16 @@ export default function SingleListing() {
     <Box
       width="75%"
       margin="auto"
-      marginTop="5vh" 
-      marginBottom="5vh" 
-      borderRadius="md" 
-      boxShadow="dark-lg" 
-      overflow="hidden" 
+      marginTop="5vh"
+      marginBottom="5vh"
+      borderRadius="md"
+      boxShadow="dark-lg"
+      overflow="hidden"
       height="80vh"
     >
       <Flex height="100%">
         {/* Left side - Background image with blur effect */}
-        <Box
-          flex="1"
-          position="relative"
-          zIndex="1"
-          overflow="hidden" 
-        >
+        <Box flex="1" position="relative" zIndex="1" overflow="hidden">
           <Box
             position="absolute"
             top="0"
@@ -145,12 +150,21 @@ export default function SingleListing() {
             right="0"
             bottom="0"
             zIndex="-1"
-            filter="blur(25px)" 
-            webkitFilter="blur(25px)" 
+            filter="blur(25px)"
+            webkitFilter="blur(25px)"
             backgroundImage={`url(http://localhost:1234/images/listings/${listing.image})`}
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
             backgroundPosition="center"
+            _before={{
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            }}
           />
           {/* Content inside the Box */}
           <Box
@@ -168,7 +182,7 @@ export default function SingleListing() {
 
         {/* Right side - Sidebar with listing information */}
         <Box
-          flex="0.3" 
+          flex="0.3"
           bg="white"
           p={4}
           borderRadius="md"
@@ -178,12 +192,67 @@ export default function SingleListing() {
           maxHeight="calc(100vh - 10vh)"
         >
           {/* Add the listing information here */}
-          <Box fontWeight="bold" fontSize="xl" mb={2}>
-            {listing.title}
-          </Box>
-          <Box mb={2}>{listing.description}</Box>
-          <Box>{listing.price}</Box>
-          {/* Add other listing information as needed */}
+          <Heading size="xl">{listing.name}</Heading>
+          <Heading size="md" mb="2">
+            ${listing.price}
+          </Heading>
+          <Text mb="2">
+            <Avatar size="sm" name={listing.username} mr="1"/>
+            {listing.username}
+          </Text>
+          <Heading size="md" mb="1">
+            Details
+          </Heading>
+          {listing.type === 'sublet' ? (
+            <Text as="span" display="block" mb={2}>
+              <Text as="span" fontWeight="bold">
+                Residence:
+              </Text>{' '}
+              {listing.res_name}
+              <br />
+              <Text as="span" fontWeight="bold">
+                Unit Type:
+              </Text>{' '}
+              {listing.unit}
+            </Text>
+          ) : (
+            <Text as="span" display="block" mb={2}>
+              <Text as="span" fontWeight="bold">
+                Quantity:
+              </Text>{' '}
+              {listing.quantity}
+            </Text>
+          )}
+
+          <Text mb={2}>{listing.description}</Text>
+          <Heading size="md">Comments</Heading>
+          {comments.map((comment) => {
+            return (
+              <Box>
+                {comments.map((comment) => {
+                  return (
+                    <Flex key={comment.id} alignItems="center" mb={3}>
+                      {/* Username and Avatar */}
+                      <Avatar size="sm" name={comment.username} mr={2} />
+                      <Box>
+                        <Box fontWeight="bold">{comment.username}</Box>
+                        <Box>{comment.content}</Box>
+                        {comment.username === cookies.get('USERNAME') && (
+                          <DeleteIcon
+                            onClick={deleteComment}
+                            size="sm"
+                            variant="solid"
+                          >
+                            Delete Comment
+                          </DeleteIcon>
+                        )}
+                      </Box>
+                    </Flex>
+                  );
+                })}
+              </Box>
+            );
+          })}
         </Box>
       </Flex>
     </Box>
@@ -255,25 +324,25 @@ export default function SingleListing() {
     //             </div>
     //           </form>
     //         )}
-    //         {comments.map((comment) => {
-    //           return (
-    //             <div className="comment">
-    //               <p>
-    //                 <b>{comment.username}: </b>
-    //                 {comment.content}
-    //               </p>
-    //               {comment.username == cookies.get('USERNAME') && (
-    //                 <button
-    //                   onClick={deleteComment}
-    //                   className="red"
-    //                   id={comment.cid}
-    //                 >
-    //                   Delete Comment
-    //                 </button>
-    //               )}
-    //             </div>
-    //           );
-    //         })}
+    // {comments.map((comment) => {
+    //   return (
+    //     <div className="comment">
+    //       <p>
+    //         <b>{comment.username}: </b>
+    //         {comment.content}
+    //       </p>
+    //       {comment.username == cookies.get('USERNAME') && (
+    //         <button
+    //           onClick={deleteComment}
+    //           className="red"
+    //           id={comment.cid}
+    //         >
+    //           Delete Comment
+    //         </button>
+    //       )}
+    //     </div>
+    //   );
+    // })}
     //       </div>
     //     </div>
     //   </div>
