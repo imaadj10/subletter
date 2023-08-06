@@ -14,7 +14,7 @@ exports.getUserHousing = async (req) => {
                       a1.city,
                       a1.province,
                       GROUP_CONCAT(c.type) AS types_list,
-                      GROUP_CONCAT(CONCAT(c.type, ':', c.price)) AS prices_list
+                      GROUP_CONCAT(CONCAT(c.type, ':', c.price)) AS prices_list,
                       r.image
                     FROM
                         residences AS r
