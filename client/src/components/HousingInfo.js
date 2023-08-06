@@ -29,7 +29,8 @@ const HousingInfo = () => {
   const username = cookies.get('USERNAME');
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleOpenModal = (res) => {
+  const handleOpenModal = (event, res) => {
+    event.stopPropagation();
     setSelectedResidence(res);
     setModalOpen(true);
   };
@@ -87,7 +88,7 @@ const HousingInfo = () => {
           colorScheme="blue"
           p="30px"
           borderRadius="30px"
-          onClick={() => handleOpenModal(undefined)}
+          onClick={(e) => handleOpenModal(e, undefined)}
         >
           <Flex align="center">
             <Icon as={AddIcon} boxSize={4} mr="2" />
@@ -144,8 +145,12 @@ const Residence = ({ residence, ratings, handleOpenModal }) => {
       direction={{ base: 'column', sm: 'row' }}
       overflow="hidden"
       variant="outline"
-      //onClick={handleClick}
+      onClick={handleClick}
       cursor="pointer"
+      transition="box-shadow 0.4s ease"
+      _hover={{
+        boxShadow: "xl"
+      }}
     >
       <Image
         objectFit="cover"
@@ -195,15 +200,17 @@ const Residence = ({ residence, ratings, handleOpenModal }) => {
               />
             </div>
           ))}
-          <Box position="absolute" top="0" left="0" p="2">
-            <Icon
-              as={EditIcon}
-              w={6}
-              h={6}
-              color="blue.500"
-              cursor="pointer"
-              onClick={() => handleOpenModal(residence)}
-            />
+          <Box position="absolute" bottom="2" right="2">
+              <Icon
+                as={EditIcon}
+                w={6}
+                h={6}
+                color="gray.400"
+                cursor="pointer"
+                transition="color 0.2s ease"
+                _hover={{ color: "blue.500" }}
+                onClick={(event) => handleOpenModal(event, residence)}
+              />
           </Box>
         </CardFooter>
       </Stack>
