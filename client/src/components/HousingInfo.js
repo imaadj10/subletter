@@ -17,26 +17,29 @@ import {
   Heading,
   Divider,
   Icon,
-  Modal,
-  ModalHeader,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { StarIcon, AddIcon } from '@chakra-ui/icons';
-const md = require('../assets/md.jpg');
+import { StarIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
 
 const HousingInfo = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [residences, setResidences] = useState([]);
   const [selectedResidence, setSelectedResidence] = useState(null);
   const [residenceRatings, setResidenceRatings] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = (res) => {
+    if (res) {
+      setSelectedResidence(res);
+    }
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   async function getHousingInfo() {
     try {
@@ -69,11 +72,6 @@ const HousingInfo = () => {
       .then((res) => setResidenceRatings(res.data));
   };
 
-  const createNewResidence = () => {
-    setSelectedResidence(null);
-    document.getElementById('create-new-residence-modal').showModal();
-  };
-
   return (
     <Flex flexDirection="column" maxW="75%" mx="auto">
       <Stack spacing="10" p="20px">
@@ -83,56 +81,39 @@ const HousingInfo = () => {
             residence={residence}
             setSelectedResidence={setSelectedResidence}
             ratings={residenceRatings}
+            handleOpenModal={handleOpenModal}
           />
         ))}
       </Stack>
       <Box position="fixed" right="40px" bottom="30px">
-        <Button colorScheme="blue" p="30px" borderRadius="30px" onClick={onOpen}>
+        <Button
+          colorScheme="blue"
+          p="30px"
+          borderRadius="30px"
+          onClick={() => handleOpenModal(null)}
+        >
           <Flex align="center">
             <Icon as={AddIcon} boxSize={4} mr="2" />
             Add Residence
           </Flex>
         </Button>
       </Box>
-
-      <Modal
-        blockScrollOnMount={false}
-        size="xl"
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <NewResidence
-              props={{
-                username,
-                token,
-                selectedResidence,
-              }}
-            />
-          </ModalBody>
-          <ModalFooter display="flex" justifyContent="right">
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              mr={3}
-              onClick={onClose}
-              border="2px solid rgb(49, 130, 206)"
-            >
-              Cancel
-            </Button>
-            <Button colorScheme="blue"> Add Listing</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {/* Modal component with isOpen, onOpen, and onClose props */}
+      <NewResidence
+        props={{
+          username,
+          token,
+          selectedResidence,
+        }}
+        isOpen={isModalOpen}
+        onOpen={handleOpenModal}
+        onClose={handleCloseModal}
+      />
     </Flex>
   );
 };
 
-const Residence = ({ residence, ratings }) => {
+const Residence = ({ residence, ratings, handleOpenModal }) => {
   const rating = ratings.find(
     (rating) => rating.res_name === residence.res_name
   );
@@ -166,7 +147,7 @@ const Residence = ({ residence, ratings }) => {
       direction={{ base: 'column', sm: 'row' }}
       overflow="hidden"
       variant="outline"
-      onClick={handleClick}
+      //onClick={handleClick}
       cursor="pointer"
     >
       <Image
@@ -217,6 +198,16 @@ const Residence = ({ residence, ratings }) => {
               />
             </div>
           ))}
+          <Box position="absolute" top="0" left="0" p="2">
+            <Icon
+              as={EditIcon}
+              w={6}
+              h={6}
+              color="blue.500"
+              cursor="pointer"
+              onClick={() => handleOpenModal(residence)}
+            />
+          </Box>
         </CardFooter>
       </Stack>
     </Card>

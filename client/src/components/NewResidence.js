@@ -2,22 +2,26 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/NewResidence.css';
 import {
-  Flex,
   Box,
   Input,
   Grid,
   FormControl,
   FormLabel,
-  Select,
-  Textarea,
-  VStack,
   InputGroup,
   GridItem,
   Checkbox,
   InputLeftElement,
+  Modal,
+  ModalHeader,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from '@chakra-ui/react';
 
-export default function NewResidence({ props }) {
+export default function NewResidence({ props, isOpen, onOpen, onClose }) {
   const [res_name, setResidence] = useState();
   const [street_address, setAddress] = useState();
   const [postal_code, setPostalCode] = useState();
@@ -182,236 +186,147 @@ export default function NewResidence({ props }) {
   };
 
   return (
-    // <div className="residence-form">
-    //   <form onSubmit={submit} className="residence-input">
-    //     <div className="input-row">
-    //       <div className="input-group">
-    //         <label htmlFor="res_name">Residence Name</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="res_name"
-    //           type="text"
-    //           value={res_name}
-    //           placeholder="Residence Name"
-    //           onChange={(e) => setResidence(e.target.value)}
-    //         />
-    //       </div>
-    //       <div className="input-group">
-    //         <label htmlFor="street_address">Street Address</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="street_address"
-    //           type="text"
-    //           value={street_address}
-    //           placeholder="Street Address"
-    //           onChange={(e) => setAddress(e.target.value)}
-    //         />
-    //       </div>
-    //     </div>
+    <Modal
+      blockScrollOnMount={false}
+      size="xl"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Modal Title</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Box>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+              <FormControl>
+                <FormLabel>Residence Name</FormLabel>
+                <Input
+                  type="text"
+                  name="res_name"
+                  value={res_name}
+                  placeholder="eg. UBC Student Residence"
+                  onChange={(e) => setResidence(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-    //     <div className="input-row">
-    //       <div className="input-group">
-    //         <label htmlFor="city">City</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="city"
-    //           type="text"
-    //           value={city}
-    //           onChange={(e) => setCity(e.target.value)}
-    //           placeholder="City"
-    //         />
-    //       </div>
-    //       <div className="input-group">
-    //         <label htmlFor="province">Province</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="province"
-    //           type="text"
-    //           value={province}
-    //           onChange={(e) => setProvince(e.target.value)}
-    //           placeholder="Province"
-    //         />
-    //       </div>
-    //     </div>
+              <FormControl>
+                <FormLabel>Street Address</FormLabel>
+                <Input
+                  type="text"
+                  name="street_address"
+                  value={street_address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-    //     <div className="input-row">
-    //       <div className="input-group">
-    //         <label htmlFor="country">Country</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="country"
-    //           type="text"
-    //           value={country}
-    //           onChange={(e) => setCountry(e.target.value)}
-    //           placeholder="Country"
-    //         />
-    //       </div>
-    //       <div className="input-group">
-    //         <label htmlFor="postal_code">Postal Code</label>
-    //         <input
-    //           className="big-text-field"
-    //           name="postal_code"
-    //           type="text"
-    //           value={postal_code}
-    //           onChange={(e) => setPostalCode(e.target.value)}
-    //           placeholder="Postal Code"
-    //         />
-    //       </div>
-    //     </div>
-    //     <div className="unit-container">
-    //       {availableUnits.map((unit) => (
-    //         <div className="unit-box" key={unit.type}>
-    //           <input
-    //             type="checkbox"
-    //             id={unit.type}
-    //             name={unit.type}
-    //             value={unit.type}
-    //             checked={unit_prices[unit.type]}
-    //             onChange={() => handleCheckboxChange(unit.type)}
-    //           />
-    //           <label htmlFor={unit.type}>{unit.type}</label>
-    //           {selectedUnits.includes(unit.type) && (
-    //             <input
-    //               type="number"
-    //               placeholder="Price"
-    //               value={unit_prices[unit.type]}
-    //               onChange={(e) => handlePriceChange(unit.type, e.target.value)}
-    //             />
-    //           )}
-    //         </div>
-    //       ))}
-    //     </div>
-    //     <label for="image">Image</label>
-    //     <input
-    //       id="input"
-    //       filename={file}
-    //       onChange={(e) => setFile(e.target.files[0])}
-    //       type="file"
-    //       accept="image/*"
-    //     ></input>
+              <FormControl>
+                <FormLabel>City</FormLabel>
+                <Input
+                  type="text"
+                  name="city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-    //     <div className="new-listing-buttons">
-    //       <button className="red" onClick={closeModal}>
-    //         Cancel
-    //       </button>
-    //       <button type="submit">Submit</button>
-    //     </div>
-    //   </form>
-    // </div>
-    <Box>
-      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        <FormControl>
-          <FormLabel>Residence Name</FormLabel>
-          <Input
-            type="text"
-            name="res_name"
-            value={res_name}
-            placeholder="eg. UBC Student Residence"
-            onChange={(e) => setResidence(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
+              <FormControl>
+                <FormLabel>State/Province</FormLabel>
+                <Input
+                  type="text"
+                  name="province"
+                  value={province}
+                  onChange={(e) => setProvince(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-        <FormControl>
-          <FormLabel>Street Address</FormLabel>
-          <Input
-            type="text"
-            name="street_address"
-            value={street_address}
-            onChange={(e) => setAddress(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
+              <FormControl>
+                <FormLabel>Country</FormLabel>
+                <Input
+                  type="text"
+                  name="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-        <FormControl>
-          <FormLabel>City</FormLabel>
-          <Input
-            type="text"
-            name="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
+              <FormControl>
+                <FormLabel>Zip/Postal Code</FormLabel>
+                <Input
+                  type="text"
+                  name="postal_code"
+                  value={postal_code}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
 
-        <FormControl>
-          <FormLabel>State/Province</FormLabel>
-          <Input
-            type="text"
-            name="province"
-            value={province}
-            onChange={(e) => setProvince(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
+              <GridItem colSpan={2} />
 
-        <FormControl>
-          <FormLabel>Country</FormLabel>
-          <Input
-            type="text"
-            name="country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Zip/Postal Code</FormLabel>
-          <Input
-            type="text"
-            name="postal_code"
-            value={postal_code}
-            onChange={(e) => setPostalCode(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
-
-        <GridItem colSpan={2} />
-
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Available Units</FormLabel>
-          </FormControl>
-        </GridItem>
-        {availableUnits.map((unit) => (
-          <GridItem key={unit.type}>
-            <Checkbox onChange={() => handleCheckboxChange(unit.type)}>
-              {unit.type}
-            </Checkbox>
-            {selectedUnits.includes(unit.type) && (
-          <InputGroup>
-
-              <InputLeftElement
-              pointerEvents="none"
-              color="gray.300"
-              fontSize="1.2em"
-              children="$"
-            />
-              <Input
-                type="number"
-                min="0"
-                variant="filled"
-                value={unit_prices[unit.type]}
-                placeholder="Enter unit rent"
-                w="70%"
-                onChange={(e) => handlePriceChange(unit.type, e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              </InputGroup>
-            )}
-          </GridItem>
-        ))}
-        <FormControl>
-          <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
-          <Input
-            type="file"
-            id="imageInput"
-            onChange={(e) => setFile(e.target.files[0])}
-            style={{ border: 'none' }}
-          />
-        </FormControl>
-      </Grid>
-    </Box>
+              <GridItem colSpan={2}>
+                <FormControl>
+                  <FormLabel>Available Units</FormLabel>
+                </FormControl>
+              </GridItem>
+              {availableUnits.map((unit) => (
+                <GridItem key={unit.type}>
+                  <Checkbox onChange={() => handleCheckboxChange(unit.type)}>
+                    {unit.type}
+                  </Checkbox>
+                  {selectedUnits.includes(unit.type) && (
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                        children="$"
+                      />
+                      <Input
+                        type="number"
+                        min="0"
+                        variant="filled"
+                        value={unit_prices[unit.type]}
+                        placeholder="Enter unit rent"
+                        w="70%"
+                        onChange={(e) =>
+                          handlePriceChange(unit.type, e.target.value)
+                        }
+                        onKeyDown={handleKeyDown}
+                      />
+                    </InputGroup>
+                  )}
+                </GridItem>
+              ))}
+              <FormControl>
+                <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
+                <Input
+                  type="file"
+                  id="imageInput"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ border: 'none' }}
+                />
+              </FormControl>
+            </Grid>
+          </Box>
+        </ModalBody>
+        <ModalFooter display="flex" justifyContent="right">
+          <Button
+            variant="ghost"
+            colorScheme="blue"
+            mr={3}
+            onClick={onClose}
+            border="2px solid rgb(49, 130, 206)"
+          >
+            Cancel
+          </Button>
+          <Button colorScheme="blue"> Add Listing</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
