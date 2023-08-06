@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/NewResidence.css';
 import {
@@ -19,9 +20,11 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 
 export default function NewResidence({ props, isOpen, onOpen, onClose }) {
+  const navigate = useNavigate();
   const [res_name, setResidence] = useState();
   const [street_address, setAddress] = useState();
   const [postal_code, setPostalCode] = useState();
@@ -32,6 +35,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
   const [unit_prices, setUnitPrices] = useState({});
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [file, setFile] = useState();
+  const toast = useToast();
 
   const resetForm = () => {
     setResidence('');
@@ -91,7 +95,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
     formData.append('unit_types', selectedUnits);
     formData.append('prices', JSON.stringify(unit_prices));
     formData.append('image', file);
-    
+
     if (selectedUnits.length === 0) {
       alert('Please select at least one unit type!');
     } else {
@@ -130,6 +134,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
       }
 
       onClose();
+      navigate(`/housinginfo`);
     }
   };
 
@@ -189,7 +194,11 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{props.selectedResidence ? 'Update Residence Information' : 'Add New Residence'}</ModalHeader>
+        <ModalHeader>
+          {props.selectedResidence
+            ? 'Update Residence Information'
+            : 'Add New Residence'}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Box>
@@ -323,8 +332,20 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
           >
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={submit}>
-            {props.selectedResidence ? 'Update Residence':'Add Residence'}
+          <Button
+            colorScheme="blue"
+            onClick={(e) => {
+              submit(e);
+              toast({
+                title: props.selectedResidence ? 'Residence Updated!' : 'Residence Added!',
+                description: props.selectedResidence ? `${res_name} has been updated!` : `${res_name} has been added!`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+              });
+            }}
+          >
+            {props.selectedResidence ? 'Update Residence' : 'Add Residence'}
           </Button>
         </ModalFooter>
       </ModalContent>

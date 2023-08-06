@@ -25,6 +25,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  useToast,
 } from '@chakra-ui/react';
 
 export default function NewListing({ props, isOpen, onOpen, onClose }) {
@@ -37,6 +38,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
   const [residence, setResidence] = useState();
   const [housingInfo, setHousingInfo] = useState([]);
   const [file, setFile] = useState();
+  const toast = useToast();
 
   useEffect(() => {
     const getHousingInfo = async () => {
@@ -280,7 +282,16 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           >
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={submit}>
+          <Button colorScheme="blue" onClick={(e) => {
+              submit(e);
+              toast({
+                title: 'Listing Added!',
+                description: `${name} has been added!`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+              });
+            }}>
             Add Listing
           </Button>
         </ModalFooter>
