@@ -44,7 +44,6 @@ export default function EditProfile({ props }) {
         ? setPassEqualityErr(false)
         : setPassEqualityErr(true);
     } else {
-      props.onClose(e);
       try {
         // Values that are going to be send to the backend
         let input_username = undefined;
@@ -137,7 +136,6 @@ export default function EditProfile({ props }) {
 
         <FormLabel>Description</FormLabel>
         <Textarea
-          placeholder="Write a description..."
           ref={descriptionRef}
           defaultValue={props.description}
         ></Textarea>
