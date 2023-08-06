@@ -87,7 +87,7 @@ const Listings = () => {
           w="100%"
           bg="white"
           borderRadius="10px"
-          border="5px solid rgb(49, 130, 206)"
+          border="3px solid rgb(49, 130, 206)"
         >
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input
@@ -95,7 +95,12 @@ const Listings = () => {
             variant="filled"
             placeholder="Search listings"
             value={search}
+            borderWidth="1px"
             onChange={(e) => setSearch(e.target.value)}
+            _focus={{
+              borderColor: "blue.300", // Change the border color on focus
+              boxShadow: "none", // Remove the box shadow on focus
+            }}
           />
         </InputGroup>
       </Box>
@@ -161,6 +166,10 @@ const Listing = ({ lid, name, price, image, type }) => {
       id={lid}
       onClick={handleClick}
       cursor="pointer"
+      transition="box-shadow 0.3s ease"
+      _hover={{
+        boxShadow: "lg"
+      }}
     >
       <Image
         src={`http://localhost:1234/images/listings/${image}`}

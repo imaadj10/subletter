@@ -151,6 +151,7 @@ const Residence = ({ residence, ratings, handleOpenModal }) => {
       _hover={{
         boxShadow: "xl"
       }}
+      maxH="300px"
     >
       <Image
         objectFit="cover"
