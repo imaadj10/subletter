@@ -194,7 +194,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
         <ModalBody>
           <Box>
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Residence Name</FormLabel>
                 <Input
                   type="text"
@@ -206,7 +206,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Street Address</FormLabel>
                 <Input
                   type="text"
@@ -217,7 +217,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>City</FormLabel>
                 <Input
                   type="text"
@@ -228,7 +228,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>State/Province</FormLabel>
                 <Input
                   type="text"
@@ -239,7 +239,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Country</FormLabel>
                 <Input
                   type="text"
@@ -250,7 +250,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Zip/Postal Code</FormLabel>
                 <Input
                   type="text"
@@ -264,7 +264,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
               <GridItem colSpan={2} />
 
               <GridItem colSpan={2}>
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel>Available Units</FormLabel>
                 </FormControl>
               </GridItem>
@@ -301,7 +301,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
                   )}
                 </GridItem>
               ))}
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
                 <Input
                   type="file"

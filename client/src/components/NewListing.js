@@ -127,7 +127,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
     inputSection = (
       /* JSX for the input section when type is "Items" */
       <Box w="full">
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Item Quantity:</FormLabel>
           <NumberInput
             min="1"
@@ -149,7 +149,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
     inputSection = (
       /* JSX for the input section when type is "Sublets" */
       <Box w="full">
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Residence:</FormLabel>
           <Select
             placeholder="Select Residence"
@@ -162,7 +162,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Unit Type:</FormLabel>
           <Select
             placeholder="Select Unit Type"
@@ -197,7 +197,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
         <ModalBody>
           <Box>
             <VStack spacing="5">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Select Listing Type</FormLabel>
                 <Select
                   onChange={(e) => setType(e.target.value)}
@@ -209,7 +209,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
                 </Select>
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Listing Name</FormLabel>
                 <Input
                   type="text"
@@ -221,7 +221,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Listing Price</FormLabel>
                 <InputGroup>
                   <InputLeftElement
@@ -242,7 +242,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
                 </InputGroup>
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Listing Details</FormLabel>
                 <Textarea
                   type="text"
@@ -257,7 +257,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
 
               {inputSection}
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
                 <Input
                   type="file"
