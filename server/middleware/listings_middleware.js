@@ -12,7 +12,6 @@ exports.retrieve_school_listings = async (req) => {
                             INNER JOIN users ON l1.username = users.username 
                             WHERE school_name = ?`;
   const [res] = await db.query(joinSearchQuery, [req.user.school]);
-  console.log(res);
   return res;
 };
 

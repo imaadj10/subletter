@@ -89,9 +89,9 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
     formData.append('city', city);
     formData.append('province', province);
     formData.append('unit_types', selectedUnits);
-    formData.append('prices', unit_prices);
+    formData.append('prices', JSON.stringify(unit_prices));
     formData.append('image', file);
-
+    
     if (selectedUnits.length === 0) {
       alert('Please select at least one unit type!');
     } else {
