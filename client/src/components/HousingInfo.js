@@ -31,9 +31,7 @@ const HousingInfo = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = (res) => {
-    if (res) {
-      setSelectedResidence(res);
-    }
+    setSelectedResidence(res);
     setModalOpen(true);
   };
 
@@ -90,7 +88,7 @@ const HousingInfo = () => {
           colorScheme="blue"
           p="30px"
           borderRadius="30px"
-          onClick={() => handleOpenModal(null)}
+          onClick={() => handleOpenModal(undefined)}
         >
           <Flex align="center">
             <Icon as={AddIcon} boxSize={4} mr="2" />

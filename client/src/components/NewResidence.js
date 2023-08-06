@@ -62,7 +62,6 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
   }, [props.selectedResidence]);
 
   const parseTypesList = (unitsString) => {
-    console.log(unitsString);
     const unitsList = unitsString.split(',');
     return unitsList;
   };
@@ -130,7 +129,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
         alert('Error adding/updating residence!');
       }
 
-      closeModal(e);
+      onClose();
     }
   };
 
@@ -179,11 +178,7 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
       e.preventDefault(); // Prevent the input of these characters
     }
   };
-
-  const closeModal = (e) => {
-    e.preventDefault();
-    document.getElementById('create-new-residence-modal').close();
-  };
+  console.log(selectedUnits);
 
   return (
     <Modal
@@ -275,7 +270,11 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
               </GridItem>
               {availableUnits.map((unit) => (
                 <GridItem key={unit.type}>
-                  <Checkbox onChange={() => handleCheckboxChange(unit.type)}>
+                  <Checkbox
+                    key={unit.type}
+                    isChecked={selectedUnits.includes(unit.type)} // Set isChecked based on whether the unit is in the availableUnits list
+                    onChange={() => handleCheckboxChange(unit.type)} // Pass the unit to the onChange handler
+                  >
                     {unit.type}
                   </Checkbox>
                   {selectedUnits.includes(unit.type) && (
