@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/NewResidence.css';
 import {
@@ -24,7 +23,6 @@ import {
 } from '@chakra-ui/react';
 
 export default function NewResidence({ props, isOpen, onOpen, onClose }) {
-  const navigate = useNavigate();
   const [res_name, setResidence] = useState();
   const [street_address, setAddress] = useState();
   const [postal_code, setPostalCode] = useState();
@@ -134,7 +132,6 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
       }
 
       onClose();
-      navigate(`/housinginfo`);
     }
   };
 
