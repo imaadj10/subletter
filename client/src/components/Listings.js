@@ -1,49 +1,40 @@
 import '../css/Listings.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
 import {
-  Text,
+  Icon,
   Box,
   Flex,
   Button,
-  HStack,
   SimpleGrid,
   Image,
   Badge,
   Input,
   InputGroup,
   InputLeftElement,
-  Modal,
-  ModalHeader,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
 
 const Listings = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
-  const finalRef = useRef(null);
-
-  const types = {
-    items: 'Items',
-    sublets: 'Sublets',
-    all: 'All',
-  };
-  const [type, setType] = useState(types.all);
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState('');
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(5000);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     axios
@@ -58,9 +49,9 @@ const Listings = () => {
       });
   }, []);
 
-  const handleTypeChange = (e) => {
-    setType(e.target.value);
-  };
+  // const handleTypeChange = (e) => {
+  //   setType(e.target.value);
+  // };
 
   const changeMin = (e) => {
     if (parseInt(e.target.value) <= max) {
@@ -78,7 +69,7 @@ const Listings = () => {
   };
 
   return (
-    <Flex flexDirection="column" border="1px">
+    <Flex flexDirection="column">
       <Box
         mt="20px"
         borderRadius="20px"
@@ -96,7 +87,7 @@ const Listings = () => {
           w="100%"
           bg="white"
           borderRadius="10px"
-          border="5px solid rgb(49, 130, 206)"
+          border="3px solid rgb(49, 130, 206)"
         >
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input
@@ -104,7 +95,12 @@ const Listings = () => {
             variant="filled"
             placeholder="Search listings"
             value={search}
+            borderWidth="1px"
             onChange={(e) => setSearch(e.target.value)}
+            _focus={{
+              borderColor: "blue.300", // Change the border color on focus
+              boxShadow: "none", // Remove the box shadow on focus
+            }}
           />
         </InputGroup>
       </Box>
@@ -132,45 +128,24 @@ const Listings = () => {
           colorScheme="blue"
           p="30px"
           borderRadius="30px"
-          onClick={onOpen}
+          onClick={handleOpenModal}
         >
-          Add Listing
+          <Flex align="center">
+            <Icon as={AddIcon} boxSize={4} mr="2" />
+            Add Listing
+          </Flex>
         </Button>
       </Box>
 
-      <Modal
-        blockScrollOnMount={false}
-        size="xl"
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Listing</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <NewListing
-              props={{
-                username,
-                token,
-              }}
-            />
-          </ModalBody>
-
-          <ModalFooter display="flex" justifyContent="center">
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              mr={3}
-              onClick={onClose}
-              border="2px solid rgb(49, 130, 206)"
-            >
-              Cancel
-            </Button>
-            <Button colorScheme="blue"> Add Listing</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <NewListing
+        props={{
+          username,
+          token,
+        }}
+        isOpen={isModalOpen}
+        onOpen={handleOpenModal}
+        onClose={handleCloseModal}
+      />
     </Flex>
   );
 };
@@ -191,6 +166,10 @@ const Listing = ({ lid, name, price, image, type }) => {
       id={lid}
       onClick={handleClick}
       cursor="pointer"
+      transition="box-shadow 0.3s ease"
+      _hover={{
+        boxShadow: "lg"
+      }}
     >
       <Image
         src={`http://localhost:1234/images/listings/${image}`}

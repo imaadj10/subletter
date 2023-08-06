@@ -12,5 +12,11 @@ router.get('/:residence', isAuthenticated, housing_controller.getResidence);
 router.post('/', isAuthenticated, upload.single('image'), housing_controller.addResidence);
 
 router.put('/:residence', isAuthenticated, upload.single('image'), housing_controller.updateResidence);
+// router.put('/:residence', isAuthenticated, upload.single('image'), (req, res) => {
+//     console.log(req.body);
+//     res.status(200).send();
+// });
+
+
 
 module.exports = router;

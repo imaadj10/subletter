@@ -6,6 +6,7 @@ import '../css/Housing.css';
 import NewResidence from './NewResidence';
 import {
   Flex,
+  Box,
   Card,
   CardBody,
   CardFooter,
@@ -15,9 +16,9 @@ import {
   Text,
   Heading,
   Divider,
+  Icon,
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
-const md = require('../assets/md.jpg');
+import { StarIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
 
 const HousingInfo = () => {
   const [residences, setResidences] = useState([]);
@@ -26,6 +27,17 @@ const HousingInfo = () => {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = (event, res) => {
+    event.stopPropagation();
+    setSelectedResidence(res);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   async function getHousingInfo() {
     try {
@@ -58,11 +70,6 @@ const HousingInfo = () => {
       .then((res) => setResidenceRatings(res.data));
   };
 
-  const createNewResidence = () => {
-    setSelectedResidence(null);
-    document.getElementById('create-new-residence-modal').showModal();
-  };
-
   return (
     <Flex flexDirection="column" maxW="75%" mx="auto">
       <Stack spacing="10" p="20px">
@@ -72,14 +79,39 @@ const HousingInfo = () => {
             residence={residence}
             setSelectedResidence={setSelectedResidence}
             ratings={residenceRatings}
+            handleOpenModal={handleOpenModal}
           />
         ))}
       </Stack>
+      <Box position="fixed" right="40px" bottom="30px">
+        <Button
+          colorScheme="blue"
+          p="30px"
+          borderRadius="30px"
+          onClick={(e) => handleOpenModal(e, undefined)}
+        >
+          <Flex align="center">
+            <Icon as={AddIcon} boxSize={4} mr="2" />
+            Add Residence
+          </Flex>
+        </Button>
+      </Box>
+      {/* Modal component with isOpen, onOpen, and onClose props */}
+      <NewResidence
+        props={{
+          username,
+          token,
+          selectedResidence,
+        }}
+        isOpen={isModalOpen}
+        onOpen={handleOpenModal}
+        onClose={handleCloseModal}
+      />
     </Flex>
   );
 };
 
-const Residence = ({ residence, ratings }) => {
+const Residence = ({ residence, ratings, handleOpenModal }) => {
   const rating = ratings.find(
     (rating) => rating.res_name === residence.res_name
   );
@@ -115,6 +147,11 @@ const Residence = ({ residence, ratings }) => {
       variant="outline"
       onClick={handleClick}
       cursor="pointer"
+      transition="box-shadow 0.4s ease"
+      _hover={{
+        boxShadow: "xl"
+      }}
+      maxH="300px"
     >
       <Image
         objectFit="cover"
@@ -164,6 +201,18 @@ const Residence = ({ residence, ratings }) => {
               />
             </div>
           ))}
+          <Box position="absolute" bottom="2" right="2">
+              <Icon
+                as={EditIcon}
+                w={6}
+                h={6}
+                color="gray.400"
+                cursor="pointer"
+                transition="color 0.2s ease"
+                _hover={{ color: "blue.500" }}
+                onClick={(event) => handleOpenModal(event, residence)}
+              />
+          </Box>
         </CardFooter>
       </Stack>
     </Card>
