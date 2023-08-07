@@ -14,8 +14,12 @@ import {
   Heading,
   Text,
   Avatar,
+  Spacer,
+  Input,
+  InputRightElement,
+  InputGroup,
 } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon, ChatIcon } from '@chakra-ui/icons';
 
 export default function SingleListing() {
   const cookies = new Cookies();
@@ -117,16 +121,17 @@ export default function SingleListing() {
     setNewComment('');
   };
 
-  const deleteComment = async (e) => {
-    e.preventDefault();
-    axios
-      .delete(`http://localhost:1234/comments/${e.target.id}`, {
+  const deleteComment = async (commentId) => {
+    try {
+      await axios.delete(`http://localhost:1234/comments/${commentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((res) => getListingComments())
-      .catch((e) => console.log(e));
+      });
+      getListingComments();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -190,69 +195,91 @@ export default function SingleListing() {
           position="sticky"
           top={4}
           maxHeight="calc(100vh - 10vh)"
+          overflowY="auto"
         >
-          {/* Add the listing information here */}
-          <Heading size="xl">{listing.name}</Heading>
-          <Heading size="md" mb="2">
-            ${listing.price}
-          </Heading>
-          <Text mb="2">
-            <Avatar size="sm" name={listing.username} mr="1"/>
-            {listing.username}
-          </Text>
-          <Heading size="md" mb="1">
-            Details
-          </Heading>
-          {listing.type === 'sublet' ? (
-            <Text as="span" display="block" mb={2}>
-              <Text as="span" fontWeight="bold">
-                Residence:
-              </Text>{' '}
-              {listing.res_name}
-              <br />
-              <Text as="span" fontWeight="bold">
-                Unit Type:
-              </Text>{' '}
-              {listing.unit}
-            </Text>
-          ) : (
-            <Text as="span" display="block" mb={2}>
-              <Text as="span" fontWeight="bold">
-                Quantity:
-              </Text>{' '}
-              {listing.quantity}
-            </Text>
-          )}
+          <Flex flexDirection="column" height="100%">
+            <Box overflow={'auto'}>
+              <Heading size="xl">{listing.name}</Heading>
+              <Heading size="md" mb="2">
+                ${listing.price}
+              </Heading>
+              <Text mb="2">
+                <Avatar size="sm" name={listing.username} mr="1" />
+                {listing.username}
+              </Text>
+              <Heading size="md" mb="1">
+                Details
+              </Heading>
+              {listing.type === 'sublet' ? (
+                <Text as="span" display="block" mb={2}>
+                  <Text as="span" fontWeight="bold">
+                    Residence:
+                  </Text>{' '}
+                  {listing.res_name}
+                  <br />
+                  <Text as="span" fontWeight="bold">
+                    Unit Type:
+                  </Text>{' '}
+                  {listing.unit}
+                </Text>
+              ) : (
+                <Text as="span" display="block" mb={2}>
+                  <Text as="span" fontWeight="bold">
+                    Quantity:
+                  </Text>{' '}
+                  {listing.quantity}
+                </Text>
+              )}
 
-          <Text mb={2}>{listing.description}</Text>
-          <Heading size="md">Comments</Heading>
-          {comments.map((comment) => {
-            return (
-              <Box>
-                {comments.map((comment) => {
-                  return (
-                    <Flex key={comment.id} alignItems="center" mb={3}>
-                      {/* Username and Avatar */}
-                      <Avatar size="sm" name={comment.username} mr={2} />
-                      <Box>
-                        <Box fontWeight="bold">{comment.username}</Box>
-                        <Box>{comment.content}</Box>
-                        {comment.username === cookies.get('USERNAME') && (
-                          <DeleteIcon
-                            onClick={deleteComment}
-                            size="sm"
-                            variant="solid"
-                          >
-                            Delete Comment
-                          </DeleteIcon>
-                        )}
-                      </Box>
-                    </Flex>
-                  );
-                })}
-              </Box>
-            );
-          })}
+              <Text mb={2}>{listing.description}</Text>
+
+              <Heading size="md">Comments</Heading>
+              {comments.map((comment) => {
+                return (
+                  <Flex key={comment.id} alignItems="center" mb={3}>
+                    {/* Username and Avatar */}
+                    <Avatar size="sm" name={comment.username} mr={2} />
+                    <Box flex="1">
+                      <Box fontWeight="bold">{comment.username}</Box>
+                      <Box>{comment.content}</Box>
+                    </Box>
+                    {comment.username === cookies.get('USERNAME') && (
+                      <>
+                        <Spacer />
+                        <DeleteIcon
+                          onClick={(e) => deleteComment(comment.cid)}
+                          size="sm"
+                          variant="solid"
+                          cursor="pointer"
+                        >
+                          Delete Comment
+                        </DeleteIcon>
+                      </>
+                    )}
+                  </Flex>
+                );
+              })}
+            </Box>
+            <Flex justifyContent="center" alignItems="center" mt="auto" pb={4}>
+              <InputGroup>
+                <Input
+                  placeholder="Write your comment here..."
+                  value={newComment}
+                  onChange={(e) => {
+                    setNewComment(e.target.value);
+                  }}
+                  pr="4rem"
+                />
+                <InputRightElement width="4rem">
+                  <ChatIcon
+                    color="gray.500"
+                    cursor="pointer"
+                    onClick={submitComment}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </Flex>
+          </Flex>
         </Box>
       </Flex>
     </Box>
