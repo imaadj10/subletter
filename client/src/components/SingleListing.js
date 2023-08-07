@@ -18,8 +18,9 @@ import {
   Input,
   InputRightElement,
   InputGroup,
+  Icon,
 } from '@chakra-ui/react';
-import { DeleteIcon, ChatIcon } from '@chakra-ui/icons';
+import { DeleteIcon, ChatIcon, EmailIcon } from '@chakra-ui/icons';
 
 export default function SingleListing() {
   const cookies = new Cookies();
@@ -30,12 +31,23 @@ export default function SingleListing() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [isComment, setIsComment] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+
   const lid = window.location.pathname.split('/')[2];
 
   useEffect(() => {
     getListing();
     getListingComments();
   }, []);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   const getListing = () => {
     axios
@@ -202,9 +214,18 @@ export default function SingleListing() {
               <Heading size="md" mb="2">
                 ${listing.price}
               </Heading>
-              <Text mb="2">
-                <Avatar size="sm" name={listing.username} mr="1" />
+              <Text fontWeight="bold" mb="2">
+                <Avatar size="sm" name={listing.username} mr="2" />
                 {listing.username}
+                <EmailIcon
+                  ml={'2'}
+                  boxSize="6"
+                  color="gray.400"
+                  cursor="pointer"
+                  transition="color 0.2s ease"
+                  _hover={{ color: 'cyan.500' }}
+                  onClick={handleOpenModal}
+                />
               </Text>
               <Heading size="md" mb="1">
                 Details
@@ -286,6 +307,15 @@ export default function SingleListing() {
           </Flex>
         </Box>
       </Flex>
+      <NewMessage
+        props={{
+          listing,
+          token,
+        }}
+        isOpen={isModalOpen}
+        onOpen={handleOpenModal}
+        onClose={handleCloseModal}
+      />
     </Box>
     // <>
     //   <div className="single-listing" id={listing.lid}>
