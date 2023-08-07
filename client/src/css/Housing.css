@@ -1,4 +1,4 @@
-.residences {
+/* .residences {
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -35,4 +35,4 @@
     gap:2rem;
     background-color:var(--bkg-complement);
     border-radius:1rem;
-}
+} */

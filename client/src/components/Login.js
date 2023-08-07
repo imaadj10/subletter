@@ -1,8 +1,20 @@
-import '../css/Authorization.css';
+// import '../css/Authorization.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Form } from 'react-router-dom';
+import {
+  Box,
+  FormControl,
+  Input,
+  FormLabel,
+  Button,
+  VStack,
+  Heading,
+  Text,
+  HStack,
+  Checkbox,
+} from '@chakra-ui/react';
 
 const Login = () => {
   const history = useNavigate();
@@ -60,36 +72,65 @@ const Login = () => {
   }
 
   return (
-    <div className="section form-page">
-      <h1>Login Page</h1>
-      <form action="POST" className="auth-form">
-        <label htmlFor="username">Username</label>
-        <input
-          className="form-text"
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          className="form-text"
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={submit} className="auth-button">
-          Submit
-        </button>
-      </form>
-      <div>
-        <span className="padding-right">Don't have an account?</span>
-        <Link to="/register">Register!</Link>
-      </div>
-    </div>
+    <Box
+      w={{ base: 'full', md: 'md' }}
+      p={{ base: 8, md: 10 }}
+      mb="80px"
+      mt={{ base: 20, md: '10vh' }}
+      mx="auto"
+      border={{ base: 'none', md: '1px' }}
+      borderColor={{ base: '', md: 'gray.300' }}
+      borderRadius="10"
+    >
+      <VStack spacing="4" align="flex-start" w="full">
+        <VStack spacing="1" align="center" w="full">
+          <Heading>Login</Heading>
+          <Text>Enter your username and password to login</Text>
+        </VStack>
+
+        <FormControl>
+          <FormLabel>Username:</FormLabel>
+          <Input
+            type="text"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Password:</FormLabel>
+          <Input
+            type="password"
+            name="username"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="filled"
+          />
+        </FormControl>
+
+        <HStack w="full" justify="space-between">
+          <Checkbox>Remenber Me</Checkbox>
+          <Button variant="link" colorScheme="blue">
+            Forgot Password?
+          </Button>
+        </HStack>
+
+        <Button onClick={submit} colorScheme="blue" w="full">
+          Login
+        </Button>
+
+        <HStack w="full" justify="center">
+          <Text>Don't have an account?</Text>
+          <Link to="/register">
+            <Button variant="link" colorScheme="blue">
+              Sign up!
+            </Button>
+          </Link>
+        </HStack>
+      </VStack>
+    </Box>
   );
 };
 

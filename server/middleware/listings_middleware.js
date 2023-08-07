@@ -12,7 +12,6 @@ exports.retrieve_school_listings = async (req) => {
                             INNER JOIN users ON l1.username = users.username 
                             WHERE school_name = ?`;
   const [res] = await db.query(joinSearchQuery, [req.user.school]);
-  console.log(res);
   return res;
 };
 
@@ -85,7 +84,7 @@ exports.update_listing_image = async (id, filename) => {
   await db.query(query, [filename, id]);
 };
 
-delete_image = async (id) => {
+delete_listing_image = async (id) => {
   const query = 'SELECT image FROM listings WHERE lid = ?'
   const [result] = await db.query(query, [id]);
   const image = result[0].image;
@@ -100,7 +99,7 @@ delete_image = async (id) => {
 }
 
 exports.delete_listing = async (id) => {
-  await delete_image(id);
+  await delete_listing_image(id);
   const query = 'DELETE FROM listings WHERE lid = ?';
   await db.query(query, [id]);
 };

@@ -1,4 +1,4 @@
-.Profile {
+/* .Profile {
     margin-top: 1rem;
 }
 
@@ -6,7 +6,6 @@
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 2rem;
-    /* border: 2px solid purple; */
 }
 
 .Profile-image img {
@@ -15,11 +14,9 @@
 }
 
 .Profile-left {
-    /* border: 2px solid red; */
 }
 
 .Profile-detail {
-    /* border: 2px solid green; */
     text-align: center;
     margin-top: 1rem;
 }
@@ -30,7 +27,6 @@
 
 
 .Profile-right {
-    /* border: 2px solid blue; */
     padding-left: 1rem;
 }
 
@@ -57,4 +53,4 @@ input {
 
 input {
     width:100%;
-}
+} */
