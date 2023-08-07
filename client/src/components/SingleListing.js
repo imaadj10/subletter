@@ -223,21 +223,23 @@ export default function SingleListing() {
           maxHeight="calc(100vh - 10vh)"
         >
           <Flex flexDirection="column" height="100%">
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                icon={<ChevronDownIcon />}
-                variant="ghost"
-              />
-              <MenuList>
-                <MenuItem icon={<EditIcon />} onClick={handleOpenEditModal}>
-                  Edit
-                </MenuItem>
-                <MenuItem icon={<DeleteIcon />} onClick={deleteListing}>
-                  Delete
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            {listing.username === username && (
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  icon={<ChevronDownIcon />}
+                  variant="ghost"
+                />
+                <MenuList>
+                  <MenuItem icon={<EditIcon />} onClick={handleOpenEditModal}>
+                    Edit
+                  </MenuItem>
+                  <MenuItem icon={<DeleteIcon />} onClick={deleteListing}>
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            )}
             <Box flex="1" overflowY={'auto'}>
               <Heading size="xl">{listing.name}</Heading>
               <Heading size="md" mb="2">
