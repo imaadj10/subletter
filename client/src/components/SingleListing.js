@@ -19,8 +19,19 @@ import {
   InputRightElement,
   InputGroup,
   Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
 } from '@chakra-ui/react';
-import { DeleteIcon, ChatIcon, EmailIcon } from '@chakra-ui/icons';
+import {
+  DeleteIcon,
+  ChatIcon,
+  EmailIcon,
+  EditIcon,
+  ChevronDownIcon,
+} from '@chakra-ui/icons';
 
 export default function SingleListing() {
   const cookies = new Cookies();
@@ -32,8 +43,7 @@ export default function SingleListing() {
   const [newComment, setNewComment] = useState('');
   const [isComment, setIsComment] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-
-
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const lid = window.location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -47,6 +57,14 @@ export default function SingleListing() {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleOpenEditModal = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setEditModalOpen(false);
   };
 
   const getListing = () => {
@@ -78,23 +96,19 @@ export default function SingleListing() {
     },
   };
 
-  const sendNewMessage = () => {
-    document.getElementById('create-new-message-modal').showModal();
-  };
-
   const deleteListing = () => {
     axios
-      .delete(`http://localhost:1234/listings/${lid}`, axiosConfig)
+      .delete(`http://localhost:1234/listings/${lid}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         history('/listings');
       })
       .catch((e) => {
         alert(e.message);
       });
-  };
-
-  const updateListing = (listing) => {
-    document.getElementById('create-new-listing-modal').showModal();
   };
 
   const submitComment = (e) => {
@@ -209,6 +223,21 @@ export default function SingleListing() {
           maxHeight="calc(100vh - 10vh)"
         >
           <Flex flexDirection="column" height="100%">
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                icon={<ChevronDownIcon />}
+                variant="ghost"
+              />
+              <MenuList>
+                <MenuItem icon={<EditIcon />} onClick={handleOpenEditModal}>
+                  Edit
+                </MenuItem>
+                <MenuItem icon={<DeleteIcon />} onClick={deleteListing}>
+                  Delete
+                </MenuItem>
+              </MenuList>
+            </Menu>
             <Box flex="1" overflowY={'auto'}>
               <Heading size="xl">{listing.name}</Heading>
               <Heading size="md" mb="2">
@@ -315,6 +344,16 @@ export default function SingleListing() {
         isOpen={isModalOpen}
         onOpen={handleOpenModal}
         onClose={handleCloseModal}
+      />
+      <NewListing
+        props={{
+          listing,
+          username,
+          token,
+        }}
+        isOpen={isEditModalOpen}
+        onOpen={handleOpenEditModal}
+        onClose={handleCloseEditModal}
       />
     </Box>
     // <>

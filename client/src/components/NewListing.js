@@ -155,6 +155,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           <FormLabel>Residence:</FormLabel>
           <Select
             placeholder="Select Residence"
+            value={residence}
             onChange={(e) => setResidence(e.target.value)}
             variant="filled"
           >
@@ -168,6 +169,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           <FormLabel>Unit Type:</FormLabel>
           <Select
             placeholder="Select Unit Type"
+            value={unitType}
             onChange={(e) => {
               setUnitType(e.target.value);
             }}
@@ -285,14 +287,14 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           <Button colorScheme="blue" onClick={(e) => {
               submit(e);
               toast({
-                title: 'Listing Added!',
-                description: `${name} has been added!`,
+                title: props.listing? 'Listing Updated!' : 'Listing Added!',
+                description: props.listing? `${name} has been updated!` : `${name} has been added!`,
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
               });
             }}>
-            Add Listing
+            {props.listing? 'Update Listing' : 'Add Listing'}
           </Button>
         </ModalFooter>
       </ModalContent>

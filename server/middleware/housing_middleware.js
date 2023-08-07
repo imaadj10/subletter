@@ -94,12 +94,12 @@ exports.update_residence = async (req) => {
 };
 
 update_residence_image = async (req) => {
-  await delete_image(req);
+  await delete_residence_image(req);
   const query = 'UPDATE residences SET image = ? WHERE res_name = ? AND school_name = ?';
   await db.query(query, [req.file.filename, req.body.res_name, req.user.school]);
 };
 
-delete_image = async (req) => {
+delete_reidence_image = async (req) => {
   const query = 'SELECT image FROM residences WHERE res_name = ? AND school_name = ?';
   const [result] = await db.query(query, [req.body.res_name, req.user.school]);
   const image = result[0].image;
