@@ -69,6 +69,7 @@ exports.add_residence_types = async (req) => {
 };
 
 exports.update_residence = async (req) => {
+  const types = req.body.unit_types.split(',');
   const update_query = `UPDATE residences
                         SET res_name = ?
                         WHERE res_name = ? AND school_name = ?`;
@@ -88,7 +89,7 @@ exports.update_residence = async (req) => {
   await db.query(delete_query, [
     req.body.res_name,
     req.user.school,
-    req.body.unit_types,
+    types,
   ]);
 };
 
@@ -113,7 +114,9 @@ delete_image = async (req) => {
 };
 
 update_residence_types = async (req) => {
-  for (const type of req.body.unit_types) {
+  const prices = JSON.parse(req.body.prices);
+  const types = req.body.unit_types.split(',');
+  for (const type of types) {
     // Check if the combination of 'res_name', 'school_name', and 'type' exists in the table
     const [exists] = await db.query(
       'SELECT EXISTS (SELECT 1 FROM contains WHERE res_name = ? AND school_name = ? AND type = ?) AS type_exists',
@@ -124,13 +127,13 @@ update_residence_types = async (req) => {
       // If the combination exists, perform an update
       await db.query(
         `UPDATE contains SET price = ? WHERE res_name = ? AND school_name = ? AND type = ?`,
-        [req.body.prices[type], req.body.res_name, req.user.school, type]
+        [prices[type], req.body.res_name, req.user.school, type]
       );
     } else {
       // If the combination doesn't exist, perform an insert
       await db.query(
         `INSERT INTO contains (res_name, school_name, type, price) VALUES (?, ?, ?, ?)`,
-        [req.body.res_name, req.user.school, type, req.body.prices[type]]
+        [req.body.res_name, req.user.school, type, prices[type]]
       );
     }
   }

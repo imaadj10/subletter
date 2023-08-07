@@ -3,11 +3,8 @@ import axios from 'axios';
 import '../css/Listings.css';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  Text,
   Box,
-  Flex,
   Button,
-  HStack,
   VStack,
   FormControl,
   Input,
@@ -21,11 +18,17 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Select,
-  Stack,
+  Modal,
+  ModalHeader,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useToast,
 } from '@chakra-ui/react';
-import { AttachmentIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 
-export default function NewListing({ props }) {
+export default function NewListing({ props, isOpen, onOpen, onClose }) {
   const [name, setName] = useState();
   const [price, setPrice] = useState();
   const [description, setDescription] = useState();
@@ -35,6 +38,7 @@ export default function NewListing({ props }) {
   const [residence, setResidence] = useState();
   const [housingInfo, setHousingInfo] = useState([]);
   const [file, setFile] = useState();
+  const toast = useToast();
 
   useEffect(() => {
     const getHousingInfo = async () => {
@@ -107,12 +111,7 @@ export default function NewListing({ props }) {
       });
     }
 
-    closeModal(e);
-  };
-
-  const closeModal = (e) => {
-    e.preventDefault();
-    document.getElementById('create-new-listing-modal').close();
+    onClose();
   };
 
   const handleKeyDown = (e) => {
@@ -130,7 +129,7 @@ export default function NewListing({ props }) {
     inputSection = (
       /* JSX for the input section when type is "Items" */
       <Box w="full">
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Item Quantity:</FormLabel>
           <NumberInput
             min="1"
@@ -152,7 +151,7 @@ export default function NewListing({ props }) {
     inputSection = (
       /* JSX for the input section when type is "Sublets" */
       <Box w="full">
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Residence:</FormLabel>
           <Select
             placeholder="Select Residence"
@@ -165,7 +164,7 @@ export default function NewListing({ props }) {
           </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>Unit Type:</FormLabel>
           <Select
             placeholder="Select Unit Type"
@@ -187,81 +186,116 @@ export default function NewListing({ props }) {
   }
 
   return (
-    <Box>
-      <VStack spacing="5">
-        <FormControl>
-          <FormLabel>Select Listing Type:</FormLabel>
-          <Select
-            onChange={(e) => setType(e.target.value)}
-            value={type}
-            variant="filled"
+    <Modal
+      blockScrollOnMount={false}
+      size="xl"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Create Listing</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Box>
+            <VStack spacing="5">
+              <FormControl isRequired>
+                <FormLabel>Select Listing Type</FormLabel>
+                <Select
+                  onChange={(e) => setType(e.target.value)}
+                  value={type}
+                  variant="filled"
+                >
+                  <option value="sublet">Sublet</option>
+                  <option value="item">Item</option>
+                </Select>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Listing Name</FormLabel>
+                <Input
+                  type="text"
+                  name="username"
+                  value={name}
+                  placeholder="eg. Studio Sublet at Marine Drive"
+                  onChange={(e) => setName(e.target.value)}
+                  variant="filled"
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Listing Price</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    color="gray.300"
+                    fontSize="1.2em"
+                    children="$"
+                  />
+                  <Input
+                    type="number"
+                    min="0"
+                    variant="filled"
+                    value={price}
+                    placeholder="Enter listing price"
+                    onChange={(e) => setPrice(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                </InputGroup>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Listing Details</FormLabel>
+                <Textarea
+                  type="text"
+                  variant="filled"
+                  placeholder="Write a detailed description of your listing..."
+                  size="md"
+                  resize="vertical"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </FormControl>
+
+              {inputSection}
+
+              <FormControl isRequired>
+                <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
+                <Input
+                  type="file"
+                  id="imageInput"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ border: 'none' }}
+                />
+              </FormControl>
+            </VStack>
+          </Box>
+        </ModalBody>
+
+        <ModalFooter display="flex" justifyContent="right">
+          <Button
+            variant="ghost"
+            colorScheme="blue"
+            mr={3}
+            onClick={onClose}
+            border="2px solid rgb(49, 130, 206)"
           >
-            <option value="sublet">Sublet</option>
-            <option value="item">Item</option>
-          </Select>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Listing Name:</FormLabel>
-          <Input
-            type="text"
-            name="username"
-            value={name}
-            placeholder="eg: Studio Sublet at Marine Drive"
-            onChange={(e) => setName(e.target.value)}
-            variant="filled"
-          />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Listing Price:</FormLabel>
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              color="gray.300"
-              fontSize="1.2em"
-              children="$"
-            />
-            <Input
-              type="number"
-              min="0"
-              variant="filled"
-              value={price}
-              placeholder="Enter listing price"
-              onChange={(e) => setPrice(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-          </InputGroup>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Listing Details:</FormLabel>
-          <Textarea
-            type="text"
-            variant="filled"
-            placeholder="Write a detailed description of your listing..."
-            size="md"
-            resize="vertical"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </FormControl>
-
-        {inputSection}
-
-        <Flex justifyContent="flex-start" w="full">
-          <Input
-            pl="0"
-            // leftIcon={<AttachmentIcon />}
-            colorScheme="teal"
-            variant="solid"
-            filename={file}
-            onChange={(e) => setFile(e.target.files[0])}
-            type="file"
-            accept="image/*"
-          ></Input>
-        </Flex>
-      </VStack>
-    </Box>
+            Cancel
+          </Button>
+          <Button colorScheme="blue" onClick={(e) => {
+              submit(e);
+              toast({
+                title: 'Listing Added!',
+                description: `${name} has been added!`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+              });
+            }}>
+            Add Listing
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
