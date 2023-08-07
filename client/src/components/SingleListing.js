@@ -251,6 +251,9 @@ export default function SingleListing() {
                           size="sm"
                           variant="solid"
                           cursor="pointer"
+                          color="gray.400"
+                          transition="color 0.2s ease"
+                          _hover={{ color: 'red.500' }}
                         >
                           Delete Comment
                         </DeleteIcon>
@@ -272,8 +275,10 @@ export default function SingleListing() {
                 />
                 <InputRightElement width="4rem">
                   <ChatIcon
-                    color="gray.500"
+                    color="gray.400"
                     cursor="pointer"
+                    transition="color 0.2s ease"
+                    _hover={{ color: 'blue.500' }}
                     onClick={submitComment}
                   />
                 </InputRightElement>
