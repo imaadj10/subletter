@@ -57,7 +57,6 @@ const HousingInfo = () => {
   useEffect(() => {
     getHousingInfo();
     getResidenceRatings();
-    console.log(residenceRatings);
   }, []);
 
   const getResidenceRatings = async () => {
@@ -149,7 +148,7 @@ const Residence = ({ residence, ratings, handleOpenModal }) => {
       cursor="pointer"
       transition="box-shadow 0.4s ease"
       _hover={{
-        boxShadow: "xl"
+        boxShadow: 'xl',
       }}
       maxH="300px"
     >
@@ -202,16 +201,16 @@ const Residence = ({ residence, ratings, handleOpenModal }) => {
             </div>
           ))}
           <Box position="absolute" bottom="2" right="2">
-              <Icon
-                as={EditIcon}
-                w={6}
-                h={6}
-                color="gray.400"
-                cursor="pointer"
-                transition="color 0.2s ease"
-                _hover={{ color: "blue.500" }}
-                onClick={(event) => handleOpenModal(event, residence)}
-              />
+            <Icon
+              as={EditIcon}
+              w={6}
+              h={6}
+              color="gray.400"
+              cursor="pointer"
+              transition="color 0.2s ease"
+              _hover={{ color: 'blue.500' }}
+              onClick={(event) => handleOpenModal(event, residence)}
+            />
           </Box>
         </CardFooter>
       </Stack>
