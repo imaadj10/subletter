@@ -17,7 +17,7 @@ import {
   InputLeftElement,
   filter,
 } from '@chakra-ui/react';
-import { Search2Icon, AddIcon } from '@chakra-ui/icons';
+import { Search2Icon, AddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 
 const Listings = () => {
   const cookies = new Cookies();
@@ -26,9 +26,10 @@ const Listings = () => {
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [search, setSearch] = useState('');
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(5000);
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
+  const [filterApplied, setFilterApplied] = useState(false);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -52,33 +53,35 @@ const Listings = () => {
       });
   }, []);
 
-  const handleSearchChange = (e) => {
-    const searchQuery = e.target.value;
-    setSearch(searchQuery);
-
-    if (searchQuery === '') {
-      setFilteredListings(listings);
-    } else {
-      const filtered = listings.filter(listing =>
-        listing.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredListings(filtered);
+  const handleFilter = (e) => {
+    if (search !== '' || min || max) {
+      setFilterApplied(true);
     }
+    const filtered = listings.filter(
+      (listing) =>
+        listing.name.toLowerCase().includes(search.toLowerCase()) &&
+        (!min || listing.price >= parseFloat(min)) &&
+        (!max || listing.price <= parseFloat(max))
+    );
+    setFilteredListings(filtered);
   };
 
-  const changeMin = (e) => {
-    if (parseInt(e.target.value) <= max) {
-      setMin(e.target.value);
-    }
-  };
-  const changeMax = (e) => {
-    if (parseInt(e.target.value) >= min) {
-      setMax(e.target.value);
-    }
+  const clearFilters = (e) => {
+    setFilterApplied(false);
+    setSearch('');
+    setMin('');
+    setMax('');
+    setFilteredListings(listings);
   };
 
-  const createNewListing = () => {
-    document.getElementById('create-new-listing-modal').showModal();
+  const handleKeyDown = (e) => {
+    if (
+      e.keyCode === 69 || // 'e' key
+      e.keyCode === 187 || // '+' key
+      e.keyCode === 189 // '-' key
+    ) {
+      e.preventDefault(); // Prevent the input of these characters
+    }
   };
 
   return (
@@ -90,18 +93,13 @@ const Listings = () => {
         top="0"
         left="50%"
         transform="translateX(-50%)"
-        w="40%"
+        w="50%"
         h="70px"
         display="flex"
         justifyContent="center"
         alignItems="center"
       >
-        <InputGroup
-          w="100%"
-          bg="white"
-          borderRadius="10px"
-          border="3px solid rgb(49, 130, 206)"
-        >
+        <InputGroup w="60%" mr="10px">
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input
             type="text"
@@ -109,13 +107,71 @@ const Listings = () => {
             placeholder="Search listings"
             value={search}
             borderWidth="1px"
-            onChange={handleSearchChange}
+            onChange={(e) => setSearch(e.target.value)}
             _focus={{
-              borderColor: 'blue.300', // Change the border color on focus
-              boxShadow: 'none', // Remove the box shadow on focus
+              borderColor: 'blue.300',
+              boxShadow: 'none',
             }}
           />
         </InputGroup>
+        <InputGroup w="20%" mx="10px">
+          <InputLeftElement
+            pointerEvents="none"
+            color="gray.600"
+            fontSize="1.2em"
+            children="$"
+          />
+          <Input
+            type="number"
+            variant="filled"
+            placeholder="Min"
+            value={min}
+            borderWidth="1px"
+            onChange={(e) => setMin(e.target.value)}
+            onKeyDown={handleKeyDown}
+            _focus={{
+              borderColor: 'blue.300',
+              boxShadow: 'none',
+            }}
+          />
+        </InputGroup>
+        <InputGroup w="20%" m="10px">
+          <InputLeftElement
+            pointerEvents="none"
+            color="gray.600"
+            fontSize="1.2em"
+            children="$"
+          />
+          <Input
+            type="number"
+            variant="filled"
+            placeholder="Max"
+            value={max}
+            borderWidth="1px"
+            onChange={(e) => setMax(e.target.value)}
+            onKeyDown={handleKeyDown}
+            _focus={{
+              borderColor: 'blue.300',
+              boxShadow: 'none',
+            }}
+          />
+        </InputGroup>
+        <Flex alignItems="center">
+          <Button colorScheme="blue" onClick={handleFilter}>
+            Filter Results
+          </Button>
+          {filterApplied && (
+            <Button
+            variant={'ghost'}
+              onClick={clearFilters}
+              ml="5px"
+              _hover={{ color: 'red' }}
+            >
+              <SmallCloseIcon mr="3px"/>
+              Clear Filters
+            </Button>
+          )}
+        </Flex>
       </Box>
 
       <SimpleGrid p="20px" spacing="10" minChildWidth="300px">
