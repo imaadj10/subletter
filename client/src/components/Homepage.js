@@ -41,19 +41,13 @@ const Homepage = () => {
   };
 
   return (
-    <Box>
+    <Box w={{ md: '80vw', xl: '40vw' }} margin="auto">
       {/* <Flex justifyContent="center">
         <Image w={{ lg: "700px", xl: "1200px" }} h={{ lg: "300px", xl: "600" }} src={`${campus}`}></Image>
       </Flex> */}
 
       {token && (
-        <Flex
-          w="vw"
-          mt="20px"
-          pt="0"
-          flexDirection="column"
-          alignItems="center"
-        >
+        <Flex mt="20px" pt="0" flexDirection="column" alignItems="center">
           <Box as="section" mt="20px">
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               Welcome back {username}!
@@ -66,20 +60,14 @@ const Homepage = () => {
       )}
 
       {!token && (
-        <Flex
-          w="vw"
-          mt="20px"
-          pt="0"
-          flexDirection="column"
-          alignItems="center"
-        >
+        <Flex mt="20px" pt="0" flexDirection="column" alignItems="center">
           <Box as="section" mt="20px">
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               Welcome to Subletter
             </Text>
           </Box>
 
-          <Box w="40%" textAlign="center" mt="20px">
+          <Box textAlign="center" mt="20px">
             <Text>
               Subletter is the ultimate web platform for students, offering a
               seamless experience to discover and promote both sublet
@@ -89,7 +77,16 @@ const Homepage = () => {
               community, Subletter is your go-to destination for hassle-free
               subletting and marketplace transactions.
             </Text>
-            <HStack spacing="20px" mt="30px" justifyContent="center">
+            <HStack
+              margin="auto"
+              width="30rem"
+              backgroundColor="blue.100"
+              padding="1rem"
+              borderRadius="2rem"
+              spacing="20px"
+              mt="30px"
+              justifyContent="center"
+            >
               <Link to="/register">
                 <Button colorScheme="blue">Register</Button>
               </Link>
@@ -108,7 +105,7 @@ const Homepage = () => {
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               We strive for excellence
             </Text>
-            <Box w="40%" textAlign="center" mt="20px">
+            <Box textAlign="center" mt="20px">
               <Text>
                 Our platform has all the information you need to get started on
                 finding the best sublets, and it is unbelievably easy to find
@@ -127,7 +124,7 @@ const Homepage = () => {
             <Text fontSize="4xl" fontWeight="bold" textAlign="Center">
               Wait, that's not even the end of it
             </Text>
-            <Box w="40%" textAlign="center" mt="20px">
+            <Box textAlign="center" mt="20px">
               <Text>
                 Not only do we feature sublet listings, but users can post items
                 to sell at unbelievable prices! Plus, you can rest assured that

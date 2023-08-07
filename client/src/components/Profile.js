@@ -161,6 +161,7 @@ const Profile = () => {
                 token,
                 username,
                 description,
+                setDescription,
                 onClose: editModal.onClose,
               }}
             />
