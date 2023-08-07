@@ -168,16 +168,7 @@ export default function MessageBoard() {
           >
             {messages.map((message) => {
               if (message.sid === username) {
-                if (message.rid === username) {
-                  return (
-                    <>
-                      <LeftMessage text={message.content} />
-                      <RightMessage text={message.content} />
-                    </>
-                  );
-                } else {
-                  return <RightMessage text={message.content} />;
-                }
+                return <RightMessage text={message.content} />;
               } else {
                 return <LeftMessage text={message.content} />;
               }
@@ -207,7 +198,13 @@ export default function MessageBoard() {
 const LeftMessage = ({ text }) => {
   return (
     <HStack w="100%" justifyContent="flex-start">
-      <Text marginLeft="1rem" p="0.8rem" bg="purple.200" borderRadius="1rem">
+      <Text
+        maxWidth="90%"
+        marginLeft="1rem"
+        p="0.8rem"
+        bg="purple.200"
+        borderRadius="1rem"
+      >
         {text}
       </Text>
     </HStack>
@@ -217,7 +214,13 @@ const LeftMessage = ({ text }) => {
 const RightMessage = ({ text }) => {
   return (
     <HStack w="100%" justifyContent="flex-end">
-      <Text marginRight="1rem" p="0.8rem" bg="blue.200" borderRadius="1rem">
+      <Text
+        maxWidth="90%"
+        marginRight="1rem"
+        p="0.8rem"
+        bg="blue.200"
+        borderRadius="1rem"
+      >
         {text}
       </Text>
     </HStack>
