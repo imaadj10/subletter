@@ -130,7 +130,12 @@ export default function SingleResidence() {
           >
             Unit Types
           </Text>
-          <Flex gap="2rem" textAlign="center" justify="space-around">
+          <Flex
+            flexWrap="wrap"
+            gap="2rem"
+            textAlign="center"
+            justify="space-around"
+          >
             {unitTypes.map((unit) => {
               return (
                 <>
