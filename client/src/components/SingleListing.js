@@ -195,10 +195,9 @@ export default function SingleListing() {
           position="sticky"
           top={4}
           maxHeight="calc(100vh - 10vh)"
-          overflowY="auto"
         >
           <Flex flexDirection="column" height="100%">
-            <Box overflow={'auto'}>
+            <Box flex="1" overflowY={'auto'}>
               <Heading size="xl">{listing.name}</Heading>
               <Heading size="md" mb="2">
                 ${listing.price}
