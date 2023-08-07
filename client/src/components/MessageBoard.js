@@ -3,9 +3,19 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import Cookies from 'universal-cookie';
 import { useState, useEffect, useRef } from 'react';
+import {
+  Flex,
+  Box,
+  Text,
+  VStack,
+  HStack,
+  Input,
+  Button,
+  Image,
+} from '@chakra-ui/react';
 const sendIcon = require('../assets/send.png');
 
-const MessageBoard = () => {
+export default function MessageBoard() {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
@@ -63,15 +73,19 @@ const MessageBoard = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      axios.post('http://localhost:1234/notifications', {
-        title: 'You have a new message!',
-        username: conversation_partner,
-        content: `${conversation_partner} has sent you a new message!`,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      axios.post(
+        'http://localhost:1234/notifications',
+        {
+          title: 'You have a new message!',
+          username: conversation_partner,
+          content: `${conversation_partner} has sent you a new message!`,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       // Fetch the updated messages after sending the new message
       const response = await axios.get(
@@ -104,57 +118,108 @@ const MessageBoard = () => {
   };
 
   return (
-    <div>
-      <div className="chat-message-container">
-        <div className="conversations">
-          <h1 className="chat-h1">Conversations</h1>
-          {conversations.map((conversation) => {
-            return (
-              <div
-                className="conversation"
-                onClick={() =>
-                  handleConversationClick(conversation.conversation_partner)
-                }
-              >
-                {conversation.conversation_partner}
-              </div>
-            );
-          })}
-        </div>
-        <div className="messages-container">
-          <h2 className="name-header">{conversation_partner}</h2>
-          <div className="chat-box" ref={chatBoxRef}>
-            {messages.map((message) => {
-              return message.sid === username ? (
-                message.rid === username ? (
-                  <>
-                    <div className="message-right">{message.content}</div>
-                    <div className="message-left">{message.content}</div>
-                  </>
-                ) : (
-                  <div className="message-right">{message.content}</div>
-                )
-              ) : (
-                <div className="message-left">{message.content}</div>
+    <>
+      <Flex m="1rem" gap="1rem">
+        <Box minWidth="150px" overflowY="auto" w={{ md: '200px', xl: '300px' }}>
+          <Text fontWeight="semibold" fontSize="xl">
+            Conversations
+          </Text>
+          <Box overflowY="auto" height={'calc(100vh - 150px)'}>
+            {conversations.map((conversation) => {
+              return (
+                <Box
+                  _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
+                  bg={
+                    conversation.conversation_partner === conversation_partner
+                      ? 'blue.400'
+                      : 'blue.100'
+                  }
+                  borderRadius="0.5rem"
+                  p="0.5rem"
+                  m="0.3rem"
+                  onClick={() =>
+                    handleConversationClick(conversation.conversation_partner)
+                  }
+                >
+                  {conversation.conversation_partner}
+                </Box>
               );
             })}
-          </div>
-          <form onSubmit={submit} className="text-bar">
-            <input
-              type="text"
-              placeholder="Type Message Here..."
-              className="text-input-area"
-              value={sentMessage}
-              onChange={(e) => setSentMessage(e.target.value)}
-            ></input>
-            <button type="submit" className="send-button">
-              <img src={sendIcon} alt="send" className="send-icon"></img>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+
+        <Box w="100%">
+          <Box
+            p="0.5rem"
+            mb="0.5rem"
+            bg="blue.300"
+            borderRadius="1rem"
+            textAlign="center"
+          >
+            {conversation_partner
+              ? conversation_partner
+              : 'Select a chat on the left!'}
+          </Box>
+          <VStack
+            overflowY="auto"
+            height={'calc(100vh - 225px)'}
+            spacing="0.3rem"
+            ref={chatBoxRef}
+          >
+            {messages.map((message) => {
+              if (message.sid === username) {
+                if (message.rid === username) {
+                  return (
+                    <>
+                      <LeftMessage text={message.content} />
+                      <RightMessage text={message.content} />
+                    </>
+                  );
+                } else {
+                  return <RightMessage text={message.content} />;
+                }
+              } else {
+                return <LeftMessage text={message.content} />;
+              }
+            })}
+          </VStack>
+          {conversation_partner && (
+            <form onSubmit={submit} style={{ marginTop: '1rem' }}>
+              <HStack>
+                <Input
+                  width="100%"
+                  placeholder="Send a message..."
+                  value={sentMessage}
+                  onChange={(e) => setSentMessage(e.target.value)}
+                />
+                <Button type="submit">
+                  <Image width="20px" src={sendIcon} alt="send" />
+                </Button>
+              </HStack>
+            </form>
+          )}
+        </Box>
+      </Flex>
+    </>
+  );
+}
+
+const LeftMessage = ({ text }) => {
+  return (
+    <HStack w="100%" justifyContent="flex-start">
+      <Text marginLeft="1rem" p="0.8rem" bg="purple.200" borderRadius="1rem">
+        {text}
+      </Text>
+    </HStack>
   );
 };
 
-export default MessageBoard;
+const RightMessage = ({ text }) => {
+  return (
+    <HStack w="100%" justifyContent="flex-end">
+      <Text marginRight="1rem" p="0.8rem" bg="blue.200" borderRadius="1rem">
+        {text}
+      </Text>
+    </HStack>
+  );
+};
