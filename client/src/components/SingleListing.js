@@ -95,7 +95,7 @@ export default function SingleListing() {
       Authorization: `Bearer ${token}`,
     },
   };
-
+  
   const deleteListing = () => {
     axios
       .delete(`http://localhost:1234/listings/${lid}`, {
@@ -223,28 +223,26 @@ export default function SingleListing() {
           maxHeight="calc(100vh - 10vh)"
         >
           <Flex flexDirection="column" height="100%">
-            {listing.username === username && (
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  icon={<ChevronDownIcon />}
-                  variant="ghost"
-                />
-                <MenuList>
-                  <MenuItem icon={<EditIcon />} onClick={handleOpenEditModal}>
-                    Edit
-                  </MenuItem>
-                  <MenuItem icon={<DeleteIcon />} onClick={deleteListing}>
-                    Delete
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            )}
             <Box flex="1" overflowY={'auto'}>
               <Heading size="xl">{listing.name}</Heading>
               <Heading size="md" mb="2">
                 ${listing.price}
               </Heading>
+              {listing.username === username && (
+              <Flex alignItems="center">
+              {/* Edit Button */}
+              <Button variant="ghost" onClick={handleOpenEditModal}>
+                <EditIcon mr={2} />
+                Edit Listing
+              </Button>
+        
+              {/* Delete Button */}
+              <Button variant="ghost" onClick={deleteListing}>
+                <DeleteIcon mr={2} />
+                Delete Listing
+              </Button>
+            </Flex>
+            )}
               <Text fontWeight="bold" mb="2">
                 <Avatar size="sm" name={listing.username} mr="2" />
                 {listing.username}
