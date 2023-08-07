@@ -15,6 +15,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  filter,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
 
@@ -23,6 +24,7 @@ const Listings = () => {
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
   const [listings, setListings] = useState([]);
+  const [filteredListings, setFilteredListings] = useState([]);
   const [search, setSearch] = useState('');
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(5000);
@@ -43,15 +45,26 @@ const Listings = () => {
       })
       .then((res) => {
         setListings(res.data);
+        setFilteredListings(res.data);
       })
       .catch((e) => {
         console.log('Error fetching listings data');
       });
   }, []);
 
-  // const handleTypeChange = (e) => {
-  //   setType(e.target.value);
-  // };
+  const handleSearchChange = (e) => {
+    const searchQuery = e.target.value;
+    setSearch(searchQuery);
+
+    if (searchQuery === '') {
+      setFilteredListings(listings);
+    } else {
+      const filtered = listings.filter(listing =>
+        listing.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredListings(filtered);
+    }
+  };
 
   const changeMin = (e) => {
     if (parseInt(e.target.value) <= max) {
@@ -96,17 +109,17 @@ const Listings = () => {
             placeholder="Search listings"
             value={search}
             borderWidth="1px"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
             _focus={{
-              borderColor: "blue.300", // Change the border color on focus
-              boxShadow: "none", // Remove the box shadow on focus
+              borderColor: 'blue.300', // Change the border color on focus
+              boxShadow: 'none', // Remove the box shadow on focus
             }}
           />
         </InputGroup>
       </Box>
 
       <SimpleGrid p="20px" spacing="10" minChildWidth="300px">
-        {listings.map((listing) => {
+        {filteredListings.map((listing) => {
           return (
             <Listing
               key={listing.lid}
@@ -168,7 +181,7 @@ const Listing = ({ lid, name, price, image, type }) => {
       cursor="pointer"
       transition="box-shadow 0.3s ease"
       _hover={{
-        boxShadow: "lg"
+        boxShadow: 'lg',
       }}
     >
       <Image
