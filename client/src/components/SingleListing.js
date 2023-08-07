@@ -9,7 +9,6 @@ import {
   Box,
   Image,
   Flex,
-  Center,
   Button,
   Heading,
   Text,
@@ -18,19 +17,19 @@ import {
   Input,
   InputRightElement,
   InputGroup,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@chakra-ui/react';
 import {
   DeleteIcon,
   ChatIcon,
   EmailIcon,
   EditIcon,
-  ChevronDownIcon,
 } from '@chakra-ui/icons';
 
 export default function SingleListing() {
@@ -44,6 +43,7 @@ export default function SingleListing() {
   const [isComment, setIsComment] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const deleteModal = useDisclosure();
   const lid = window.location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function SingleListing() {
       Authorization: `Bearer ${token}`,
     },
   };
-  
+
   const deleteListing = () => {
     axios
       .delete(`http://localhost:1234/listings/${lid}`, {
@@ -114,8 +114,6 @@ export default function SingleListing() {
   const submitComment = (e) => {
     e.preventDefault();
     setIsComment(false);
-    console.log('line 46');
-    console.log(newComment);
     if (!newComment) return;
     axios
       .post(
@@ -229,20 +227,20 @@ export default function SingleListing() {
                 ${listing.price}
               </Heading>
               {listing.username === username && (
-              <Flex alignItems="center">
-              {/* Edit Button */}
-              <Button variant="ghost" onClick={handleOpenEditModal}>
-                <EditIcon mr={2} />
-                Edit Listing
-              </Button>
-        
-              {/* Delete Button */}
-              <Button variant="ghost" onClick={deleteListing}>
-                <DeleteIcon mr={2} />
-                Delete Listing
-              </Button>
-            </Flex>
-            )}
+                <Flex alignItems="center">
+                  {/* Edit Button */}
+                  <Button variant="ghost" onClick={handleOpenEditModal}>
+                    <EditIcon mr={2} />
+                    Edit Listing
+                  </Button>
+
+                  {/* Delete Button */}
+                  <Button variant="ghost" onClick={deleteModal.onOpen}>
+                    <DeleteIcon mr={2} />
+                    Delete Listing
+                  </Button>
+                </Flex>
+              )}
               <Text fontWeight="bold" mb="2">
                 <Avatar size="sm" name={listing.username} mr="2" />
                 {listing.username}
@@ -355,114 +353,38 @@ export default function SingleListing() {
         onOpen={handleOpenEditModal}
         onClose={handleCloseEditModal}
       />
+
+      <Modal
+        borderRadius="2rem"
+        isOpen={deleteModal.isOpen}
+        onClose={deleteModal.onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign="center">
+            Are you sure you want to delete this listing?
+          </ModalHeader>
+          <ModalBody>
+            {/* Add any additional content here, if needed */}
+          </ModalBody>
+          <ModalFooter justifyContent="center">
+            {' '}
+            {/* Use "justifyContent" to center the buttons */}
+            <Button
+              variant="ghost"
+              colorScheme="gray"
+              mr={3}
+              onClick={deleteModal.onClose}
+            >
+              Cancel
+            </Button>
+            <Button colorScheme="red" onClick={deleteListing}>
+              Delete Listing
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
-    // <>
-    //   <div className="single-listing" id={listing.lid}>
-    //     <img
-    //       className="picture"
-    //       src={`http://localhost:1234/images/listings/${listing.image}`}
-    //       alt={listing.image}
-    //     />
-    //     <div className="right-side">
-    //       {username === listing.username ? (
-    //         <button onClick={() => deleteListing()}>Delete Listing</button>
-    //       ) : null}
-    //       {username === listing.username ? (
-    //         <button onClick={() => updateListing()}>Update Listing</button>
-    //       ) : null}
-    //       <div>
-    //         <h2>{listing.name}</h2>
-    //         {listing.type === 'sublet' ? (
-    //           <div>
-    //             <h4>Residence Name:</h4> <p>{listing.res_name}</p>
-    //             <h4>Unit Type:</h4> <p>{listing.unit}</p>
-    //           </div>
-    //         ) : (
-    //           <h4>Quantity: {listing.quantity}</h4>
-    //         )}
-    //         <div className="details">
-    //           <p>
-    //             <b>Price: </b>${listing.price}
-    //           </p>
-    //           <p>
-    //             <b>Posted By: </b>
-    //             {listing.username}
-    //           </p>
-    //         </div>
-    //         <button onClick={() => sendNewMessage(true)}>
-    //           Send seller a message!
-    //         </button>
-    //         <h2>Description</h2>
-    //         {listing.description}
-    //         <h2>Comments</h2>
-    //         {!isComment ? (
-    //           <button onClick={() => setIsComment(true)}>
-    //             Add a comment...
-    //           </button>
-    //         ) : (
-    //           <form onSubmit={submitComment}>
-    //             <input
-    //               type="text"
-    //               value={newComment}
-    //               onChange={(e) => {
-    //                 setNewComment(e.target.value);
-    //               }}
-    //             />
-    //             <div className="buttons-container">
-    //               <button
-    //                 className="red small"
-    //                 onClick={() => {
-    //                   setIsComment(false);
-    //                   setNewComment('');
-    //                 }}
-    //               >
-    //                 Cancel
-    //               </button>
-    //               <button type="submit" className="small">
-    //                 Post
-    //               </button>
-    //             </div>
-    //           </form>
-    //         )}
-    // {comments.map((comment) => {
-    //   return (
-    //     <div className="comment">
-    //       <p>
-    //         <b>{comment.username}: </b>
-    //         {comment.content}
-    //       </p>
-    //       {comment.username == cookies.get('USERNAME') && (
-    //         <button
-    //           onClick={deleteComment}
-    //           className="red"
-    //           id={comment.cid}
-    //         >
-    //           Delete Comment
-    //         </button>
-    //       )}
-    //     </div>
-    //   );
-    // })}
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <dialog data-modal id="create-new-message-modal">
-    //     <NewMessage
-    //       props={{
-    //         listing,
-    //         token,
-    //       }}
-    //     />
-    //   </dialog>
-    //   <dialog data-modal id="create-new-listing-modal">
-    //     <NewListing
-    //       props={{
-    //         listing,
-    //         username,
-    //         token,
-    //       }}
-    //     />
-    //   </dialog>
-    // </>
   );
 }
