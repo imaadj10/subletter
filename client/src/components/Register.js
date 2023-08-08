@@ -168,7 +168,7 @@ const Register = () => {
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>School</FormLabel>
           <Select
             placeholder="Select School"
