@@ -1,5 +1,5 @@
 import '../css/Listings.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
@@ -15,8 +15,14 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon } from '@chakra-ui/icons';
+import { formAnatomy } from '@chakra-ui/anatomy';
 
 const Listings = () => {
   const cookies = new Cookies();
@@ -24,9 +30,8 @@ const Listings = () => {
   const username = cookies.get('USERNAME');
   const [listings, setListings] = useState([]);
   const [search, setSearch] = useState('');
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(5000);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [globalMax, setGlobalMax] = useState(0);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -49,19 +54,17 @@ const Listings = () => {
       });
   }, []);
 
+  useEffect(() => {
+    getGlobalMax(listings);
+  }, [listings]);
+
   // const handleTypeChange = (e) => {
   //   setType(e.target.value);
   // };
 
-  const changeMin = (e) => {
-    if (parseInt(e.target.value) <= max) {
-      setMin(e.target.value);
-    }
-  };
-  const changeMax = (e) => {
-    if (parseInt(e.target.value) >= min) {
-      setMax(e.target.value);
-    }
+  const getGlobalMax = (listings) => {
+    let prices = listings.map((listing) => listing.price);
+    setGlobalMax(Math.max(...prices));
   };
 
   const createNewListing = () => {
@@ -98,8 +101,8 @@ const Listings = () => {
             borderWidth="1px"
             onChange={(e) => setSearch(e.target.value)}
             _focus={{
-              borderColor: "blue.300", // Change the border color on focus
-              boxShadow: "none", // Remove the box shadow on focus
+              borderColor: 'blue.300', // Change the border color on focus
+              boxShadow: 'none', // Remove the box shadow on focus
             }}
           />
         </InputGroup>
@@ -145,6 +148,7 @@ const Listings = () => {
         isOpen={isModalOpen}
         onOpen={handleOpenModal}
         onClose={handleCloseModal}
+        getGlobalMax={getGlobalMax}
       />
     </Flex>
   );
@@ -168,7 +172,7 @@ const Listing = ({ lid, name, price, image, type }) => {
       cursor="pointer"
       transition="box-shadow 0.3s ease"
       _hover={{
-        boxShadow: "lg"
+        boxShadow: 'lg',
       }}
     >
       <Image
