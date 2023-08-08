@@ -12,7 +12,11 @@ import {
   Input,
   Button,
   Image,
+  Avatar,
+  InputGroup,
+  InputLeftElement
 } from '@chakra-ui/react';
+import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');
 
 export default function MessageBoard() {
@@ -39,16 +43,37 @@ export default function MessageBoard() {
   }, []); // Only run this effect once, on component mount
 
   useEffect(() => {
+    let latest_partner = '';
+
     axios
       .get(`http://localhost:1234/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        if (res.data.length > 0) {
+          latest_partner = res.data[0].conversation_partner;
+          console.log(latest_partner);
+        }
         setConversations(res.data);
+        if (latest_partner) {
+          setPartner(latest_partner);
+          axios
+            .get(`http://localhost:1234/messages/${latest_partner}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              setMessages(res.data);
+            })
+            .catch((e) => {
+              console.log('Error fetching latest convo data');
+            });
+        }
       })
       .catch((e) => {
-        console.log('Error fetching listings data');
+        console.log('Error fetching message partner data');
       });
+
+    console.log(latest_partner);
   }, []);
 
   useEffect(() => {
@@ -120,27 +145,45 @@ export default function MessageBoard() {
   return (
     <>
       <Flex m="1rem" gap="1rem">
-        <Box minWidth="150px" overflowY="auto" w={{ md: '200px', xl: '300px' }}>
-          <Text fontWeight="semibold" fontSize="xl">
-            Conversations
+        <Box
+          minWidth="150px"
+          overflowY="auto"
+          w={{ md: '100px', lg: '100px', xl: '400px', '2xl': '500px' }}
+          pr="15px"
+          borderRight="1px"
+          borderRightColor="gray.300"
+        >
+          <Text fontWeight="semibold" fontSize="2xl">
+            Chats
           </Text>
-          <Box overflowY="auto" height={'calc(100vh - 150px)'}>
+          <InputGroup mt="5px">
+            <InputLeftElement children={<Search2Icon color="gray.600" />} />
+            <Input placeholder="Search Conversation"/>
+          </InputGroup>
+          <Box overflowY="auto" height={'calc(100vh - 150px)'} mt="10px">
             {conversations.map((conversation) => {
               return (
                 <Box
-                  _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
+                  cursor="pointer"
+                  // _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
+                  color={
+                    conversation.conversation_partner === conversation_partner
+                      ? 'white'
+                      : 'black'
+                  }
                   bg={
                     conversation.conversation_partner === conversation_partner
-                      ? 'blue.400'
-                      : 'blue.100'
+                      ? 'rgb(49, 130, 206)'
+                      : 'white'
                   }
                   borderRadius="0.5rem"
                   p="0.5rem"
-                  m="0.3rem"
+                  // m="0.3rem"
                   onClick={() =>
                     handleConversationClick(conversation.conversation_partner)
                   }
                 >
+                  <Avatar size="sm" name={conversation.conversation_partner} mr={2} />
                   {conversation.conversation_partner}
                 </Box>
               );
@@ -149,7 +192,7 @@ export default function MessageBoard() {
         </Box>
 
         <Box w="100%">
-          <Box
+          {/* <Box
             p="0.5rem"
             mb="0.5rem"
             bg="blue.300"
@@ -159,7 +202,7 @@ export default function MessageBoard() {
             {conversation_partner
               ? conversation_partner
               : 'Select a chat on the left!'}
-          </Box>
+          </Box> */}
           <VStack
             overflowY="auto"
             height={'calc(100vh - 225px)'}

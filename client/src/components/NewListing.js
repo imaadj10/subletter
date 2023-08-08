@@ -264,6 +264,8 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
               <FormControl isRequired>
                 <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
                 <Input
+                  pt="1px" 
+                  pl="1px"
                   type="file"
                   id="imageInput"
                   onChange={(e) => setFile(e.target.files[0])}
