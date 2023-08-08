@@ -17,6 +17,7 @@ const notificationRouter = require('./routes/notifications');
 const messagesRouter = require('./routes/messages');
 const unitsRouter = require('./routes/units');
 const reviewsRouter = require('./routes/reviews');
+const topHousingRouter = require('./routes/top_housing');
 
 const app = express();
 app.use(cors());
@@ -55,6 +56,7 @@ app.use('/notifications', notificationRouter);
 app.use('/messages', messagesRouter);
 app.use('/units', unitsRouter);
 app.use('/reviews', reviewsRouter);
+app.use('/tophousing', topHousingRouter);
 
 // Import the socket handler and initialize it with the server
 socketManager.initSocketIO(server);

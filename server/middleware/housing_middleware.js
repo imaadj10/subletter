@@ -138,3 +138,18 @@ update_residence_types = async (req) => {
     }
   }
 };
+
+exports.get_top_residence = async (req) => {
+  const query = `SELECT r.res_name
+                  FROM residences r
+                  WHERE NOT EXISTS (
+                      SELECT u.type
+                      FROM unit_types u
+                      EXCEPT
+                        SELECT c.type
+                        FROM contains c
+                        WHERE c.res_name = r.res_name AND c.school_name = ?
+                  )`;
+  const result = await db.query(query, [req.user.school]);
+  return result[0];
+}
