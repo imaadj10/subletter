@@ -24,6 +24,7 @@ const HousingInfo = () => {
   const [residences, setResidences] = useState([]);
   const [selectedResidence, setSelectedResidence] = useState(null);
   const [residenceRatings, setResidenceRatings] = useState([]);
+  const [topResidences, setTopResidence] = useState([]);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
@@ -54,9 +55,25 @@ const HousingInfo = () => {
     }
   }
 
+  async function getTopHousing() {
+    try {
+      await axios
+        .get('http://localhost:1234/tophousing', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          setTopResidence(res.data);
+        })
+        .catch((e) => console.log('error fetching residences'));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
     getHousingInfo();
     getResidenceRatings();
+    getTopHousing();
   }, []);
 
   const getResidenceRatings = async () => {
@@ -71,6 +88,16 @@ const HousingInfo = () => {
 
   return (
     <Flex flexDirection="column" maxW="75%" mx="auto">
+      <Heading size={'md'}>
+        Most Versatile Residences:{' '}
+        {topResidences.map((residence, index) => (
+          <div key={index}>
+            <Text size={'md'}>
+              {residence.res_name}
+            </Text>
+          </div>
+        ))}
+      </Heading>
       <Stack spacing="10" p="20px">
         {residences.map((residence) => (
           <Residence
