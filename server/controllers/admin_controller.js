@@ -1,10 +1,10 @@
-const addresses_middleware = require('../middleware/admin_middleware');
+const admin_middleware = require('../middleware/admin_middleware');
 
 exports.adminGet = async (req, res) => {
   try {
-    const result = await addresses_middleware.adminGet(req);
-    res.status(200).send(result);
+    const result = await admin_middleware.adminGet(req);
+    res.status(200).json(result);
   } catch (e) {
-    res.status(500).json({ message: e, nuts: 'LMAO' });
+    res.status(500).json({ message: e });
   }
 };

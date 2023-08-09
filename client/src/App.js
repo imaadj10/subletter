@@ -44,6 +44,8 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messageboard" element={<MessageBoard />} />
         <Route path="/schools" element={<Schools />} />
+        <Route path="/searchresidences" element={<SearchResidences />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </ChakraProvider>

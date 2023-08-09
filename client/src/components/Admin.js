@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useContext } from 'react';
 import {
   Button,
@@ -8,12 +9,12 @@ import {
   Box,
   Checkbox,
   HStack,
+  VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import react from 'react';
 import Cookies from 'universal-cookie';
 
-const PersonContext = react.createContext();
+const PersonContext = React.createContext();
 
 export default function Admin() {
   const cookies = new Cookies();
@@ -45,44 +46,52 @@ const Listings = () => {
   const [username, setUsername] = useState('');
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
-  // const [minPrice, setMinPrice] = useState();
-  // const [maxPrice, setMaxPrice] = useState();
+  const [min, setMin] = useState(0);
+  const [info, setInfo] = useState([]);
+  const [attributes, setAttributes] = useState([]);
 
-  const [isUsername, setIsUsername] = useState(true);
-  const [isDescription, setIsDescription] = useState(true);
-  const [isName, setIsName] = useState(true);
-  // const [isMinPrice, setIsMinPrice] = useState(true);
-  // const [isMaxPrice, setIsMaxPrice] = useState(true);
+  const handleCheckboxChange = (attribute) => {
+    setAttributes((prevAttributes) => {
+      // Check if the attribute is already in the array
+      const isAttributePresent = prevAttributes.includes(attribute);
 
-  const [info, setInfo] = useState();
-
-  const handleClick = async () => {
-    axios
-      .get(`http://localhost:1234/admin/listings`, {
-        params: {
-          username: { username, isUsername },
-          description: { description, isDescription },
-          name: { name, isName },
-          // minPrice: { minPrice, isMinPrice },
-          // maxPrice: { maxPrice, isMaxPrice },
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => setInfo(res.data));
+      if (isAttributePresent) {
+        // If attribute is present, remove it from the array
+        return prevAttributes.filter((attr) => attr !== attribute);
+      } else {
+        // If attribute is not present, add it to the array
+        return [...prevAttributes, attribute];
+      }
+    });
   };
 
+  const handleClick = async () => {
+    if (attributes.length === 0) {
+      alert('Please select at least one attribute!');
+    } else {
+      await axios
+        .post(
+          'http://localhost:1234/admin/listings',
+          { attributes, username, name, description, min },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => {
+          setInfo(res.data[0]);
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    }
+  };
   return (
     <Box p="1rem">
       <Text>Listings</Text>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isUsername}
-          defaultChecked
-          onChange={() => setIsUsername(!isUsername)}
+          key="username"
+          onChange={() => handleCheckboxChange('username')}
         />
         <Input
           placeholder="username"
@@ -93,11 +102,8 @@ const Listings = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isDescription}
-          defaultChecked
-          onChange={() => setIsDescription(!isDescription)}
+          key="description"
+          onChange={() => handleCheckboxChange('description')}
         />
         <Input
           placeholder="description"
@@ -107,52 +113,32 @@ const Listings = () => {
         ></Input>
       </HStack>
       <HStack>
-        <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isName}
-          defaultChecked
-          onChange={() => setIsName(!isName)}
-        />
+        <Checkbox key="name" onChange={() => handleCheckboxChange('name')} />
         <Input
           placeholder="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         ></Input>
       </HStack>
-      {/* <HStack>
-        <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isMinPrice}
-          defaultChecked
-          onChange={() => setIsMinPrice(!isMinPrice)}
-        />
-        <Input
-          type="number"
-          placeholder="min price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-        ></Input>
-      </HStack>
-      <HStack>
-        <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isMaxPrice}
-          defaultChecked
-          onChange={() => setIsMaxPrice(!isMaxPrice)}
-        />
-        <Input
-          type="number"
-          placeholder="maxPrice"
-          value={maxPrice}
-          defaultChecked
-          onChange={(e) => setMaxPrice(e.target.value)}
-        ></Input>
-      </HStack> */}
+      <Input
+        placeholder="min"
+        value={min}
+        onChange={(e) => setMin(e.target.value)}
+      ></Input>
       <Button onClick={handleClick}>Query Me!</Button>
-      {info && <Box as="h2">Query Information</Box>}
+      {info && (
+        <Box>
+          {info.map((info) => {
+            return (
+              <>
+                <p>username: {info.username}</p>
+                <p>description: {info.description}</p>
+                <p>name: {info.name}</p>
+              </>
+            );
+          })}
+        </Box>
+      )}
     </Box>
   );
 };
@@ -163,26 +149,42 @@ const Users = () => {
   const [school, setSchool] = useState('');
   const [description, setDescription] = useState('');
   const [info, setInfo] = useState();
+  const [attributes, setAttributes] = useState([]);
 
-  const [isUsername, setIsUsername] = useState(true);
-  const [isName, setIsName] = useState(true);
-  const [isSchool, setIsSchool] = useState(true);
-  const [isDescription, setIsDescription] = useState(true);
+  const handleCheckboxChange = (attribute) => {
+    setAttributes((prevAttributes) => {
+      // Check if the attribute is already in the array
+      const isAttributePresent = prevAttributes.includes(attribute);
+
+      if (isAttributePresent) {
+        // If attribute is present, remove it from the array
+        return prevAttributes.filter((attr) => attr !== attribute);
+      } else {
+        // If attribute is not present, add it to the array
+        return [...prevAttributes, attribute];
+      }
+    });
+  };
 
   const handleClick = async () => {
-    axios
-      .get(`http://localhost:1234/admin/users`, {
-        params: {
-          username: { username, isUsername },
-          name: { name, isName },
-          school: { school, isSchool },
-          description: { description, isDescription },
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => setInfo(res.data));
+    if (attributes.length === 0) {
+      alert('Please select at least one attribute!');
+    } else {
+      await axios
+        .post(
+          'http://localhost:1234/admin/users',
+          { attributes, username, name, school, description },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => {
+          setInfo(res.data[0]);
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    }
   };
 
   return (
@@ -190,11 +192,8 @@ const Users = () => {
       <Text>Users</Text>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isUsername}
-          defaultChecked
-          onChange={() => setIsUsername(!isUsername)}
+          key="username"
+          onChange={() => handleCheckboxChange('username')}
         />
         <Input
           placeholder="username"
@@ -203,13 +202,7 @@ const Users = () => {
         ></Input>
       </HStack>
       <HStack>
-        <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isName}
-          defaultChecked
-          onChange={() => setIsName(!isName)}
-        />
+        <Checkbox key="name" onChange={() => handleCheckboxChange('name')} />
         <Input
           placeholder="name"
           value={name}
@@ -218,11 +211,8 @@ const Users = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isSchool}
-          defaultChecked
-          onChange={() => setIsSchool(!isSchool)}
+          key="school_name"
+          onChange={() => handleCheckboxChange('school_name')}
         />
         <Input
           placeholder="school"
@@ -232,11 +222,8 @@ const Users = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isDescription}
-          defaultChecked
-          onChange={() => setIsDescription(!isDescription)}
+          key="description"
+          onChange={() => handleCheckboxChange('description')}
         />
         <Input
           placeholder="description"
@@ -245,7 +232,20 @@ const Users = () => {
         ></Input>
       </HStack>
       <Button onClick={handleClick}>Query Me!</Button>
-      {info && <Box as="h2">Query Information</Box>}
+      {info && (
+        <VStack>
+          {info.map((info) => {
+            return (
+              <>
+                <p>res_name: {info.username}</p>
+                <p>school_name: {info.name}</p>
+                <p>street_address: {info.school}</p>
+                <p>postal_code: {info.description}</p>
+              </>
+            );
+          })}
+        </VStack>
+      )}
     </Box>
   );
 };
@@ -257,28 +257,49 @@ const Residences = () => {
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('');
   const [info, setInfo] = useState();
+  const [attributes, setAttributes] = useState([]);
 
-  const [isResName, setIsResName] = useState(true);
-  const [isSchoolName, setIsSchoolName] = useState(true);
-  const [isStreetAddress, setIsStreetAddress] = useState(true);
-  const [isPostalCode, setIsPostalCode] = useState(true);
-  const [isCountry, setIsCountry] = useState(true);
+  const handleCheckboxChange = (attribute) => {
+    setAttributes((prevAttributes) => {
+      // Check if the attribute is already in the array
+      const isAttributePresent = prevAttributes.includes(attribute);
+
+      if (isAttributePresent) {
+        // If attribute is present, remove it from the array
+        return prevAttributes.filter((attr) => attr !== attribute);
+      } else {
+        // If attribute is not present, add it to the array
+        return [...prevAttributes, attribute];
+      }
+    });
+  };
 
   const handleClick = async () => {
-    axios
-      .get(`http://localhost:1234/admin/residences`, {
-        params: {
-          resName: { resName, isResName },
-          schoolName: { schoolName, isSchoolName },
-          streetAddress: { streetAddress, isStreetAddress },
-          postalCode: { postalCode, isPostalCode },
-          country: { country, isCountry },
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => setInfo(res.data));
+    if (attributes.length === 0) {
+      alert('Please select at least one attribute!');
+    } else {
+      await axios
+        .post(
+          'http://localhost:1234/admin/users',
+          {
+            attributes,
+            resName,
+            schoolName,
+            streetAddress,
+            postalCode,
+            country,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => {
+          setInfo(res.data[0]);
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    }
   };
 
   return (
@@ -286,11 +307,8 @@ const Residences = () => {
       <Text>Residences</Text>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isResName}
-          defaultChecked
-          onChange={() => setIsResName(!isResName)}
+          key="res_name"
+          onChange={() => handleCheckboxChange('res_name')}
         />
         <Input
           placeholder="resName"
@@ -300,11 +318,8 @@ const Residences = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isSchoolName}
-          defaultChecked
-          onChange={() => setIsSchoolName(!isSchoolName)}
+          key="school_name"
+          onChange={() => handleCheckboxChange('school_name')}
         />
         <Input
           placeholder="schoolName"
@@ -314,11 +329,8 @@ const Residences = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isStreetAddress}
-          defaultChecked
-          onChange={() => setIsStreetAddress(!isStreetAddress)}
+          key="street_address"
+          onChange={() => handleCheckboxChange('street_address')}
         />
         <Input
           placeholder="streetAddress"
@@ -328,11 +340,8 @@ const Residences = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isPostalCode}
-          defaultChecked
-          onChange={() => setIsPostalCode(!isPostalCode)}
+          key="postal_code"
+          onChange={() => handleCheckboxChange('postal_code')}
         />
         <Input
           placeholder="postalCode"
@@ -342,11 +351,8 @@ const Residences = () => {
       </HStack>
       <HStack>
         <Checkbox
-          size="md"
-          colorScheme="green"
-          checked={isCountry}
-          defaultChecked
-          onChange={() => setIsCountry(!isCountry)}
+          key="country"
+          onChange={() => handleCheckboxChange('country')}
         />
         <Input
           placeholder="country"
@@ -355,7 +361,21 @@ const Residences = () => {
         ></Input>
       </HStack>
       <Button onClick={handleClick}>Query Me!</Button>
-      {info && <Box as="h2">Query Information</Box>}
+      {info && (
+        <Box>
+          {info.map((info) => {
+            return (
+              <>
+                <p>Residence Name: {info.res_name}</p>
+                <p>School Name: {info.school_name}</p>
+                <p>Street Address: {info.res_name}</p>
+                <p>Postal Code: {info.postal_code}</p>
+                <p>Country: {info.country}</p>
+              </>
+            );
+          })}
+        </Box>
+      )}
     </Box>
   );
 };
