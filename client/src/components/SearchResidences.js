@@ -94,10 +94,10 @@ export default function SearchResidences() {
       </VStack>
       {results && results.length > 0 && (
         <Box mt="20px">
+          <VStack spacing="10px">
           <Heading as="h2" size="md">
             Results:
           </Heading>
-          <VStack spacing="10px">
             {results.map((result, index) => (
               <Box key={index}>
                 {/* Render the specific attributes you want to display */}
