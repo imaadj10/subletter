@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Flex, VStack, HStack, Heading } from '@chakra-ui/react';
 
 export default function Schools() {
   const cookies = new Cookies();
@@ -22,15 +22,22 @@ export default function Schools() {
   }, []);
 
   return (
-    <>
-      {topSchools.map((school) => {
-        return (
-          <Box display="flex">
-            <Text>{school.school_name}</Text>
-            <Text>{school.user_count}</Text>
-          </Box>
-        );
-      })}
-    </>
+    <Box>
+      <VStack spacing="5px" mt="15px">
+        <Heading>
+            Top Schools by User Count
+        </Heading>
+        {topSchools.map((school) => {
+          return (
+            <Flex justifyContent="center">
+              <HStack>
+                <Text>{school.school_name}</Text>
+                <Text>{school.user_count}</Text>
+              </HStack>
+            </Flex>
+          );
+        })}
+      </VStack>
+    </Box>
   );
 }
