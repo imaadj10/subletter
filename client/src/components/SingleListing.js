@@ -25,12 +25,7 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react';
-import {
-  DeleteIcon,
-  ChatIcon,
-  EmailIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { DeleteIcon, ChatIcon, EmailIcon, EditIcon } from '@chakra-ui/icons';
 
 export default function SingleListing() {
   const cookies = new Cookies();
