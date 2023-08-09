@@ -1,4 +1,3 @@
-import '../css/Profile.css';
 import Cookies from 'universal-cookie';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -81,11 +80,6 @@ const Profile = () => {
     cookies.remove('USERNAME', { path: '/' });
     history('/home', {});
   };
-
-  // const edit = () => {
-  //   onEditOpen();
-  //   document.getElementById('edit-details-modal').showModal();
-  // };
 
   return (
     <>

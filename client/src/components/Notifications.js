@@ -2,7 +2,6 @@ import axios from 'axios';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import SingleNotification from './SingleNotification';
-import '../css/Notifications.css';
 import Cookies from 'universal-cookie';
 import { Text, Box } from '@chakra-ui/react';
 

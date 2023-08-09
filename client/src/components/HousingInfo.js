@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import '../css/Housing.css';
 import NewResidence from './NewResidence';
 import {
   Flex,

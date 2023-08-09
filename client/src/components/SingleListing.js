@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import '../css/Listings.css';
 import NewMessage from './NewMessage';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';

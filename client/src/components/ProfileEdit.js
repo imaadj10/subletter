@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import '../css/Profile.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';

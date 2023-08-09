@@ -10,7 +10,6 @@ import Listings from './components/Listings';
 import Profile from './components/Profile';
 import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
-import Users from './components/Users';
 import SingleListing from './components/SingleListing';
 import Schools from './components/Schools';
 import { ChakraProvider } from '@chakra-ui/react'
@@ -42,7 +41,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messageboard" element={<MessageBoard />} />
-        <Route path="/users" element={<Users />} />
         <Route path="/schools" element={<Schools />} />
         <Route path="/*" element={<Error />} />
       </Routes>
