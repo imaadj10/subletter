@@ -246,7 +246,7 @@ const Users = () => {
           {info.map((info) => {
             return (
               <Box p="1rem">
-                <p>res_name: {info.username}</p>
+                <p>username: {info.username}</p>
                 <p>name: {info.name}</p>
                 <p>school {info.school_name}</p>
                 <p>description: {info.description}</p>
@@ -304,6 +304,7 @@ const Residences = () => {
         )
         .then((res) => {
           setInfo(res.data[0]);
+          console.log(res.data[0]);
         })
         .catch((e) => {
           alert(e.message);
@@ -377,7 +378,7 @@ const Residences = () => {
               <Box p="1rem">
                 <p>Residence Name: {info.res_name}</p>
                 <p>School Name: {info.school_name}</p>
-                <p>Street Address: {info.res_name}</p>
+                <p>Street Address: {info.street_address}</p>
                 <p>Postal Code: {info.postal_code}</p>
                 <p>Country: {info.country}</p>
               </Box>
