@@ -2,7 +2,6 @@
 DROP TABLE IF EXISTS `comments`, reviews, sublets, `contains`, items, listings, residences, addresses_1, addresses_main, messages, notifications, users, unit_types, schools;
 
 -- CREATE TABLES
-
 CREATE TABLE
     `schools` (
         `school_name` varchar(128) NOT NULL,
@@ -627,6 +626,41 @@ VALUES (
         'Marine Drive Residence',
         'University of British Columbia',
         'Studio',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Four Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'One Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Shared Room',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Single Connected',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Two Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Six Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Townhouse',
         1200
     ), (
         'Place Vanier',
