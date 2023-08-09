@@ -1,19 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticated } = require('../middleware/auth_middleware');
-const {
-  getResidenceReviews,
-  getAllResidenceReviews,
-  createResidenceReview,
-  deleteReview,
-} = require('../controllers/reviews_controller');
+const reviews_controller = require('../controllers/reviews_controller');
 
-router
-  .route('/:residence')
-  .get(isAuthenticated, getResidenceReviews)
-  .post(isAuthenticated, createResidenceReview)
-  .delete(isAuthenticated, deleteReview);
+router.get('/', isAuthenticated, reviews_controller.getAllResidenceReviews)
 
-router.route('/').get(isAuthenticated, getAllResidenceReviews);
+router.get('/:residence', isAuthenticated, reviews_controller.getResidenceReviews);
+
+router.post('/:residence', isAuthenticated, reviews_controller.createResidenceReview);
+
+router.delete('/:residence', isAuthenticated, reviews_controller.deleteReview);
 
 module.exports = router;

@@ -1,5 +1,7 @@
--- CREATE TABLES
+-- DROP TABLES
+DROP TABLE IF EXISTS `comments`, reviews, sublets, `contains`, items, listings, residences, addresses_1, addresses_main, messages, notifications, users, unit_types, schools;
 
+-- CREATE TABLES
 CREATE TABLE
     `schools` (
         `school_name` varchar(128) NOT NULL,
@@ -395,7 +397,7 @@ VALUES (
         '6363 Agronomy Rd',
         'V6T 1Z4',
         'Canada'
-    );
+    ), ('1102 Hamilton St', '60404', 'USA'), ('1935 Lower Mall', 'V6T 1X1', 'Canada');
 
 INSERT INTO
     addresses_1(
@@ -415,7 +417,7 @@ VALUES (
         'Vancouver',
         'British Columbia'
     ), (
-        'V6T1X1',
+        'V6T 1X1',
         'Canada',
         'Vancouver',
         'British Columbia'
@@ -624,6 +626,41 @@ VALUES (
         'Marine Drive Residence',
         'University of British Columbia',
         'Studio',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Four Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'One Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Shared Room',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Single Connected',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Two Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Six Bedroom',
+        1200
+    ), (
+        'Marine Drive Residence',
+        'University of British Columbia',
+        'Townhouse',
         1200
     ), (
         'Place Vanier',
