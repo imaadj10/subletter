@@ -1,4 +1,3 @@
-import '../css/Listings.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -15,7 +14,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  filter,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 

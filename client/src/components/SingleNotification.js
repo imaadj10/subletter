@@ -52,16 +52,6 @@ export default function SingleNotification(props) {
           Delete
         </Button>
       </Flex>
-
-      {/* <li className="notif-item">
-        <div className="padding-right">
-          <h4>{title}</h4>
-          <p>{content}</p>
-        </div>
-        <span className="delete">
-          <u onClick={deleteNotification}>Delete</u>
-        </span>
-      </li> */}
     </>
   );
 }
