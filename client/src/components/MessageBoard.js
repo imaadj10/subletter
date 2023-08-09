@@ -12,7 +12,12 @@ import {
   Input,
   Button,
   Image,
+  Avatar,
+  InputGroup,
+  InputLeftElement,
+  FormControl,
 } from '@chakra-ui/react';
+import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');
 
 export default function MessageBoard() {
@@ -20,6 +25,8 @@ export default function MessageBoard() {
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
   const [conversations, setConversations] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredConversations, setFilteredConversations] = useState([]);
   const [conversation_partner, setPartner] = useState('');
   const [messages, setMessages] = useState([]);
   const [sentMessage, setSentMessage] = useState([]);
@@ -38,17 +45,48 @@ export default function MessageBoard() {
     };
   }, []); // Only run this effect once, on component mount
 
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setSearch(search);
+    const filtered = conversations.filter((conversation) =>
+      conversation.conversation_partner.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredConversations(filtered);
+  };
+
   useEffect(() => {
+    let latest_partner = '';
+
     axios
       .get(`http://localhost:1234/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        if (res.data.length > 0) {
+          latest_partner = res.data[0].conversation_partner;
+          console.log(latest_partner);
+        }
         setConversations(res.data);
+        setFilteredConversations(res.data);
+        if (latest_partner) {
+          setPartner(latest_partner);
+          axios
+            .get(`http://localhost:1234/messages/${latest_partner}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              setMessages(res.data);
+            })
+            .catch((e) => {
+              console.log('Error fetching latest convo data');
+            });
+        }
       })
       .catch((e) => {
-        console.log('Error fetching listings data');
+        console.log('Error fetching message partner data');
       });
+
+    console.log(latest_partner);
   }, []);
 
   useEffect(() => {
@@ -118,51 +156,62 @@ export default function MessageBoard() {
   };
 
   return (
-    <>
-      <Flex m="1rem" gap="1rem">
-        <Box minWidth="150px" overflowY="auto" w={{ md: '200px', xl: '300px' }}>
-          <Text fontWeight="semibold" fontSize="xl">
-            Conversations
-          </Text>
-          <Box overflowY="auto" height={'calc(100vh - 150px)'}>
-            {conversations.map((conversation) => {
-              return (
-                <Box
-                  _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
-                  bg={
-                    conversation.conversation_partner === conversation_partner
-                      ? 'blue.400'
-                      : 'blue.100'
-                  }
-                  borderRadius="0.5rem"
-                  p="0.5rem"
-                  m="0.3rem"
-                  onClick={() =>
-                    handleConversationClick(conversation.conversation_partner)
-                  }
-                >
-                  {conversation.conversation_partner}
-                </Box>
-              );
-            })}
-          </Box>
+    <Flex overflow="hidden" m="1rem" gap="1rem">
+      <Box
+        minWidth="150px"
+        overflowY="auto"
+        w={{ md: '100px', lg: '100px', xl: '400px', '2xl': '500px' }}
+        pr="15px"
+        borderRight="1px"
+        borderRightColor="gray.300"
+      >
+        <Text fontWeight="semibold" fontSize="2xl">
+          Chats
+        </Text>
+        <InputGroup mt="10px">
+          <InputLeftElement children={<Search2Icon color="gray.600" />} />
+          <Input value={search} onChange={handleSearch} placeholder="Search Conversation" />
+        </InputGroup>
+        <Box overflowY="auto" height={'calc(100vh - 225px)'} mt="10px">
+          {filteredConversations.map((conversation) => {
+            return (
+              <Box
+                cursor="pointer"
+                // _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
+                color={
+                  conversation.conversation_partner === conversation_partner
+                    ? 'white'
+                    : 'black'
+                }
+                bg={
+                  conversation.conversation_partner === conversation_partner
+                    ? 'rgb(49, 130, 206)'
+                    : 'white'
+                }
+                borderRadius="0.5rem"
+                p="0.5rem"
+                // m="0.3rem"
+                onClick={() =>
+                  handleConversationClick(conversation.conversation_partner)
+                }
+              >
+                <Avatar
+                  size="sm"
+                  name={conversation.conversation_partner}
+                  mr={2}
+                />
+                {conversation.conversation_partner}
+              </Box>
+            );
+          })}
         </Box>
+      </Box>
 
-        <Box w="100%">
-          <Box
-            p="0.5rem"
-            mb="0.5rem"
-            bg="blue.300"
-            borderRadius="1rem"
-            textAlign="center"
-          >
-            {conversation_partner
-              ? conversation_partner
-              : 'Select a chat on the left!'}
-          </Box>
+      {/* <Box w="100%" border="1px" h="calc(100vh - 68px)"> */}
+      <Box w="100%">
           <VStack
             overflowY="auto"
-            height={'calc(100vh - 225px)'}
+            height={'calc(100vh - 180px)'}
             spacing="0.3rem"
             ref={chatBoxRef}
           >
@@ -190,8 +239,7 @@ export default function MessageBoard() {
             </form>
           )}
         </Box>
-      </Flex>
-    </>
+    </Flex>
   );
 }
 
