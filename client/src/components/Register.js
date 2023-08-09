@@ -90,11 +90,7 @@ const Register = () => {
   async function getSchoolsList() {
     try {
       await axios
-        .get('http://localhost:1234/schools', {
-          params: {
-            text: school,
-          },
-        })
+        .get('http://localhost:1234/schools')
         .then((res) => {
           const modifiedData = res.data.map((school) => ({
             ...school,
