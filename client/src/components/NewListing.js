@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/Listings.css';
 import { v4 as uuidv4 } from 'uuid';
 import {
   Box,
@@ -264,7 +263,7 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
               <FormControl isRequired>
                 <FormLabel htmlFor="imageInput">Upload Image</FormLabel>
                 <Input
-                  pt="1px" 
+                  pt="1px"
                   pl="1px"
                   type="file"
                   id="imageInput"
@@ -286,17 +285,22 @@ export default function NewListing({ props, isOpen, onOpen, onClose }) {
           >
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={(e) => {
+          <Button
+            colorScheme="blue"
+            onClick={(e) => {
               submit(e);
               toast({
-                title: props.listing? 'Listing Updated!' : 'Listing Added!',
-                description: props.listing? `${name} has been updated!` : `${name} has been added!`,
+                title: props.listing ? 'Listing Updated!' : 'Listing Added!',
+                description: props.listing
+                  ? `${name} has been updated!`
+                  : `${name} has been added!`,
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
               });
-            }}>
-            {props.listing? 'Update Listing' : 'Add Listing'}
+            }}
+          >
+            {props.listing ? 'Update Listing' : 'Add Listing'}
           </Button>
         </ModalFooter>
       </ModalContent>

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import '../css/Listings.css';
 import {
-  Box,
   Modal,
   ModalHeader,
   ModalOverlay,
@@ -85,24 +83,5 @@ export default function NewMessage({ props, isOpen, onOpen, onClose }) {
         </ModalFooter>
       </ModalContent>
     </Modal>
-    // <>
-    //   <form onSubmit={submit}>
-    //     <label htmlFor="message">Message</label>
-    //     <textarea
-    //       className="big-text-field"
-    //       name="messaage"
-    //       type="text"
-    //       rows="10"
-    //       onChange={(e) => setMessage(e.target.value)}
-    //       placeholder="Write a message to the seller..."
-    //     ></textarea>
-    //     <div className="new-listing-buttons">
-    //       <button className="red" onClick={closeModal}>
-    //         Cancel
-    //       </button>
-    //       <button type="submit">Submit</button>
-    //     </div>
-    //   </form>
-    // </>
   );
 }

@@ -6,23 +6,15 @@ import {
   Image,
   Flex,
   Button,
-  Input,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
   Textarea,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
 } from '@chakra-ui/react';
 import { StarIcon, InfoIcon } from '@chakra-ui/icons';
 import Cookies from 'universal-cookie';
-import '../css/Housing.css';
 
 export default function SingleResidence() {
   const resName = window.location.pathname.split('/')[2];

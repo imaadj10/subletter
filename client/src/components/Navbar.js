@@ -1,7 +1,6 @@
-import '../css/Navbar.css';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import { Flex, Box, Heading, Button, Spacer, HStack } from '@chakra-ui/react';
+import { Flex, Heading, Button, Spacer, HStack } from '@chakra-ui/react';
 import { ChatIcon, BellIcon} from '@chakra-ui/icons';
 
 const icon = require('../assets/icon.png');
@@ -27,8 +26,8 @@ export default function Navbar() {
               <Button bg="white">Housing</Button>
             </Link>
 
-            <Link>
-              <Button bg="white"> About</Button>
+            <Link to="/schools">
+              <Button bg="white"> Schools</Button>
             </Link>
           </HStack>
 

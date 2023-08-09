@@ -39,3 +39,12 @@ exports.updateResidence = async (req, res) => {
     res.status(400).send({ message: error.message });
   }
 };
+
+exports.getTopHousing = async (req, res) => {
+  try {
+    const result = await housing_middleware.get_top_residence(req);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send({ message: error.message })
+  }
+}

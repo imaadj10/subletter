@@ -1,4 +1,3 @@
-import '../css/Messages.css';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Cookies from 'universal-cookie';
@@ -15,8 +14,6 @@ import {
   Avatar,
   InputGroup,
   InputLeftElement,
-  FormControl,
-  Stack,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/NewResidence.css';
 import {
   Box,
   Input,
@@ -180,7 +179,6 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
       e.preventDefault(); // Prevent the input of these characters
     }
   };
-  console.log(selectedUnits);
 
   return (
     <Modal

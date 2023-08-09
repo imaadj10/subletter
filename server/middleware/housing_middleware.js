@@ -56,14 +56,16 @@ exports.add_new_residence = async (req) => {
 };
 
 exports.add_residence_types = async (req) => {
-  for (const unit of req.body.unit_types) {
+  const prices = JSON.parse(req.body.prices);
+  const types = req.body.unit_types.split(',');
+  for (const unit of types) {
     let query =
       'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
     await db.query(query, [
       req.body.res_name,
       req.user.school,
       unit,
-      req.body.prices[unit],
+      prices[unit],
     ]);
   }
 };
@@ -138,3 +140,18 @@ update_residence_types = async (req) => {
     }
   }
 };
+
+exports.get_top_residence = async (req) => {
+  const query = `SELECT r.res_name
+                  FROM residences r
+                  WHERE NOT EXISTS (
+                      SELECT u.type
+                      FROM unit_types u
+                      EXCEPT
+                        SELECT c.type
+                        FROM contains c
+                        WHERE c.res_name = r.res_name AND c.school_name = ?
+                  )`;
+  const result = await db.query(query, [req.user.school]);
+  return result[0];
+}

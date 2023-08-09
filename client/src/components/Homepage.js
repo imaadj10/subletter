@@ -1,4 +1,3 @@
-import '../css/Homepage.css';
 import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { Link, useNavigate } from 'react-router-dom';
