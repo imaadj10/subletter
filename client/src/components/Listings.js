@@ -1,5 +1,5 @@
 import '../css/Listings.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import NewListing from './NewListing';
@@ -52,10 +52,6 @@ const Listings = () => {
         console.log('Error fetching listings data');
       });
   }, []);
-
-  useEffect(() => {
-    getGlobalMax(listings);
-  }, [listings]);
 
   const handleFilter = (e) => {
     if (search !== '' || min || max) {
@@ -218,7 +214,6 @@ const Listings = () => {
         isOpen={isModalOpen}
         onOpen={handleOpenModal}
         onClose={handleCloseModal}
-        getGlobalMax={getGlobalMax}
       />
     </Flex>
   );
