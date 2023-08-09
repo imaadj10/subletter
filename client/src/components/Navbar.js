@@ -29,6 +29,10 @@ export default function Navbar() {
             <Link to="/schools">
               <Button bg="white"> Schools</Button>
             </Link>
+
+            <Link to="/searchresidences">
+              <Button bg="white"> Projection</Button>
+            </Link>
           </HStack>
 
         </div>
