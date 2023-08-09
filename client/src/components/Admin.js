@@ -26,7 +26,7 @@ export default function Admin() {
         <FormControl isRequired p="1rem">
           <Select
             variant="filled"
-            placeholder="table"
+            placeholder="select your table from below"
             onChange={(e) => setTable(e.target.value)}
           >
             <option>listings</option>
