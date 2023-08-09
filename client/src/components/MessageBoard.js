@@ -170,10 +170,10 @@ export default function MessageBoard() {
         </Text>
         <InputGroup mt="10px">
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
-          <Input placeholder="Search Conversation" />
+          <Input value={search} onChange={handleSearch} placeholder="Search Conversation" />
         </InputGroup>
         <Box overflowY="auto" height={'calc(100vh - 225px)'} mt="10px">
-          {conversations.map((conversation) => {
+          {filteredConversations.map((conversation) => {
             return (
               <Box
                 cursor="pointer"
