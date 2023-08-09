@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import { v4 as uuidv4 } from 'uuid';
 import NewListing from './NewListing';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,6 +15,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Select
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 
@@ -28,6 +30,8 @@ const Listings = () => {
   const [max, setMax] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [filterApplied, setFilterApplied] = useState(false);
+  const [selectedSchool, setSelectedSchool] = useState(null);
+  const [availableSchools, setAvailableSchools] = useState([]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -45,6 +49,7 @@ const Listings = () => {
       .then((res) => {
         setListings(res.data);
         setFilteredListings(res.data);
+        getSchoolsList();
       })
       .catch((e) => {
         console.log('Error fetching listings data');
@@ -82,6 +87,39 @@ const Listings = () => {
     }
   };
 
+  async function getSchoolsList() {
+    try {
+      await axios.get('http://localhost:1234/schools').then((res) => {
+        const modifiedData = res.data.map((school) => ({
+          ...school,
+          id: uuidv4(),
+        }));
+        console.log(modifiedData);
+        // Update the state with the modified data
+        setAvailableSchools(modifiedData);
+      });
+      console.log(availableSchools);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const handleDropDown = async (e) => {
+    setSelectedSchool(e.target.value);
+    await axios
+      .get(`http://localhost:1234/listings?school=${e.target.value}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setListings(res.data);
+        console.log(res.data);
+        setFilteredListings(res.data);
+      })
+      .catch((e) => {
+        console.log('Error fetching listings data');
+      });
+  };
+
   return (
     <Flex flexDirection="column">
       <Box
@@ -97,6 +135,18 @@ const Listings = () => {
         justifyContent="center"
         alignItems="center"
       >
+        <InputGroup>
+          <Select
+            placeholder="Select School"
+            onChange={handleDropDown}
+            variant="filled"
+          >
+            {availableSchools.map((school) => {
+              // console.log(school.school_name);
+              return <option key={school.id}>{school.school_name}</option>;
+            })}
+          </Select>
+        </InputGroup>
         <InputGroup w="60%" mr="10px">
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input
