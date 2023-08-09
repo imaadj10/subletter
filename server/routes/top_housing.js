@@ -5,6 +5,6 @@ const housing_controller = require('../controllers/housing_controller');
 
 router.get('/', isAuthenticated, housing_controller.getTopHousing);
 
-router.get('/admin', isAuthenticated, housing_controller.getProjectionResidences);
+router.post('/', isAuthenticated, housing_controller.getProjectionResidences);
 
 module.exports = router;
