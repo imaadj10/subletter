@@ -9,7 +9,7 @@ import {
   Box,
   Checkbox,
   HStack,
-  VStack,
+  Heading,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -22,10 +22,11 @@ export default function Admin() {
   return (
     <>
       <PersonContext.Provider value={{ token: cookies.get('TOKEN') }}>
+        <Heading p="1rem">Select your tables and conditions!</Heading>
         <FormControl isRequired p="1rem">
           <Select
             variant="filled"
-            placeholder="select table"
+            placeholder="table"
             onChange={(e) => setTable(e.target.value)}
           >
             <option>listings</option>
@@ -120,21 +121,29 @@ const Listings = () => {
           onChange={(e) => setName(e.target.value)}
         ></Input>
       </HStack>
-      <Input
-        placeholder="min"
-        value={min}
-        onChange={(e) => setMin(e.target.value)}
-      ></Input>
+      <HStack>
+        <Text>Min</Text>
+        <Input
+          type="number"
+          value={min}
+          onChange={(e) => setMin(e.target.value)}
+        ></Input>
+      </HStack>
+      <HStack>
+        <Text>Price?</Text>
+        <Checkbox key="price" onChange={() => handleCheckboxChange('price')} />
+      </HStack>
       <Button onClick={handleClick}>Query Me!</Button>
       {info && (
         <Box>
           {info.map((info) => {
             return (
-              <>
+              <Box p="1rem">
                 <p>username: {info.username}</p>
                 <p>description: {info.description}</p>
                 <p>name: {info.name}</p>
-              </>
+                <p>price: {info.price}</p>
+              </Box>
             );
           })}
         </Box>
@@ -233,18 +242,18 @@ const Users = () => {
       </HStack>
       <Button onClick={handleClick}>Query Me!</Button>
       {info && (
-        <VStack>
+        <Box>
           {info.map((info) => {
             return (
-              <>
+              <Box p="1rem">
                 <p>res_name: {info.username}</p>
-                <p>school_name: {info.name}</p>
-                <p>street_address: {info.school}</p>
-                <p>postal_code: {info.description}</p>
-              </>
+                <p>name: {info.name}</p>
+                <p>school {info.school_name}</p>
+                <p>description: {info.description}</p>
+              </Box>
             );
           })}
-        </VStack>
+        </Box>
       )}
     </Box>
   );
@@ -280,7 +289,7 @@ const Residences = () => {
     } else {
       await axios
         .post(
-          'http://localhost:1234/admin/users',
+          'http://localhost:1234/admin/residences',
           {
             attributes,
             resName,
@@ -365,13 +374,13 @@ const Residences = () => {
         <Box>
           {info.map((info) => {
             return (
-              <>
+              <Box p="1rem">
                 <p>Residence Name: {info.res_name}</p>
                 <p>School Name: {info.school_name}</p>
                 <p>Street Address: {info.res_name}</p>
                 <p>Postal Code: {info.postal_code}</p>
                 <p>Country: {info.country}</p>
-              </>
+              </Box>
             );
           })}
         </Box>

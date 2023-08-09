@@ -17,13 +17,13 @@ exports.adminGet = async (req) => {
     WHERE username LIKE '%${req.body.username}%'
     AND school_name LIKE '%${req.body.school}%'
     AND name LIKE '%${req.body.name}%'
-    AND description LIKE '%${req.body.school}%'`;
+    AND description LIKE '%${req.body.description}%'`;
     const result = await db.query(query);
     return result;
   } else if (table === 'residences') {
     const query = `SELECT ${attributeList} FROM residences 
     WHERE res_name LIKE '%${req.body.resName}%' AND
-    school_name LIKE '%${req.body.scholName}%' AND 
+    school_name LIKE '%${req.body.schoolName}%' AND 
     street_address LIKE '%${req.body.streetAddress}%' AND 
     postal_code LIKE '%${req.body.postalCode}%' AND
     country LIKE '%${req.body.country}%'`;
