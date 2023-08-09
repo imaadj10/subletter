@@ -25,6 +25,8 @@ export default function MessageBoard() {
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
   const [conversations, setConversations] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredConversations, setFilteredConversations] = useState([]);
   const [conversation_partner, setPartner] = useState('');
   const [messages, setMessages] = useState([]);
   const [sentMessage, setSentMessage] = useState([]);
@@ -43,6 +45,15 @@ export default function MessageBoard() {
     };
   }, []); // Only run this effect once, on component mount
 
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setSearch(search);
+    const filtered = conversations.filter((conversation) =>
+      conversation.conversation_partner.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredConversations(filtered);
+  };
+
   useEffect(() => {
     let latest_partner = '';
 
@@ -56,6 +67,7 @@ export default function MessageBoard() {
           console.log(latest_partner);
         }
         setConversations(res.data);
+        setFilteredConversations(res.data);
         if (latest_partner) {
           setPartner(latest_partner);
           axios
