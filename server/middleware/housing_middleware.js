@@ -56,14 +56,16 @@ exports.add_new_residence = async (req) => {
 };
 
 exports.add_residence_types = async (req) => {
-  for (const unit of req.body.unit_types) {
+  const prices = JSON.parse(req.body.prices);
+  const types = req.body.unit_types.split(',');
+  for (const unit of types) {
     let query =
       'INSERT INTO contains(res_name, school_name, type, price) VALUES(?, ?, ?, ?)';
     await db.query(query, [
       req.body.res_name,
       req.user.school,
       unit,
-      req.body.prices[unit],
+      prices[unit],
     ]);
   }
 };
