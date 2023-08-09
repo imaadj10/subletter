@@ -14,7 +14,8 @@ import {
   Image,
   Avatar,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  FormControl,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');
@@ -143,69 +144,62 @@ export default function MessageBoard() {
   };
 
   return (
-    <>
-      <Flex m="1rem" gap="1rem">
-        <Box
-          minWidth="150px"
-          overflowY="auto"
-          w={{ md: '100px', lg: '100px', xl: '400px', '2xl': '500px' }}
-          pr="15px"
-          borderRight="1px"
-          borderRightColor="gray.300"
-        >
-          <Text fontWeight="semibold" fontSize="2xl">
-            Chats
-          </Text>
-          <InputGroup mt="5px">
-            <InputLeftElement children={<Search2Icon color="gray.600" />} />
-            <Input placeholder="Search Conversation"/>
-          </InputGroup>
-          <Box overflowY="auto" height={'calc(100vh - 150px)'} mt="10px">
-            {conversations.map((conversation) => {
-              return (
-                <Box
-                  cursor="pointer"
-                  // _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
-                  color={
-                    conversation.conversation_partner === conversation_partner
-                      ? 'white'
-                      : 'black'
-                  }
-                  bg={
-                    conversation.conversation_partner === conversation_partner
-                      ? 'rgb(49, 130, 206)'
-                      : 'white'
-                  }
-                  borderRadius="0.5rem"
-                  p="0.5rem"
-                  // m="0.3rem"
-                  onClick={() =>
-                    handleConversationClick(conversation.conversation_partner)
-                  }
-                >
-                  <Avatar size="sm" name={conversation.conversation_partner} mr={2} />
-                  {conversation.conversation_partner}
-                </Box>
-              );
-            })}
-          </Box>
+    <Flex overflow="hidden" m="1rem" gap="1rem">
+      <Box
+        minWidth="150px"
+        overflowY="auto"
+        w={{ md: '100px', lg: '100px', xl: '400px', '2xl': '500px' }}
+        pr="15px"
+        borderRight="1px"
+        borderRightColor="gray.300"
+      >
+        <Text fontWeight="semibold" fontSize="2xl">
+          Chats
+        </Text>
+        <InputGroup mt="10px">
+          <InputLeftElement children={<Search2Icon color="gray.600" />} />
+          <Input placeholder="Search Conversation" />
+        </InputGroup>
+        <Box overflowY="auto" height={'calc(100vh - 225px)'} mt="10px">
+          {conversations.map((conversation) => {
+            return (
+              <Box
+                cursor="pointer"
+                // _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
+                color={
+                  conversation.conversation_partner === conversation_partner
+                    ? 'white'
+                    : 'black'
+                }
+                bg={
+                  conversation.conversation_partner === conversation_partner
+                    ? 'rgb(49, 130, 206)'
+                    : 'white'
+                }
+                borderRadius="0.5rem"
+                p="0.5rem"
+                // m="0.3rem"
+                onClick={() =>
+                  handleConversationClick(conversation.conversation_partner)
+                }
+              >
+                <Avatar
+                  size="sm"
+                  name={conversation.conversation_partner}
+                  mr={2}
+                />
+                {conversation.conversation_partner}
+              </Box>
+            );
+          })}
         </Box>
+      </Box>
 
-        <Box w="100%">
-          {/* <Box
-            p="0.5rem"
-            mb="0.5rem"
-            bg="blue.300"
-            borderRadius="1rem"
-            textAlign="center"
-          >
-            {conversation_partner
-              ? conversation_partner
-              : 'Select a chat on the left!'}
-          </Box> */}
+      {/* <Box w="100%" border="1px" h="calc(100vh - 68px)"> */}
+      <Box w="100%">
           <VStack
             overflowY="auto"
-            height={'calc(100vh - 225px)'}
+            height={'calc(100vh - 180px)'}
             spacing="0.3rem"
             ref={chatBoxRef}
           >
@@ -233,8 +227,7 @@ export default function MessageBoard() {
             </form>
           )}
         </Box>
-      </Flex>
-    </>
+    </Flex>
   );
 }
 
