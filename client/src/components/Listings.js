@@ -162,12 +162,12 @@ const Listings = () => {
           </Button>
           {filterApplied && (
             <Button
-            variant={'ghost'}
+              variant={'ghost'}
               onClick={clearFilters}
               ml="5px"
               _hover={{ color: 'red' }}
             >
-              <SmallCloseIcon mr="3px"/>
+              <SmallCloseIcon mr="3px" />
               Clear Filters
             </Button>
           )}

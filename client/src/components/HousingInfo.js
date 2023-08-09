@@ -6,6 +6,9 @@ import '../css/Housing.css';
 import NewResidence from './NewResidence';
 import {
   Flex,
+  List,
+  ListItem,
+  ListIcon,
   Box,
   Card,
   CardBody,
@@ -18,13 +21,14 @@ import {
   Divider,
   Icon,
 } from '@chakra-ui/react';
-import { StarIcon, AddIcon, EditIcon } from '@chakra-ui/icons';
+import { StarIcon, AddIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
 
 const HousingInfo = () => {
   const [residences, setResidences] = useState([]);
   const [selectedResidence, setSelectedResidence] = useState(null);
   const [residenceRatings, setResidenceRatings] = useState([]);
   const [topResidences, setTopResidence] = useState([]);
+  const [isVersatileResidences, setIsVersatileResidences] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
@@ -88,16 +92,45 @@ const HousingInfo = () => {
 
   return (
     <Flex flexDirection="column" maxW="75%" mx="auto">
-      <Heading size={'md'}>
-        Most Versatile Residences:{' '}
-        {topResidences.map((residence, index) => (
-          <div key={index}>
-            <Text size={'md'}>
-              {residence.res_name}
-            </Text>
-          </div>
-        ))}
-      </Heading>
+      <Heading>Housing Information</Heading>
+      {isVersatileResidences ? (
+        <Box p="1rem" size={'md'}>
+          <Text fontSize="xl" fontWeight="semibold">
+            Most Versatile Residences:
+          </Text>
+          <List spacing={3}>
+            {topResidences.map((residence, index) => (
+              <ListItem key={index}>
+                <ListIcon as={CheckIcon} color="green.500" />
+                {residence.res_name}
+              </ListItem>
+            ))}
+          </List>
+          <Button
+            mt="0.3rem"
+            size="sm"
+            colorScheme="red"
+            onClick={() => setIsVersatileResidences(false)}
+          >
+            Close
+          </Button>
+        </Box>
+      ) : (
+        <Box p="1rem" size="sm">
+          <Text fontSize="xl" fontWeight="semibold">
+            See the most versatile residences!
+          </Text>
+          <Button
+            mt="0.3rem"
+            size="sm"
+            colorScheme="blue"
+            onClick={() => setIsVersatileResidences(true)}
+          >
+            Hit me!
+          </Button>
+        </Box>
+      )}
+
       <Stack spacing="10" p="20px">
         {residences.map((residence) => (
           <Residence
