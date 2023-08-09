@@ -1,3 +1,6 @@
+-- DROP TABLES
+DROP TABLE IF EXISTS `comments`, reviews, sublets, `contains`, items, listings, residences, addresses_1, addresses_main, messages, notifications, users, unit_types, schools;
+
 -- CREATE TABLES
 
 CREATE TABLE
@@ -395,7 +398,7 @@ VALUES (
         '6363 Agronomy Rd',
         'V6T 1Z4',
         'Canada'
-    );
+    ), ('1102 Hamilton St', '60404', 'USA'), ('1935 Lower Mall', 'V6T 1X1', 'Canada');
 
 INSERT INTO
     addresses_1(
@@ -415,7 +418,7 @@ VALUES (
         'Vancouver',
         'British Columbia'
     ), (
-        'V6T1X1',
+        'V6T 1X1',
         'Canada',
         'Vancouver',
         'British Columbia'
@@ -437,7 +440,7 @@ VALUES (
     );
 
 INSERT INTO
-    Residences(
+    residences(
         res_name,
         school_name,
         street_address,
