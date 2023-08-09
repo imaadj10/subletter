@@ -15,6 +15,7 @@ import Schools from './components/Schools';
 import { ChakraProvider } from '@chakra-ui/react'
 import SingleResidence from './components/SingleResidence';
 import Error from './components/Error';
+import Admin from './components/Admin';
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messageboard" element={<MessageBoard />} />
         <Route path="/schools" element={<Schools />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </ChakraProvider>
