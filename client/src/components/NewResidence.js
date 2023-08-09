@@ -179,7 +179,6 @@ export default function NewResidence({ props, isOpen, onOpen, onClose }) {
       e.preventDefault(); // Prevent the input of these characters
     }
   };
-  console.log(selectedUnits);
 
   return (
     <Modal
