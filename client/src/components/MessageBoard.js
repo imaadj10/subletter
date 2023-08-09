@@ -16,6 +16,7 @@ import {
   InputGroup,
   InputLeftElement,
   FormControl,
+  Stack,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');
@@ -49,7 +50,9 @@ export default function MessageBoard() {
     const search = e.target.value;
     setSearch(search);
     const filtered = conversations.filter((conversation) =>
-      conversation.conversation_partner.toLowerCase().includes(search.toLowerCase())
+      conversation.conversation_partner
+        .toLowerCase()
+        .includes(search.toLowerCase())
     );
     setFilteredConversations(filtered);
   };
@@ -156,7 +159,7 @@ export default function MessageBoard() {
   };
 
   return (
-    <Flex overflow="hidden" m="1rem" gap="1rem">
+    <Flex overflow="hidden" m="1rem" gap="1rem" h={'calc(100vh - 74px'}>
       <Box
         minWidth="150px"
         overflowY="auto"
@@ -170,14 +173,17 @@ export default function MessageBoard() {
         </Text>
         <InputGroup mt="10px">
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
-          <Input value={search} onChange={handleSearch} placeholder="Search Conversation" />
+          <Input
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search Conversation"
+          />
         </InputGroup>
-        <Box overflowY="auto" height={'calc(100vh - 225px)'} mt="10px">
+        <Box overflowY="auto" height={'calc(100vh - 220px)'} mt="10px">
           {filteredConversations.map((conversation) => {
             return (
               <Box
                 cursor="pointer"
-                // _hover={{ cursor: 'pointer', backgroundColor: 'blue.400' }}
                 color={
                   conversation.conversation_partner === conversation_partner
                     ? 'white'
@@ -209,49 +215,66 @@ export default function MessageBoard() {
 
       {/* <Box w="100%" border="1px" h="calc(100vh - 68px)"> */}
       <Box w="100%">
-          <VStack
-            overflowY="auto"
-            height={'calc(100vh - 180px)'}
-            spacing="0.3rem"
-            ref={chatBoxRef}
-          >
-            {messages.map((message) => {
-              if (message.sid === username) {
-                return <RightMessage text={message.content} />;
-              } else {
-                return <LeftMessage text={message.content} />;
-              }
-            })}
-          </VStack>
-          {conversation_partner && (
-            <form onSubmit={submit} style={{ marginTop: '1rem' }}>
-              <HStack>
-                <Input
-                  width="100%"
-                  placeholder="Send a message..."
-                  value={sentMessage}
-                  onChange={(e) => setSentMessage(e.target.value)}
+        <VStack
+          overflowY="auto"
+          height={'calc(100vh - 180px)'}
+          spacing="0.5rem"
+          ref={chatBoxRef}
+        >
+          {messages.map((message) => {
+            if (message.sid === username) {
+              return <RightMessage text={message.content} avatar={username} />;
+            } else {
+              return (
+                <LeftMessage
+                  text={message.content}
+                  avatar={conversation_partner}
                 />
-                <Button type="submit">
-                  <Image width="20px" src={sendIcon} alt="send" />
-                </Button>
-              </HStack>
-            </form>
-          )}
-        </Box>
+              );
+            }
+          })}
+        </VStack>
+        {conversation_partner && (
+          <form onSubmit={submit} style={{ marginTop: '1rem' }}>
+            <HStack>
+              <Input
+                width="100%"
+                placeholder="Send a message..."
+                value={sentMessage}
+                onChange={(e) => setSentMessage(e.target.value)}
+              />
+              <Button type="submit">
+                <Image width="20px" src={sendIcon} alt="send" />
+              </Button>
+            </HStack>
+          </form>
+        )}
+      </Box>
     </Flex>
   );
 }
 
-const LeftMessage = ({ text }) => {
+const LeftMessage = ({ text, avatar }) => {
   return (
-    <HStack w="100%" justifyContent="flex-start">
+    <HStack w="100%" justifyContent="flex-start" position="relative" pt="20px">
+      <HStack position="absolute" top="0" left="50px">
+        <Text fontSize="xs">12:04pm</Text>
+      </HStack>
+      <Avatar
+        size="sm"
+        ml="10px"
+        name={avatar}
+        position="absolute"
+        top="0"
+        left="0"
+      />
       <Text
-        maxWidth="90%"
-        marginLeft="1rem"
+        ml="50px"
+        maxWidth="50%"
         p="0.8rem"
-        bg="purple.200"
+        bg="gray.300"
         borderRadius="1rem"
+        borderTopLeftRadius="0"
       >
         {text}
       </Text>
@@ -259,18 +282,32 @@ const LeftMessage = ({ text }) => {
   );
 };
 
-const RightMessage = ({ text }) => {
+const RightMessage = ({ text, avatar }) => {
   return (
-    <HStack w="100%" justifyContent="flex-end">
+    <HStack w="100%" justifyContent="flex-end" position="relative" pt="20px">
+      <HStack position="absolute" top="0" right="50px">
+        <Text fontSize="xs">12:04pm</Text>
+      </HStack>
       <Text
-        maxWidth="90%"
-        marginRight="1rem"
-        p="0.8rem"
+        fontSize="md"
+        mr="50px"
+        maxWidth="50%"
+        p="0.7rem"
+        px="1.2rem"
         bg="blue.200"
         borderRadius="1rem"
+        borderTopRightRadius="0"
       >
         {text}
       </Text>
+      <Avatar
+        size="sm"
+        mr="10px"
+        name={avatar}
+        position="absolute"
+        top="0"
+        right="0"
+      />
     </HStack>
   );
 };
