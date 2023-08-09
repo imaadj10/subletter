@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Text, Box, Flex, Button, HStack } from '@chakra-ui/react';
 
 const Homepage = () => {
   const cookies = new Cookies();
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
-  let navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

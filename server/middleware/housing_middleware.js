@@ -88,21 +88,23 @@ exports.update_residence = async (req) => {
                         WHERE res_name = ?
                           AND school_name = ?
                           AND type NOT IN (?)`;
-  await db.query(delete_query, [
-    req.body.res_name,
-    req.user.school,
-    types,
-  ]);
+  await db.query(delete_query, [req.body.res_name, req.user.school, types]);
 };
 
 update_residence_image = async (req) => {
   await delete_residence_image(req);
-  const query = 'UPDATE residences SET image = ? WHERE res_name = ? AND school_name = ?';
-  await db.query(query, [req.file.filename, req.body.res_name, req.user.school]);
+  const query =
+    'UPDATE residences SET image = ? WHERE res_name = ? AND school_name = ?';
+  await db.query(query, [
+    req.file.filename,
+    req.body.res_name,
+    req.user.school,
+  ]);
 };
 
 delete_reidence_image = async (req) => {
-  const query = 'SELECT image FROM residences WHERE res_name = ? AND school_name = ?';
+  const query =
+    'SELECT image FROM residences WHERE res_name = ? AND school_name = ?';
   const [result] = await db.query(query, [req.body.res_name, req.user.school]);
   const image = result[0].image;
   if (image !== 'default.jpg') {
@@ -154,4 +156,13 @@ exports.get_top_residence = async (req) => {
                   )`;
   const result = await db.query(query, [req.user.school]);
   return result[0];
-}
+};
+
+exports.get_projection_residences = async (req) => {
+  const attributes = req.body.attributes;
+  const attributeList = attributes.join(', ');
+
+  const query = `SELECT ${attributeList} FROM residences`;
+  const result = await db.query(query);
+  return result;
+};
