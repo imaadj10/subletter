@@ -14,7 +14,7 @@ import {
   Image,
   Avatar,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 const sendIcon = require('../assets/send.png');
@@ -24,6 +24,8 @@ export default function MessageBoard() {
   const token = cookies.get('TOKEN');
   const username = cookies.get('USERNAME');
   const [conversations, setConversations] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredConversations, setFilteredConversations] = useState([]);
   const [conversation_partner, setPartner] = useState('');
   const [messages, setMessages] = useState([]);
   const [sentMessage, setSentMessage] = useState([]);
@@ -42,6 +44,15 @@ export default function MessageBoard() {
     };
   }, []); // Only run this effect once, on component mount
 
+  const handleSearch = (e) => {
+    const search = e.target.value;
+    setSearch(search);
+    const filtered = conversations.filter((conversation) =>
+      conversation.conversation_partner.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredConversations(filtered);
+  };
+
   useEffect(() => {
     let latest_partner = '';
 
@@ -55,6 +66,7 @@ export default function MessageBoard() {
           console.log(latest_partner);
         }
         setConversations(res.data);
+        setFilteredConversations(res.data);
         if (latest_partner) {
           setPartner(latest_partner);
           axios
@@ -158,10 +170,14 @@ export default function MessageBoard() {
           </Text>
           <InputGroup mt="5px">
             <InputLeftElement children={<Search2Icon color="gray.600" />} />
-            <Input placeholder="Search Conversation"/>
+            <Input
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search Conversation"
+            />
           </InputGroup>
           <Box overflowY="auto" height={'calc(100vh - 150px)'} mt="10px">
-            {conversations.map((conversation) => {
+            {filteredConversations.map((conversation) => {
               return (
                 <Box
                   cursor="pointer"
@@ -183,7 +199,11 @@ export default function MessageBoard() {
                     handleConversationClick(conversation.conversation_partner)
                   }
                 >
-                  <Avatar size="sm" name={conversation.conversation_partner} mr={2} />
+                  <Avatar
+                    size="sm"
+                    name={conversation.conversation_partner}
+                    mr={2}
+                  />
                   {conversation.conversation_partner}
                 </Box>
               );
