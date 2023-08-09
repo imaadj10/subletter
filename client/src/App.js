@@ -12,6 +12,7 @@ import HousingInfo from './components/HousingInfo';
 import MessageBoard from './components/MessageBoard';
 import Users from './components/Users';
 import SingleListing from './components/SingleListing';
+import Schools from './components/Schools';
 import { ChakraProvider } from '@chakra-ui/react'
 import SingleResidence from './components/SingleResidence';
 import Error from './components/Error';
@@ -42,6 +43,7 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/messageboard" element={<MessageBoard />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/schools" element={<Schools />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </ChakraProvider>

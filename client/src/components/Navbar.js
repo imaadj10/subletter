@@ -27,8 +27,8 @@ export default function Navbar() {
               <Button bg="white">Housing</Button>
             </Link>
 
-            <Link>
-              <Button bg="white"> About</Button>
+            <Link to="/schools">
+              <Button bg="white"> Schools</Button>
             </Link>
           </HStack>
 
