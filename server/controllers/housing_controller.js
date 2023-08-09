@@ -48,3 +48,12 @@ exports.getTopHousing = async (req, res) => {
     res.status(500).send({ message: error.message })
   }
 }
+
+exports.getProjectionResidences = async (req, res) => {
+  try {
+    const result = await housing_middleware.get_projection_residences(req);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send({ message: error.message })
+  }
+}
