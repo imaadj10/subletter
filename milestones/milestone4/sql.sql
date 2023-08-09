@@ -1,3 +1,193 @@
+-- CREATE TABLES
+
+CREATE TABLE
+    `schools` (
+        `school_name` varchar(128) NOT NULL,
+        PRIMARY KEY (`school_name`)
+    );
+
+CREATE TABLE
+    `unit_types` (
+        `type` varchar(128) NOT NULL,
+        PRIMARY KEY (`type`)
+    );
+
+CREATE TABLE
+    `users` (
+        `username` varchar(32) NOT NULL,
+        `password` binary(60) DEFAULT NULL,
+        `name` varchar(32) NOT NULL,
+        `school_name` varchar(128) NOT NULL,
+        `description` varchar(1600) DEFAULT 'Write your description...',
+        PRIMARY KEY (`username`),
+        KEY `school_name` (`school_name`),
+        CONSTRAINT `users_ibfk_1` FOREIGN KEY (`school_name`) REFERENCES `schools` (`school_name`) ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `notifications` (
+        `nid` int NOT NULL AUTO_INCREMENT,
+        `username` varchar(32) NOT NULL,
+        `content` varchar(128) DEFAULT NULL,
+        `created_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+        `title` varchar(64) DEFAULT 'Generic Notification',
+        PRIMARY KEY (`nid`),
+        -- KEY `fk_notifications_users` (`username`),
+        CONSTRAINT `fk_notifications_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `messages` (
+        `sid` varchar(32) NOT NULL,
+        `rid` varchar(32) NOT NULL,
+        `mid` varchar(36) NOT NULL DEFAULT (uuid()),
+        `time_sent` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+        `content` varchar(512) DEFAULT NULL,
+        PRIMARY KEY (`sid`, `rid`, `mid`),
+        KEY `rid` (`rid`),
+        CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sid`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`rid`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `addresses_main` (
+        `street_address` varchar(128) NOT NULL,
+        `postal_code` varchar(16) NOT NULL,
+        `country` varchar(128) NOT NULL,
+        PRIMARY KEY (
+            `street_address`,
+            `postal_code`,
+            `country`
+        )
+    );
+
+CREATE TABLE
+    `addresses_1` (
+        `postal_code` varchar(16) NOT NULL,
+        `country` varchar(128) NOT NULL,
+        `city` varchar(128) DEFAULT NULL,
+        `province` varchar(128) DEFAULT NULL,
+        PRIMARY KEY (`postal_code`, `country`)
+    );
+
+CREATE TABLE
+    `residences` (
+        `res_name` varchar(128) NOT NULL,
+        `school_name` varchar(128) NOT NULL,
+        `street_address` varchar(128) NOT NULL,
+        `postal_code` varchar(16) NOT NULL,
+        `country` varchar(128) DEFAULT NULL,
+        `image` varchar(64) DEFAULT 'default.jpg',
+        PRIMARY KEY (`res_name`, `school_name`),
+        UNIQUE KEY `address_constraint` (
+            `street_address`,
+            `postal_code`,
+            `country`
+        ),
+        KEY `school_name` (`school_name`),
+        CONSTRAINT `fk_residences_addresses` FOREIGN KEY (
+            `street_address`,
+            `postal_code`,
+            `country`
+        ) REFERENCES `addresses_main` (
+            `street_address`,
+            `postal_code`,
+            `country`
+        ) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `residences_ibfk_1` FOREIGN KEY (`school_name`) REFERENCES `schools` (`school_name`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `reviews` (
+        `rid` varchar(36) NOT NULL DEFAULT (uuid()),
+        `username` varchar(32) NOT NULL,
+        `description` varchar(1024) DEFAULT NULL,
+        `res_name` varchar(128) NOT NULL,
+        `school_name` varchar(128) NOT NULL,
+        `rating` double DEFAULT NULL,
+        PRIMARY KEY (`rid`),
+        KEY `username` (`username`),
+        KEY `res_name` (`res_name`, `school_name`),
+        CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`res_name`, `school_name`) REFERENCES `residences` (`res_name`, `school_name`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `contains` (
+        `res_name` varchar(128) NOT NULL,
+        `school_name` varchar(128) NOT NULL,
+        `type` varchar(128) NOT NULL,
+        `price` double DEFAULT NULL,
+        PRIMARY KEY (
+            `res_name`,
+            `school_name`,
+            `type`
+        ),
+        KEY `type` (`type`),
+        CONSTRAINT `contains_ibfk_1` FOREIGN KEY (`res_name`, `school_name`) REFERENCES `residences` (`res_name`, `school_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `contains_ibfk_2` FOREIGN KEY (`type`) REFERENCES `unit_types` (`type`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `listings` (
+        `lid` int NOT NULL AUTO_INCREMENT,
+        `username` varchar(32) NOT NULL,
+        `description` varchar(1024) DEFAULT NULL,
+        `name` varchar(128) DEFAULT NULL,
+        `price` double DEFAULT NULL,
+        `image` varchar(64) DEFAULT 'default.jpg',
+        PRIMARY KEY (`lid`),
+        KEY `username` (`username`),
+        CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `items` (
+        `lid` int NOT NULL,
+        `quantity` int DEFAULT NULL,
+        PRIMARY KEY (`lid`),
+        CONSTRAINT `items_ibfk_1` FOREIGN KEY (`lid`) REFERENCES `listings` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `comments` (
+        `cid` int NOT NULL AUTO_INCREMENT,
+        `username` varchar(32) NOT NULL,
+        `lid` int NOT NULL,
+        `content` varchar(1024) DEFAULT NULL,
+        PRIMARY KEY (`cid`),
+        KEY `username` (`username`),
+        KEY `lid` (`lid`),
+        CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`lid`) REFERENCES `listings` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `sublets` (
+        `lid` int NOT NULL,
+        `type` varchar(128) NOT NULL,
+        `res_name` varchar(128) NOT NULL,
+        `school_name` varchar(128) NOT NULL,
+        PRIMARY KEY (`lid`),
+        KEY `res_name` (
+            `res_name`,
+            `school_name`,
+            `type`
+        ),
+        CONSTRAINT `sublets_ibfk_1` FOREIGN KEY (`lid`) REFERENCES `listings` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT `sublets_ibfk_2` FOREIGN KEY (
+            `res_name`,
+            `school_name`,
+            `type`
+        ) REFERENCES `contains` (
+            `res_name`,
+            `school_name`,
+            `type`
+        ) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+-- INSERTIONS
+
 INSERT INTO
     schools(school_name)
 VALUES (
