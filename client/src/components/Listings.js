@@ -15,7 +15,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Select
+  Select,
 } from '@chakra-ui/react';
 import { Search2Icon, AddIcon, SmallCloseIcon } from '@chakra-ui/icons';
 
@@ -135,18 +135,6 @@ const Listings = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <InputGroup>
-          <Select
-            placeholder="Select School"
-            onChange={handleDropDown}
-            variant="filled"
-          >
-            {availableSchools.map((school) => {
-              // console.log(school.school_name);
-              return <option key={school.id}>{school.school_name}</option>;
-            })}
-          </Select>
-        </InputGroup>
         <InputGroup w="60%" mr="10px">
           <InputLeftElement children={<Search2Icon color="gray.600" />} />
           <Input
@@ -221,7 +209,17 @@ const Listings = () => {
           )}
         </Flex>
       </Box>
-
+      <InputGroup>
+        <Select
+          placeholder="Select School"
+          onChange={handleDropDown}
+          variant="filled"
+        >
+          {availableSchools.map((school) => {
+            return <option key={school.id}>{school.school_name}</option>;
+          })}
+        </Select>
+      </InputGroup>
       <SimpleGrid p="20px" spacing="10" minChildWidth="300px">
         {filteredListings.map((listing) => {
           return (
