@@ -437,7 +437,7 @@ VALUES (
     );
 
 INSERT INTO
-    Residences(
+    residences(
         res_name,
         school_name,
         street_address,
@@ -761,7 +761,7 @@ VALUES (
     );
 
 INSERT INTO
-    comments(username, lid, `content`)
+    `comments`(username, lid, `content`)
 VALUES (
         'user2',
         1,
