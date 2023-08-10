@@ -162,7 +162,7 @@ exports.get_projection_residences = async (req) => {
   const attributes = req.body.attributes;
   const attributeList = attributes.join(', ');
 
-  const query = `SELECT ${attributeList} FROM residences`;
+  const query = `SELECT DISTINCT ${attributeList} FROM residences`;
   const result = await db.query(query);
   return result;
 };

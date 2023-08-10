@@ -139,10 +139,14 @@ const Listings = () => {
           {info.map((info) => {
             return (
               <Box p="1rem">
-                <p>username: {info.username}</p>
-                <p>description: {info.description}</p>
-                <p>name: {info.name}</p>
-                <p>price: {info.price}</p>
+                {attributes.includes('username') && (
+                  <p>username: {info.username}</p>
+                )}
+                {attributes.includes('description') && (
+                  <p>description: {info.description}</p>
+                )}
+                {attributes.includes('name') && <p>name: {info.name}</p>}
+                {attributes.includes('price') && <p>price: {info.price}</p>}
               </Box>
             );
           })}
@@ -246,10 +250,16 @@ const Users = () => {
           {info.map((info) => {
             return (
               <Box p="1rem">
-                <p>username: {info.username}</p>
-                <p>name: {info.name}</p>
-                <p>school: {info.school_name}</p>
-                <p>description: {info.description}</p>
+                {attributes.includes('username') && (
+                  <p>username: {info.username}</p>
+                )}
+                {attributes.includes('name') && <p>name: {info.name}</p>}
+                {attributes.includes('school_name') && (
+                  <p>school: {info.school_name}</p>
+                )}
+                {attributes.includes('description') && (
+                  <p>description: {info.description}</p>
+                )}
               </Box>
             );
           })}
