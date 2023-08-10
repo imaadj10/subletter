@@ -94,22 +94,30 @@ export default function SearchResidences() {
       </VStack>
       {results && results.length > 0 && (
         <Box mt="20px">
-          <VStack spacing="10px">
-          <Heading as="h2" size="md">
+          <Heading width="500px" margin="auto" as="h2" size="md">
             Results:
           </Heading>
-            {results.map((result, index) => (
-              <Box key={index}>
-                {/* Render the specific attributes you want to display */}
+          {results.map((result, index) => (
+            <Box width="500px" margin="auto" p="1rem" key={index}>
+              {/* Render the specific attributes you want to display */}
+              {attributes.includes('res_name') && (
                 <p>res_name: {result.res_name}</p>
+              )}
+              {attributes.includes('school_name') && (
                 <p>school_name: {result.school_name}</p>
+              )}
+              {attributes.includes('street_address') && (
                 <p>street_address: {result.street_address}</p>
+              )}
+              {attributes.includes('postal_code') && (
                 <p>postal_code: {result.postal_code}</p>
+              )}
+              {attributes.includes('country') && (
                 <p>country: {result.country}</p>
-                {/* Add more attributes as needed */}
-              </Box>
-            ))}
-          </VStack>
+              )}
+              {/* Add more attributes as needed */}
+            </Box>
+          ))}
         </Box>
       )}
     </Box>
