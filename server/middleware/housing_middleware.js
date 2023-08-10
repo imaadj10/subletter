@@ -102,7 +102,7 @@ update_residence_image = async (req) => {
   ]);
 };
 
-delete_reidence_image = async (req) => {
+delete_residence_image = async (req) => {
   const query =
     'SELECT image FROM residences WHERE res_name = ? AND school_name = ?';
   const [result] = await db.query(query, [req.body.res_name, req.user.school]);
