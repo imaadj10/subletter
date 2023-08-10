@@ -248,7 +248,7 @@ const Users = () => {
               <Box p="1rem">
                 <p>username: {info.username}</p>
                 <p>name: {info.name}</p>
-                <p>school {info.school_name}</p>
+                <p>school: {info.school_name}</p>
                 <p>description: {info.description}</p>
               </Box>
             );
@@ -376,11 +376,21 @@ const Residences = () => {
           {info.map((info) => {
             return (
               <Box p="1rem">
-                <p>Residence Name: {info.res_name}</p>
-                <p>School Name: {info.school_name}</p>
-                <p>Street Address: {info.street_address}</p>
-                <p>Postal Code: {info.postal_code}</p>
-                <p>Country: {info.country}</p>
+                {attributes.includes('res_name') && (
+                  <p>Residence Name: {info.res_name}</p>
+                )}
+                {attributes.includes('school_name') && (
+                  <p>School Name: {info.school_name}</p>
+                )}
+                {attributes.includes('street_address') && (
+                  <p>Street Address: {info.street_address}</p>
+                )}
+                {attributes.includes('postal_code') && (
+                  <p>Postal Code: {info.postal_code}</p>
+                )}
+                {attributes.includes('country') && (
+                  <p>Country: {info.country}</p>
+                )}
               </Box>
             );
           })}
