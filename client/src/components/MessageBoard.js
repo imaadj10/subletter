@@ -220,12 +220,13 @@ export default function MessageBoard() {
         >
           {messages.map((message) => {
             if (message.sid === username) {
-              return <RightMessage text={message.content} avatar={username} />;
+              return <RightMessage text={message.content} avatar={username} time={message.formatted_time_sent} />;
             } else {
               return (
                 <LeftMessage
                   text={message.content}
                   avatar={conversation_partner}
+                  time={message.formatted_time_sent}
                 />
               );
             }
@@ -251,11 +252,11 @@ export default function MessageBoard() {
   );
 }
 
-const LeftMessage = ({ text, avatar }) => {
+const LeftMessage = ({ text, avatar, time }) => {
   return (
     <HStack w="100%" justifyContent="flex-start" position="relative" pt="20px">
       <HStack position="absolute" top="0" left="50px">
-        <Text fontSize="xs">12:04pm</Text>
+        <Text fontSize="xs">{time}</Text>
       </HStack>
       <Avatar
         size="sm"
@@ -279,11 +280,11 @@ const LeftMessage = ({ text, avatar }) => {
   );
 };
 
-const RightMessage = ({ text, avatar }) => {
+const RightMessage = ({ text, avatar, time }) => {
   return (
     <HStack w="100%" justifyContent="flex-end" position="relative" pt="20px">
       <HStack position="absolute" top="0" right="50px">
-        <Text fontSize="xs">12:04pm</Text>
+        <Text fontSize="xs">{time}</Text>
       </HStack>
       <Text
         fontSize="md"

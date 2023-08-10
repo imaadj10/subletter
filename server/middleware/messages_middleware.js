@@ -25,13 +25,13 @@ exports.get_conversations = async (req) => {
 
 exports.get_conversation_messages = async (req) => {
     if (req.user.username !== req.params.conversation) {
-        const query = `SELECT * FROM messages
+        const query = `SELECT *, DATE_FORMAT(time_sent, '%h:%i %p') AS formatted_time_sent FROM messages
                         WHERE (sid = ? OR rid = ?) AND (sid = ? OR rid = ?)
                         ORDER BY time_sent ASC;`;
         const result = await db.query(query, [req.user.username, req.user.username, req.params.conversation, req.params.conversation]);
         return result[0];
     } else {
-        const query = `SELECT * FROM messages
+        const query = `SELECT *, DATE_FORMAT(time_sent, '%h:%i %p') AS formatted_time_sent FROM messages
                         WHERE sid = ? AND rid = ?
                         ORDER BY time_sent ASC;`
         const result = await db.query(query, [req.user.username, req.user.username]);
