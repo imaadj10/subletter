@@ -1,6 +1,6 @@
 # Subletter
 
-![](https://github.com/ImaadJ10/subletter/blob/main/subletter.gif)
+![](https://github.com/imaadj10/subletter/blob/main/subletter.gif)
 
 ### Developed By
 - Yu Cheng Li
