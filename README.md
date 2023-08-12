@@ -1,6 +1,6 @@
 # Subletter
 
-![](https://github.students.cs.ubc.ca/CPSC304-2023S-T2/project_j0w8b_k8p8k_y3f6z/blob/main/milestones/milestone4/subletter.gif)
+![](https://github.com/ImaadJ10/subletter/blob/main/milestones/milestone4/subletter.gif)
 
 ### Developed By
 - Yu Cheng Li
